@@ -1,2 +1,2 @@
-# app-gruppe24-25-p-seminar
-app-gruppe24-25-p-seminar created by GitHub Classroom
+# App P-Seminar 24/25
+leer
