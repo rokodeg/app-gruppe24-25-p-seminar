@@ -1,0 +1,123 @@
+/* Allgemeine Stile */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.anfrage-container {
+  background-color: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.anfrage {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.anfrage:last-child {
+  border-bottom: none;
+}
+
+.anfrage h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.anfrage p {
+  margin: 5px 0;
+  color: #7f8c8d;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.delete-btn {
+  background-color: #f44336;
+}
+
+.delete-btn:hover {
+  background-color: #e53935;
+}
+
+.reject-btn {
+  background-color: #ff9800;
+}
+
+.reject-btn:hover {
+  background-color: #f57c00;
+}
+
+/* Container für bestätigte und abgelehnte Anfragen */
+.confirmed-container,
+.rejected-container {
+  margin-top: 20px;
+}
+
+.confirmed-container button,
+.rejected-container button {
+  background-color: #ffa500;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+}
+
+.confirmed-requests,
+.rejected-requests {
+  display: none;
+  margin-top: 10px;
+}
+
+.show-confirmed-requests,
+.show-rejected-requests {
+  cursor: pointer;
+  color: #ffa500;
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+/* Text für die Anzeige der Bestätigungen und Ablehnungen */
+.toggle-text {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+/* Styling für den gesamten Buttonbereich und Abstände */
+button, .show-confirmed-requests, .show-rejected-requests {
+  display: inline-block;
+  margin: 10px 0;
+}
+
+/* Styling für den Link zurück zur Startseite */
+p a {
+  font-size: 14px;
+  color: #2980b9;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
