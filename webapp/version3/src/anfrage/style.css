@@ -1,0 +1,83 @@
+/* Existierende CSS-Regeln */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.form-container {
+  background-color: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.form-container input, .form-container select, .form-container textarea {
+
+  padding: 1%;
+  margin: 1% 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.form-container button {
+  background-color: #004F7C;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  border: none;
+}
+
+.form-container button:hover {
+  background-color: #007B9A;
+}
+
+.form-container .error {
+  color: red;
+  font-size: 12px;
+}
+
+/* Styling für die neuen Felder */
+.form-container div {
+  margin-bottom: 15px;
+}
+
+.form-container input[type="radio"], 
+.form-container input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* Neue Regel für die "Unterrichtseinheit Dauer" und "AGB akzeptieren" */
+.form-container div label, .form-container .agb-container label {
+  text-align: left; /* Links ausrichten */
+  display: inline-block; /* Die Labels und Inputs nebeneinander anordnen */
+  margin-right: 10px; /* Etwas Abstand zwischen Label und Auswahl */
+}
+
+.form-container div {
+  text-align: left; /* Links ausrichten für die Radio-Buttons */
+}
+
+/* Flexbox für AGB Container: Checkbox links, Text rechts */
+.form-container .agb-container {
+  display: flex;
+  align-items: center; 
+  /* Stellt sicher, dass Checkbox und Text auf der gleichen vertikalen Ebene sind */
+}
+
+.form-container .agb-container input[type="checkbox"] {
+  margin-right: 1px;
+  width: 5%; /* Abstand zwischen Checkbox und Text */
+}
