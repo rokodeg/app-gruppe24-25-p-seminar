@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Seite - Anfragen</title>
+  <link rel="stylesheet" href="src/admin/style.css">
+  <style>
+    /* CSS für die Linie über den Links */
+    .link-container {
+      margin-top: 20px; /* Abstand nach oben */
+      text-align: center; /* Zentriert die Links */
+    }
+
+    .link-container::before {
+      content: ""; /* Erzeugt ein leeres Element */
+      display: block; /* Macht es zu einem Blockelement */
+      width: 100%; /* Breite auf 100% setzen */
+      height: 1px; /* Höhe der Linie */
+      background-color: #ccc; /* Farbe der Linie */
+      margin-bottom: 10px; /* Abstand unter der Linie */
+    }
+
+    .back-link, .impressum-link {
+      margin: 5px 0; /* Abstand zwischen den Links */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content-box">
+    <h1>Anfragenübersicht</h1> <!-- Überschrift hier eingefügt -->
+    <div class="welcome-slogan">Willkommen auf der Admin-Seite! Hier verwalten Sie alle Anfragen.</div>
+
+    <div id="anfragenList"></div>
+
+    <div class="confirmed-container">
+      <button class="show-confirmed-requests" onclick="toggleConfirmedRequests()">Bestätigte Anfragen anzeigen</button>
+      <div id="confirmedRequestsList" class="confirmed-requests"></div>
+    </div>
+
+    <div class="rejected-container">
+      <button class="show-rejected-requests" onclick="toggleRejectedRequests()">Abgelehnte Anfragen anzeigen</button>
+      <div id="rejectedRequestsList" class="rejected-requests"></div>
+    </div>
+
+    <button onclick="clearAllRequests()">Alle Anfragen löschen</button>
+
+    <div class="link-container">
+      <div class="back-link"> 
+        <p><a href="index.html">Zurück zur Startseite</a></p>
+      </div>
+
+      <div class="impressum-link">
+        <p><a href="impressum.html">Impressum</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="src/admin/script.js"></script>
+</body>
+</html>
