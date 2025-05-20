@@ -1,0 +1,325 @@
+/* Allgemeines Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 40px;
+  min-height: 100vh;
+}
+
+.content-box {
+  position: relative;
+  max-width: 900px;
+  width: 90%;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Überschriften */
+h1, h2 {
+  text-align: center;
+  color: #004F7C;
+  margin-bottom: 20px;
+}
+
+.welcome-slogan {
+  text-align: center;
+  color: #555;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+/* Sektionen */
+.section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 22px;
+  color: #004F7C;
+  margin-bottom: 15px;
+}
+
+/* Formulare */
+.form-container {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e9f7fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container input,
+.form-container select,
+.form-container button {
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.form-container input[type="checkbox"] {
+  width: auto;
+}
+
+.form-container button {
+  background-color: #004F7C;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+  background-color: #007B9A;
+}
+
+.form-container label {
+  font-size: 16px;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Anfrage Box */
+.request-card {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.request-card p {
+  margin: 5px 0;
+}
+
+.request-card form select {
+  padding: 8px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.request-card button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.request-card button:hover {
+  background-color: #45a049;
+}
+
+/* Logout Button Styling */
+.logout-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #333;
+  position: relative;
+}
+
+.logout-button:hover::after {
+  
+  position: absolute;
+  top: 50%;
+  right: 110%;
+  transform: translateY(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0.95;
+  z-index: 10;
+}
+
+/* Tabelle Benutzer/Anfragen */
+.user-table,
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.user-table th, .user-table td,
+.admin-table th, .admin-table td {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.admin-table th, .user-table th {
+  background-color: #e9f7fa;
+  color: #004F7C;
+}
+
+.admin-table td form,
+.user-table td form {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* Buttons in Tabellen */
+.admin-table button,
+.user-table button {
+  padding: 6px 14px;
+  background-color: #004F7C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.admin-table button:hover,
+.user-table button:hover {
+  background-color: #007B9A;
+}
+
+/* Modale für Bestätigungen */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 320px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.modal-buttons button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#confirm-yes {
+  background-color: #d9534f; /* Bootstrap Rot */
+  color: white;
+}
+
+#confirm-no {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+form[data-confirm] {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+/* Link Buttons */
+.btn-link {
+  background-color: #005f73;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.25s ease;
+}
+
+.btn-link:hover,
+.btn-link:focus {
+  background-color: #0a9396;
+  outline: none;
+}
+
+.btn-link i {
+  margin-right: 6px;
+}
+
+/* Feedback */
+.feedback {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.feedback.available {
+  color: green;
+}
+
+.feedback.unavailable {
+  color: red;
+}
+
+/* Helferklassen */
+.hidden {
+  display: none;
+}
+
+/* Für Toggle-Button */
+.toggle-button {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.toggle-button:hover {
+  background-color: #0056b3;
+}
