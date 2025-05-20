@@ -492,8 +492,5 @@ def impressum():
 def agb():
     return render_template('agb.html')
 
-
-
-
 if __name__ == '__main__':
     app.run(debug=True)
