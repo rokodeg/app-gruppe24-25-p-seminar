@@ -8,8 +8,6 @@
 </head>
 <body>
 
-  
-
   <div class="form-container">
     <h1>Nachhilfe Anfrage</h1>
     <form method="post" action="{{ url_for('create_offer') }}">
@@ -67,24 +65,21 @@
       <label for="kontakt">Kontaktdaten (Telefon oder Anderes):</label>
       <input type="text" id="kontakt" name="kontakt" required style="width: 80%;">
 
-    <div class="agb-container" style="width: 80%;">
-        <label>
-            <input type="checkbox" id="agb" name="agb" required>
+    <div class="agb-container">
+      <input type="checkbox" id="agb" name="agb" required>
+        <label for="agb">
             Ich habe die <a href="{{ url_for('agb') }}" target="_blank">AGB</a> gelesen und akzeptiere sie.
         </label>
     </div>
 
-
-
       <button type="submit" style="width: 80%;">Anfrage Absenden</button>
     </form>
 
-    <a href="{{ url_for('impressum') }}" target="_blank">Impressum</a>
+    <a href="{{ url_for('home') }}" class="button">Zurück zur Startseite</a> | <a href="{{ url_for('impressum') }}">Impressum</a></p>
+
   </div>
   
   <script src="{{ url_for('static', filename='anfrage/script.js') }}"></script>
-
-  
 
 </body>
 </html>
