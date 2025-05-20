@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS offers (
     kontakt TEXT,
     wohnort TEXT,
     status TEXT DEFAULT 'offen'
-    )
+)
 ''')
 
 conn.commit()
@@ -38,13 +38,12 @@ conn.close()
 app = Flask(__name__)
 app.secret_key = 'dein_geheimer_schlüssel'
 
-# Datenbankverbindung mit Row-Factory
+# Funktion zur Datenbankverbindung
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-# Startseite
 @app.route("/")
 def home():
     return render_template('index.html')
@@ -77,32 +76,30 @@ def login():
         conn.close()
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
-            session['username'] = user['username']  # <--- Benutzername speichern
+            session['username'] = user['username']
             return redirect('/anbieter')
         else:
             return 'Ungültige Anmeldedaten.'
-    return render_template('login.html')
+    
+    # Bei GET-Methode: vorherige Seite speichern
+    return render_template('login.html', referrer=request.referrer)
 
-# Anbieter-Dashboard mit Anfragen
+# Anbieter-Dashboard
 @app.route('/anbieter')
 def anbieter():
     if 'user_id' not in session or 'username' not in session:
         return redirect(url_for('login'))
 
-    # Admin-Check über den Benutzernamen
     if session['username'] == 'admin':
         return redirect(url_for('admin_dashboard'))
 
-    # Normale Anbieter-Logik
     conn = get_db_connection()
     cursor = conn.cursor()
-
     cursor.execute("""
         SELECT id, name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort, status
         FROM offers
         WHERE status = 'offen'
     """)
-
     anfragen = cursor.fetchall()
     conn.close()
 
@@ -123,24 +120,22 @@ def anbieter():
 
     return render_template('anbieter.html', anfragen=anfrage_liste)
 
+# Admin Dashboard
 @app.route('/admin')
 def admin_dashboard():
     if 'username' in session and session['username'] == 'admin':
         conn = get_db_connection()
         cursor = conn.cursor()
-
         cursor.execute("SELECT * FROM offers")
         anfragen = cursor.fetchall()
         conn.close()
-
         return render_template('admin.html', anfragen=anfragen)
     else:
         return redirect(url_for('login'))
 
-# Anfrageformular
+# Anfrage erstellen
 @app.route('/anfrage', methods=['GET', 'POST'])
 def create_offer():
-    
     if request.method == 'POST':
         fach = request.form['fach']
         name = request.form.get('name', '')
@@ -161,14 +156,6 @@ def create_offer():
         return redirect('/')
     return render_template('anfrage.html')
 
-# Öffentliche Angebotsliste
-#@app.route('/offers')
-#def offers():
-#   conn = get_db_connection()
-#   offers = conn.execute('SELECT id, fach, beschreibung FROM offers WHERE status = "offen"').fetchall()
-#   conn.close()
-#   return render_template('offers.html', offers=offers)
-
 # Anfrage annehmen
 @app.route('/anfrage_annehmen', methods=['POST'])
 def anfrage_annehmen():
@@ -179,6 +166,7 @@ def anfrage_annehmen():
     conn.close()
     return redirect(url_for('anbieter'))
 
+# Passwort ändern
 @app.route('/settings', methods=['GET', 'POST'])
 def change_password():
     if 'user_id' not in session:
@@ -196,13 +184,18 @@ def change_password():
         conn.execute('UPDATE users SET password = ? WHERE id = ?', (hashed_password, session['user_id']))
         conn.commit()
         conn.close()
-
         return redirect(url_for('change_password', success='1'))
-        #return redirect(url_for('anbieter'))  # oder zeige "Erfolg"
 
     return render_template('usersettings.html')
 
+# Impressum Route
+@app.route('/impressum')
+def impressum():
+    return render_template('impressum.html')
 
-# Starte die App
+@app.route('/agb')
+def agb():
+    return render_template('agb.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
