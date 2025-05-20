@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anmeldeseite</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='login/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login/style.css') }}"> <!-- Verlinke deine CSS-Datei -->
 </head>
 <body>
     <div class="container">
@@ -13,6 +13,7 @@
             <div class="input-group">
                 <label for="username">Benutzername:</label>
                 <input type="text" id="username" name="username" required>
+           
             </div>
             <div class="input-group">
                 <label for="password">Passwort:</label>
@@ -21,9 +22,8 @@
             <button type="submit">Anmelden</button>
         </form>
         <p id="message"></p>
-        <center>
-            <a href="{{ referrer if referrer else url_for('home') }}">Zurück</a>
-        </center>
+        <center> <a href = "index.html"> Zurück </a> </center>
     </div>
+    <!-- <script src="{{ url_for('static', filename='login/script.js') }}"></script> -->
 </body>
 </html>

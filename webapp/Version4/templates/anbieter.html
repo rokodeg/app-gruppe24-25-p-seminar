@@ -4,15 +4,185 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Anbieter</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='anbieter/style.css') }}"> <!-- Verlinke deine CSS-Datei -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='anbieter/style.css') }}">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+  <style>
+ /* Logout Button Styling */
+.logout-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #333;
+  position: relative;
+}
+
+.logout-button:hover::after {
+  
+  position: absolute;
+  top: 50%;
+  right: 110%;
+  transform: translateY(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0.95;
+  z-index: 10;
+}
+
+/* Link Buttons */
+.btn-link {
+  background-color: #005f73;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.25s ease;
+}
+
+.btn-link:hover,
+.btn-link:focus {
+  background-color: #0a9396;
+  outline: none;
+}
+
+.btn-link i {
+  margin-right: 6px;
+}
+
+ </style>
 </head>
 <body>
 
-  <div class="main-container">
-    <a href="usersettings.html" class="info-icon">
-      <i class="fas fa-bars"></i>
+<div class="main-container">
+  <div class="header-row">
+    <div class="dashboard-title">
+      <h1 style="color: #004F7C;">Willkommen zurück, {{ session['username'] }}!</h1>
+    </div>
+  <div class="logout-wrapper" style="display: flex; align-items: center; gap: 15px;">
+    <a href="{{ url_for('user_settings') }}" class="btn-link" title="Benutzereinstellungen">
+      <i class="fas fa-user-cog"></i> Einstellungen
     </a>
-    <h2>Willkommen zurück, {{ session['username'] }}!</h2>
+      <form action="{{ url_for('logout') }}" method="post" title="Ausloggen" style="margin: 0;">
+        <button type="submit" class="btn-link logout-button" aria-label="Logout">
+          <i class="fas fa-power-off"></i> Logout
+        </button>
+      </form>
+    </div>
+    
+  </div>
+  
+  
+
+
+    
+    {% if zugewiesene_anfrage %}
+    <div class="request-card">
+      <h2>Ihnen wurde eine Anfrage zugewiesen:</h2>
+      <p><strong>Fach:</strong> {{ zugewiesene_anfrage['fach'] }}</p>
+      <p><strong>Stunden:</strong> {{ zugewiesene_anfrage['stunden'] }}</p>
+      <p><strong>Klassenstufe:</strong> {{ zugewiesene_anfrage['klassenstufe'] }}</p>
+      <p><strong>Kontakt:</strong> {{ zugewiesene_anfrage['kontakt'] }}</p>
+    
+      <!-- BUTTON-REIHE -->
+<div class="button-row" style="display: flex; gap: 10px;">
+  <!-- Annehmen-Formular -->
+  <form action="/anfrage_annehmen" method="post">
+    <input type="hidden" name="anfrage_id" value="{{ zugewiesene_anfrage['id'] }}">
+    <button class="accept-button" type="submit">Annehmen</button>
+  </form>
+
+  <!-- Nur Button – Popup öffnet sich per JavaScript -->
+  <button class="decline-btn" type="button" onclick="openPopup()">Ablehnen</button>
+</div>
+
+<!-- POPUP-FENSTER (MODAL) FÜR KOMMENTAR -->
+<div id="popupModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="closePopup()">&times;</span>
+
+    <form action="/anfrage_ablehnen_user" method="post">
+      <input type="hidden" name="anfrage_id" value="{{ zugewiesene_anfrage['id'] }}">
+      <p>Hier kannst du optional einen Kommentar hinzuügen:</p>
+      <textarea id="kommentar" name="kommentar" maxlength="100"
+        placeholder="Warum lehnst du ab? (max. 100 Zeichen)" oninput="updateCharCount()"
+        style="display: block; width: 100%; margin-top: 5px; height: 120px; resize: vertical; font-size:16px; padding:8px; box-sizing: border-box;"></textarea>
+      <div id="charCount" class="char-count">100 Zeichen übrig</div>
+      <button type="submit" class="decline-btn">Absenden</button>
+    </form>
+  </div>
+</div>
+    </div>
+    {% endif %}
+
+    {% if angenommene_anfragen %}
+<div class="assigned-requests-dropdown">
+  <button onclick="toggleAcceptedList()" class="toggle-all-button">
+    Aktive Anfragen anzeigen/verstecken
+  </button>
+  <div id="acceptedRequestsList" style="display: none; margin-top: 10px;">
+    {% for anfrage in angenommene_anfragen %}
+      <div class="request-card">
+        <h3>{{ anfrage.fach }}</h3>
+        <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
+        <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
+        <p><strong>Kontakt:</strong> {{ anfrage.kontakt }}</p>
+        <p><strong>Status:</strong> Aktiv</p>
+
+        <form action="{{ url_for('anfrage_erledigen') }}" method="POST">
+          <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+          <button type="submit" class="decline-btn">Als erledigt markieren</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% if erledigte_anfragen %}
+<div class="completed-requests-dropdown">
+  <button onclick="toggleCompletedList()" class="toggle-all-button">
+    Erledigte Anfragen anzeigen/verstecken
+  </button>
+  <div id="completedRequestsList" style="display: none; margin-top: 10px;">
+    {% for anfrage in erledigte_anfragen %}
+      <div class="request-card">
+        <h3>{{ anfrage.fach }}</h3>
+        <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
+        <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
+        <p><strong>Kontakt:</strong> {{ anfrage.kontakt }}</p>
+        <p><strong>Status:</strong> Erledigt</p>
+
+        <!-- Optional: Wenn du einen Button möchtest, um erledigte Anfragen zu löschen -->
+        <form action="{{ url_for('delete_anfrage') }}" method="POST" style="margin-top: 10px;">
+          <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+          <button type="submit" class="decline-btn">Löschen</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
     <h4>Hier kannst du eine Anfrage auswählen und mit deiner Nachhilfe starten!</h4>
 
     <!-- Button zum Ein-/Ausklappen aller Filter -->
@@ -25,7 +195,7 @@
       <select id="filterFach" onchange="filterRequests()">
         <option value="">Bitte wählen...</option>
         <option value="Deutsch">Deutsch</option>
-        <option value="Englisch">Englisch</option>       
+        <option value="Englisch">Englisch</option>
         <option value="Latein">Latein</option>
         <option value="Französisch">Französisch</option>
         <option value="Spanisch">Spanisch</option>
@@ -63,21 +233,14 @@
       <input type="number" id="maxKlassenstufe" placeholder="Max" onchange="filterRequests()">
     </div>
 
-    <!-- Zurück-Link -->
-    <div class="back-link">
-      <p><a href="index.html">Zurück zur Startseite</a></p>
-    </div>
-
-    <!-- Impressum-Link -->
-    <div class="impressum-link">
-      <p><a href="impressum.html">Impressum</a></p>
-    </div>
-
-    <!-- ANFRAGEN-LISTE - jetzt innerhalb von .main-container -->
+    <!-- ANFRAGEN-LISTE -->
     <div id="confirmedRequestsList">
       {% if anfragen %}
         {% for anfrage in anfragen %}
-        <div class="anfrage-container">
+        <div class="anfrage-container"
+             data-fach="{{ anfrage.fach|lower }}"
+             data-geschlecht="{{ anfrage.geschlecht|lower }}"
+             data-klassenstufe="{{ anfrage.klassenstufe }}">
           <div class="anfrage">
             <h3>{{ anfrage.name }}</h3>
             <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
@@ -99,10 +262,100 @@
       {% endif %}
     </div>
 
+    <!-- Impressum-Link -->
+    <div class="impressum-link">
+      <p><a href="impressum.html">Impressum</a></p>
+    </div>
+
+  
+
   </div> <!-- Ende .main-container -->
 
-  <!-- Einstellungs-Link -->
-  <a href="{{ url_for('change_password') }}" class="button">settings</a>
-  <script src="{{ url_for('static', filename='anbieter/script.js') }}"></script>
+  <script>
+    function filterRequests() {
+      const fachFilter = document.getElementById("filterFach").value.toLowerCase();
+      const geschlechtFilter = document.getElementById("filterGeschlecht").value.toLowerCase();
+      const minKlasse = parseInt(document.getElementById("minKlassenstufe").value);
+      const maxKlasse = parseInt(document.getElementById("maxKlassenstufe").value);
+
+      const anfragen = document.querySelectorAll('#confirmedRequestsList .anfrage-container');
+
+      anfragen.forEach(container => {
+        const fach = container.dataset.fach;
+        const geschlecht = container.dataset.geschlecht;
+        const klasse = parseInt(container.dataset.klassenstufe);
+
+        let visible = true;
+
+        // Fach-Filter
+        if (fachFilter && fach !== fachFilter) visible = false;
+
+        // Geschlecht-Filter
+        if (geschlechtFilter) {
+          if (geschlechtFilter.startsWith("exclude_")) {
+            const exclude = geschlechtFilter.replace("exclude_", "");
+            if (geschlecht === exclude) visible = false;
+          } else if (geschlecht !== geschlechtFilter) {
+            visible = false;
+          }
+        }
+
+        // Klassenstufen-Filter
+        if (!isNaN(minKlasse) && klasse < minKlasse) visible = false;
+        if (!isNaN(maxKlasse) && klasse > maxKlasse) visible = false;
+
+        // Anzeige
+        container.style.display = visible ? "block" : "none";
+      });
+    }
+
+    function toggleAllFilters() {
+      const filters = document.querySelectorAll('.filter-container');
+      filters.forEach(filter => {
+        filter.style.display = (filter.style.display === 'none' ? 'block' : 'none');
+      });
+    }
+
+    function updateCharCount() {
+      const textarea = document.getElementById('comment');
+      const count = 100 - textarea.value.length;
+      document.getElementById('charCount').textContent = `${count} Zeichen übrig`;
+    }
+    function updateCharCount() {
+    const textarea = document.getElementById('kommentar');
+    const count = 100 - textarea.value.length;
+    document.getElementById('charCount').textContent = count + ' Zeichen übrig';
+  }
+
+  // Bei Seitenstart einmal aufrufen, um initialen Zustand anzuzeigen
+  updateCharCount();
+
+  function toggleAcceptedList() {
+  const list = document.getElementById('acceptedRequestsList');
+  list.style.display = list.style.display === 'none' ? 'block' : 'none';
+}
+
+
+  function toggleCompletedList() {
+    const list = document.getElementById('completedRequestsList');
+    list.style.display = list.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function openPopup() {
+  document.getElementById('popupModal').style.display = 'flex';
+}
+
+function closePopup() {
+  document.getElementById('popupModal').style.display = 'none';
+}
+
+function updateCharCount() {
+  const textArea = document.getElementById("kommentar");
+  const charCount = document.getElementById("charCount");
+  const remaining = 100 - textArea.value.length;
+  charCount.textContent = `${remaining} Zeichen übrig`;
+}
+
+  </script>
 </body>
 </html>

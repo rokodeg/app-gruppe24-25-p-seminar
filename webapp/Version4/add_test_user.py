@@ -7,7 +7,7 @@ cursor = conn.cursor()
 
 # Testbenutzerdaten
 username = 'admin'
-password = 'admin100admin'
+password = 'tim'
 hashed_password = generate_password_hash(password)
 
 try:
