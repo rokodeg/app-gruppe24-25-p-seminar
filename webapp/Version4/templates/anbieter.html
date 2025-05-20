@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anbieter</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='anbieter/style.css') }}"> <!-- Verlinke deine CSS-Datei -->
+</head>
+<body>
+
+  <div class="main-container">
+    <a href="usersettings.html" class="info-icon">
+      <i class="fas fa-bars"></i>
+    </a>
+    <h2>Willkommen zurück, {{ session['username'] }}!</h2>
+    <h4>Hier kannst du eine Anfrage auswählen und mit deiner Nachhilfe starten!</h4>
+
+    <!-- Button zum Ein-/Ausklappen aller Filter -->
+    <div class="button-container">
+      <button class="toggle-all-button" onclick="toggleAllFilters()">Alle Filter ein-/ausklappen</button>
+    </div>
+
+    <!-- Filter nach Fach -->
+    <div class="filter-container" id="filterFachContainer">
+      <select id="filterFach" onchange="filterRequests()">
+        <option value="">Bitte wählen...</option>
+        <option value="Deutsch">Deutsch</option>
+        <option value="Englisch">Englisch</option>       
+        <option value="Latein">Latein</option>
+        <option value="Französisch">Französisch</option>
+        <option value="Spanisch">Spanisch</option>
+        <option value="Mathematik">Mathematik</option>
+        <option value="Physik">Physik</option>
+        <option value="Chemie">Chemie</option>
+        <option value="Biologie">Biologie</option>
+        <option value="Informatik">Informatik</option>
+        <option value="Geschichte">Geschichte</option>
+        <option value="Geographie">Geographie</option>
+        <option value="Wirtschaft und Recht">Wirtschaft und Recht</option>
+        <option value="Politik und Gesellschaft">Politik und Gesellschaft</option>
+        <option value="Musik">Musik</option>
+      </select>
+    </div>
+
+    <!-- Filter nach Geschlecht -->
+    <div class="filter-container" id="filterGeschlechtContainer">
+      <select id="filterGeschlecht" onchange="filterRequests()">
+        <option value="">Alle Geschlechter</option>
+        <option value="männlich">Nur männlich</option>
+        <option value="weiblich">Nur weiblich</option>
+        <option value="divers">Nur divers</option>
+        <option value="exclude_männlich">Alle ohne männlich</option>
+        <option value="exclude_weiblich">Alle ohne weiblich</option>
+        <option value="exclude_divers">Alle ohne divers</option>
+      </select>
+    </div>
+
+    <!-- Filter nach Klassenstufen -->
+    <div class="filter-container" id="filterKlassenstufenContainer">
+      <label for="minKlassenstufe">Min:</label>
+      <input type="number" id="minKlassenstufe" placeholder="Min" onchange="filterRequests()">
+      <label for="maxKlassenstufe">Max:</label>
+      <input type="number" id="maxKlassenstufe" placeholder="Max" onchange="filterRequests()">
+    </div>
+
+    <!-- Zurück-Link -->
+    <div class="back-link">
+      <p><a href="index.html">Zurück zur Startseite</a></p>
+    </div>
+
+    <!-- Impressum-Link -->
+    <div class="impressum-link">
+      <p><a href="impressum.html">Impressum</a></p>
+    </div>
+
+    <!-- ANFRAGEN-LISTE - jetzt innerhalb von .main-container -->
+    <div id="confirmedRequestsList">
+      {% if anfragen %}
+        {% for anfrage in anfragen %}
+        <div class="anfrage-container">
+          <div class="anfrage">
+            <h3>{{ anfrage.name }}</h3>
+            <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
+            <p><strong>Stundenanzahl:</strong> {{ anfrage.stunden }}</p>
+            <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
+            <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
+            <p><strong>Dringlichkeit:</strong> {{ anfrage.dringlichkeit }}</p>
+            <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
+            <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
+            <form action="{{ url_for('anfrage_annehmen') }}" method="POST">
+              <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+              <button type="submit" class="accept-button">Annehmen</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-requests">Keine bestätigten Anfragen vorhanden.</p>
+      {% endif %}
+    </div>
+
+  </div> <!-- Ende .main-container -->
+
+  <!-- Einstellungs-Link -->
+  <a href="{{ url_for('change_password') }}" class="button">settings</a>
+  <script src="{{ url_for('static', filename='anbieter/script.js') }}"></script>
+</body>
+</html>

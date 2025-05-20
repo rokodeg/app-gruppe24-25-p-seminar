@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optionen Auswahl</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index/style.css') }}"> <!-- Verlinke deine CSS-Datei -->
+</head>
+<body>
+    <div class="container">
+        <h1>Willkommen auf der Startseite!!</h1>
+        <p>Bitte wählen Sie eine Option:</p>
+        <div class="button-group">
+            <a href="{{ url_for('login') }}" class="button">Login</a> <!-- Link zur Login-Seite -->
+            <a href="{{ url_for('create_offer') }}" class="button">Anfrage</a> <!-- Link zur Login-Seite -->
+        </div>
+        <div class="container1">
+            <p><a href="{{ url_for('impressum') }}" target="_blank" class="impressum-link">Impressum</a></p>
+        </div>
+    </div>
+    <script src="static/index/script.js"></script> 
+    
+   
+</body>
+</html>
