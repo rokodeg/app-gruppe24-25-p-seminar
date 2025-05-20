@@ -484,6 +484,16 @@ def user_settings():
         return redirect(url_for('login'))
     return render_template('usersettings.html')
 
+@app.route('/impressum')
+def impressum():
+    return render_template('impressum.html')
+
+@app.route('/agb')
+def agb():
+    return render_template('agb.html')
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
