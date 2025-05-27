@@ -53,3 +53,15 @@ button:hover {
     margin-top: 15px;
     color: red;
 }
+
+.message {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #FF4D4D;  /* Rote Randfarbe für Fehlermeldung */
+    background-color: #FFDDDD;  /* Helles Rot für den Hintergrund */
+    color: #FF4D4D;  /* Rote Schriftfarbe */
+    border-radius: 5px;  /* Abgerundete Ecken */
+    font-weight: bold;
+    text-align: center;  /* Zentrale Ausrichtung des Textes */
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);  /* Leichter Schatten für die Fehlermeldung */
+}
