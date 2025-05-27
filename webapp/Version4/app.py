@@ -1,6 +1,6 @@
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, render_template, request, redirect, session, url_for, jsonify, flash
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify, flash, get_flashed_messages
 
 # Initialisiere und erstelle Datenbanktabellen
 conn = sqlite3.connect('database.db')
@@ -46,7 +46,9 @@ def get_db_connection():
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    messages = get_flashed_messages()
+    message = messages[0] if messages else None
+    return render_template('index.html', message=message)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -359,7 +361,8 @@ def create_offer():
         ''', (name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort))
         conn.commit()
         conn.close()
-        return redirect('/')
+        flash("Anfrage erfolgreich gesendet!")
+        return redirect(url_for('home'))
     return render_template('anfrage.html')
 
 @app.route('/anfrage_annehmen', methods=['POST'])
