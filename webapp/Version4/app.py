@@ -321,17 +321,20 @@ def add_user():
 
     conn = get_db_connection()
     existing_user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-    
+
     if existing_user:
         conn.close()
-        return "Benutzername bereits vergeben."
+        flash("Benutzername bereits vergeben.", "danger")
+        return redirect(url_for('benutzerverwaltung'))
 
     hashed_password = generate_password_hash(password)
     conn.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, hashed_password))
     conn.commit()
     conn.close()
 
-    return redirect(url_for('admin_dashboard'))
+    flash("Benutzer erfolgreich hinzugefügt.", "success")
+    return redirect(url_for('benutzerverwaltung'))
+
 
 @app.route('/check_username', methods=['GET'])
 def check_username():
