@@ -8,6 +8,8 @@
 </head>
 <body>
 
+  
+
   <div class="form-container">
     <h1>Nachhilfe Anfrage</h1>
     <form method="post" action="{{ url_for('create_offer') }}">
@@ -62,24 +64,25 @@
         <option value="hoch">Hoch (In der nächsten Zeit Prüfung)</option>
       </select>
 
-      <label for="kontakt">Kontaktdaten (Telefon oder Anderes):</label>
+      <label for="kontakt">Kontaktdaten (Telefon oder E-Mail):</label>
       <input type="text" id="kontakt" name="kontakt" required style="width: 80%;">
 
-    <div class="agb-container">
-      <input type="checkbox" id="agb" name="agb" required>
-        <label for="agb">
-            Ich habe die <a href="{{ url_for('agb') }}" target="_blank">AGB</a> gelesen und akzeptiere sie.
+      <div class="agb-container" style="width: 80%;">
+        <label>
+          <input type="checkbox" id="agb" name="agb" required>
+          Ich habe die <a href="agb.html" target="_blank">AGB</a> gelesen und akzeptiere sie.
         </label>
-    </div>
+      </div>
 
       <button type="submit" style="width: 80%;">Anfrage Absenden</button>
     </form>
 
-    <a href="{{ url_for('home') }}" class="button">Zurück zur Startseite</a> | <a href="{{ url_for('impressum') }}">Impressum</a></p>
-
+    <div class="impressum-link"> <p><a href="impressum.html" target="_blank">Impressum</a></p></div>
   </div>
   
   <script src="{{ url_for('static', filename='anfrage/script.js') }}"></script>
+
+  
 
 </body>
 </html>
