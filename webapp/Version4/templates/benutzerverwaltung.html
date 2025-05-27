@@ -93,14 +93,31 @@
             color: #856404;
             border-radius: 5px;
         }
+
         .checkbox-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: normal;
-    cursor: pointer;
-    white-space: nowrap;
-}
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 12px;
+            background-color: #6c757d;  /* Graue Hintergrundfarbe */
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;  /* Dunkleres Grau beim Hover */
+        }
 
     </style>
 </head>
@@ -174,41 +191,42 @@
             </tbody>
         </table>
 
-        
+        <!-- Zurück-Button -->
+        <a href="{{ url_for('admin_dashboard') }}" class="back-button">Zurück zur Admin-Seite</a>
     </div>
-</body>
 
-<script>
-const checkbox = document.getElementById('use_default_password');
-const passwordInput = document.getElementById('password');
+    <script>
+    const checkbox = document.getElementById('use_default_password');
+    const passwordInput = document.getElementById('password');
 
-function togglePasswordField() {
-    if (checkbox.checked) {
-        passwordInput.value = "Pa$$w0rd";
-        passwordInput.readOnly = true;
-        passwordInput.style.backgroundColor = "#e9ecef";
-    } else {
-        passwordInput.value = "";
-        passwordInput.readOnly = false;
-        passwordInput.style.backgroundColor = "";
-    }
-}
-
-checkbox.addEventListener('change', togglePasswordField);
-window.addEventListener('load', togglePasswordField);
-
-function filterUserTable() {
-    const input = document.getElementById('userSearchInput').value.toLowerCase();
-    const table = document.getElementById('userTable');
-    const trs = table.getElementsByTagName('tr');
-
-    for (let i = 1; i < trs.length; i++) {
-        const td = trs[i].getElementsByTagName('td')[1];
-        if (td) {
-            const text = td.textContent || td.innerText;
-            trs[i].style.display = text.toLowerCase().includes(input) ? '' : 'none';
+    function togglePasswordField() {
+        if (checkbox.checked) {
+            passwordInput.value = "Pa$$w0rd";
+            passwordInput.readOnly = true;
+            passwordInput.style.backgroundColor = "#e9ecef";
+        } else {
+            passwordInput.value = "";
+            passwordInput.readOnly = false;
+            passwordInput.style.backgroundColor = "";
         }
     }
-}
-</script>
+
+    checkbox.addEventListener('change', togglePasswordField);
+    window.addEventListener('load', togglePasswordField);
+
+    function filterUserTable() {
+        const input = document.getElementById('userSearchInput').value.toLowerCase();
+        const table = document.getElementById('userTable');
+        const trs = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < trs.length; i++) {
+            const td = trs[i].getElementsByTagName('td')[1];
+            if (td) {
+                const text = td.textContent || td.innerText;
+                trs[i].style.display = text.toLowerCase().includes(input) ? '' : 'none';
+            }
+        }
+    }
+    </script>
+</body>
 </html>
