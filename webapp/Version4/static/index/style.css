@@ -34,3 +34,14 @@ body {
 .button:hover {
     background-color: #007B9A; /* Dunklerer Blauton beim Hover */
 }
+
+/* Neue Klasse für die Nachricht */
+.message {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #004F7C;
+    background-color: #e0f0ff;
+    color: #004F7C;
+    border-radius: 5px;
+    font-weight: bold;
+}
