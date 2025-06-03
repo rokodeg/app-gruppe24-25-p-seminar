@@ -69,18 +69,6 @@
   margin-right: 6px;
 }
 
-.filter-container {
-  overflow: hidden;
-  max-height: 0;
-  padding: 0 10px; /* Seiten-Padding */
-  transition: max-height 0.4s ease, padding 0.4s ease;
-}
-
-/* Klasse, wenn Filter sichtbar sind */
-.filter-container.active {
-  max-height: 500px; /* groß genug, um Inhalt zu zeigen */
-  padding: 10px 10px;
-}
  </style>
 </head>
 <body>
@@ -110,11 +98,12 @@
     {% if zugewiesene_anfrage %}
     <div class="request-card">
       <h2>Ihnen wurde eine Anfrage zugewiesen:</h2>
-      <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
       <p><strong>Fach:</strong> {{ zugewiesene_anfrage['fach'] }}</p>
       <p><strong>Stunden:</strong> {{ zugewiesene_anfrage['stunden'] }}</p>
       <p><strong>Klassenstufe:</strong> {{ zugewiesene_anfrage['klassenstufe'] }}</p>
       <p><strong>Kontakt:</strong> {{ zugewiesene_anfrage['kontakt'] }}</p>
+      <p><strong>Anmerkungen:</strong> {{ zugewiesene_anfrage['anmerkungen'] }}</p>
+
     
       <!-- BUTTON-REIHE -->
 <div class="button-row" style="display: flex; gap: 10px;">
@@ -156,7 +145,6 @@
     {% for anfrage in angenommene_anfragen %}
       <div class="request-card">
         <h3>{{ anfrage.fach }}</h3>
-        <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
         <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
         <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
         <p><strong>Kontakt:</strong> {{ anfrage.kontakt }}</p>
@@ -181,7 +169,6 @@
     {% for anfrage in erledigte_anfragen %}
       <div class="request-card">
         <h3>{{ anfrage.fach }}</h3>
-        <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
         <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
         <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
         <p><strong>Kontakt:</strong> {{ anfrage.kontakt }}</p>
@@ -205,60 +192,48 @@
       <button class="toggle-all-button" onclick="toggleAllFilters()">Alle Filter ein-/ausklappen</button>
     </div>
 
-    <!-- Fach-Filter -->
-<div class="filter-container" id="filterFachContainer">
-  <label for="filterFach"><strong>Filter nach Fach:</strong></label><br>
-  <select id="filterFach" onchange="filterRequests()">
-    <option value="">Bitte wählen...</option>
-    <option value="deutsch">Deutsch</option>
-    <option value="englisch">Englisch</option>
-    <option value="latein">Latein</option>
-    <option value="französisch">Französisch</option>
-    <option value="spanisch">Spanisch</option>
-    <option value="mathematik">Mathematik</option>
-    <option value="physik">Physik</option>
-    <option value="chemie">Chemie</option>
-    <option value="biologie">Biologie</option>
-    <option value="informatik">Informatik</option>
-    <option value="geschichte">Geschichte</option>
-    <option value="geographie">Geographie</option>
-    <option value="wirtschaft und recht">Wirtschaft und Recht</option>
-    <option value="politik und gesellschaft">Politik und Gesellschaft</option>
-    <option value="musik">Musik</option>
-  </select>
-</div>
+    <!-- Filter nach Fach -->
+    <div class="filter-container" id="filterFachContainer">
+      <select id="filterFach" onchange="filterRequests()">
+        <option value="">Bitte wählen...</option>
+        <option value="Deutsch">Deutsch</option>
+        <option value="Englisch">Englisch</option>
+        <option value="Latein">Latein</option>
+        <option value="Französisch">Französisch</option>
+        <option value="Spanisch">Spanisch</option>
+        <option value="Mathematik">Mathematik</option>
+        <option value="Physik">Physik</option>
+        <option value="Chemie">Chemie</option>
+        <option value="Biologie">Biologie</option>
+        <option value="Informatik">Informatik</option>
+        <option value="Geschichte">Geschichte</option>
+        <option value="Geographie">Geographie</option>
+        <option value="Wirtschaft und Recht">Wirtschaft und Recht</option>
+        <option value="Politik und Gesellschaft">Politik und Gesellschaft</option>
+        <option value="Musik">Musik</option>
+      </select>
+    </div>
 
-<!-- Geschlecht-Filter -->
-<div class="filter-container" id="filterGeschlechtContainer">
-  <label for="filterGeschlecht"><strong>Filter nach Geschlecht:</strong></label><br>
-  <select id="filterGeschlecht" onchange="filterRequests()">
-    <option value="">Alle Geschlechter</option>
-    <option value="männlich">Nur männlich</option>
-    <option value="weiblich">Nur weiblich</option>
-    <option value="divers">Nur divers</option>
-    <option value="exclude_männlich">Alle ohne männlich</option>
-    <option value="exclude_weiblich">Alle ohne weiblich</option>
-    <option value="exclude_divers">Alle ohne divers</option>
-  </select>
-</div>
+    <!-- Filter nach Geschlecht -->
+    <div class="filter-container" id="filterGeschlechtContainer">
+      <select id="filterGeschlecht" onchange="filterRequests()">
+        <option value="">Alle Geschlechter</option>
+        <option value="männlich">Nur männlich</option>
+        <option value="weiblich">Nur weiblich</option>
+        <option value="divers">Nur divers</option>
+        <option value="exclude_männlich">Alle ohne männlich</option>
+        <option value="exclude_weiblich">Alle ohne weiblich</option>
+        <option value="exclude_divers">Alle ohne divers</option>
+      </select>
+    </div>
 
-<!-- Klassenstufen-Filter -->
-<div class="filter-container" id="filterKlassenstufenContainer">
-  <label><strong>Filter nach Klassenstufe:</strong></label><br>
-  <label for="minKlassenstufe">Min:</label>
-  <input type="number" id="minKlassenstufe" placeholder="Min" onchange="filterRequests()">
-  <label for="maxKlassenstufe">Max:</label>
-  <input type="number" id="maxKlassenstufe" placeholder="Max" onchange="filterRequests()">
-</div>
-
-<!-- Sortierung nach Datum -->
-<div class="filter-container" id="filterSortierungContainer">
-  <label for="filterSortierung"><strong>Sortierung nach Datum:</strong></label><br>
-  <select id="filterSortierung" onchange="filterRequests()">
-    <option value="neueste">Neueste zuerst</option>
-    <option value="älteste">Älteste zuerst</option>
-  </select>
-</div>
+    <!-- Filter nach Klassenstufen -->
+    <div class="filter-container" id="filterKlassenstufenContainer">
+      <label for="minKlassenstufe">Min:</label>
+      <input type="number" id="minKlassenstufe" placeholder="Min" onchange="filterRequests()">
+      <label for="maxKlassenstufe">Max:</label>
+      <input type="number" id="maxKlassenstufe" placeholder="Max" onchange="filterRequests()">
+    </div>
 
     <!-- ANFRAGEN-LISTE -->
     <div id="confirmedRequestsList">
@@ -270,14 +245,13 @@
              data-klassenstufe="{{ anfrage.klassenstufe }}">
           <div class="anfrage">
             <h3>{{ anfrage.name }}</h3>
-            <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
             <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
             <p><strong>Stundenanzahl:</strong> {{ anfrage.stunden }}</p>
             <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
             <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
-            <p><strong>Dringlichkeit:</strong> {{ anfrage.dringlichkeit }}</p>
             <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
             <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
+            <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen }}</p>
             <form action="{{ url_for('anfrage_annehmen') }}" method="POST">
               <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
               <button type="submit" class="accept-button">Annehmen</button>
@@ -301,65 +275,49 @@
 
   <script>
     function filterRequests() {
-  const fachFilter = document.getElementById("filterFach").value.toLowerCase();
-  const geschlechtFilter = document.getElementById("filterGeschlecht").value.toLowerCase();
-  const minKlasse = parseInt(document.getElementById("minKlassenstufe").value);
-  const maxKlasse = parseInt(document.getElementById("maxKlassenstufe").value);
-  const sortierung = document.getElementById("filterSortierung").value;
+      const fachFilter = document.getElementById("filterFach").value.toLowerCase();
+      const geschlechtFilter = document.getElementById("filterGeschlecht").value.toLowerCase();
+      const minKlasse = parseInt(document.getElementById("minKlassenstufe").value);
+      const maxKlasse = parseInt(document.getElementById("maxKlassenstufe").value);
 
-  const container = document.getElementById('confirmedRequestsList');
-  let anfragen = Array.from(container.querySelectorAll('.anfrage-container'));
+      const anfragen = document.querySelectorAll('#confirmedRequestsList .anfrage-container');
 
-  // Filter anwenden
-  anfragen.forEach(container => {
-    const fach = container.dataset.fach;
-    const geschlecht = container.dataset.geschlecht;
-    const klasse = parseInt(container.dataset.klassenstufe);
+      anfragen.forEach(container => {
+        const fach = container.dataset.fach;
+        const geschlecht = container.dataset.geschlecht;
+        const klasse = parseInt(container.dataset.klassenstufe);
 
-    let visible = true;
+        let visible = true;
 
-    if (fachFilter && fach !== fachFilter) visible = false;
+        // Fach-Filter
+        if (fachFilter && fach !== fachFilter) visible = false;
 
-    if (geschlechtFilter) {
-      if (geschlechtFilter.startsWith("exclude_")) {
-        const exclude = geschlechtFilter.replace("exclude_", "");
-        if (geschlecht === exclude) visible = false;
-      } else if (geschlecht !== geschlechtFilter) {
-        visible = false;
-      }
+        // Geschlecht-Filter
+        if (geschlechtFilter) {
+          if (geschlechtFilter.startsWith("exclude_")) {
+            const exclude = geschlechtFilter.replace("exclude_", "");
+            if (geschlecht === exclude) visible = false;
+          } else if (geschlecht !== geschlechtFilter) {
+            visible = false;
+          }
+        }
+
+        // Klassenstufen-Filter
+        if (!isNaN(minKlasse) && klasse < minKlasse) visible = false;
+        if (!isNaN(maxKlasse) && klasse > maxKlasse) visible = false;
+
+        // Anzeige
+        container.style.display = visible ? "block" : "none";
+      });
     }
-
-    if (!isNaN(minKlasse) && klasse < minKlasse) visible = false;
-    if (!isNaN(maxKlasse) && klasse > maxKlasse) visible = false;
-
-    container.style.display = visible ? "block" : "none";
-  });
-
-  // Nur sichtbare Elemente für Sortierung herausfiltern
-  anfragen = anfragen.filter(el => el.style.display !== "none");
-
-  // Sortieren
-  anfragen.sort((a, b) => {
-    const dateA = new Date(a.dataset.created);
-    const dateB = new Date(b.dataset.created);
-    if (sortierung === "neueste") {
-      return dateB - dateA; // neueste zuerst
-    } else {
-      return dateA - dateB; // älteste zuerst
-    }
-  });
-
-  // Neu sortierte Elemente an den Container anhängen (Reihenfolge ändern)
-  anfragen.forEach(el => container.appendChild(el));
-}
-
 
     function toggleAllFilters() {
       const filters = document.querySelectorAll('.filter-container');
       filters.forEach(filter => {
-      filter.classList.toggle('active');
+        filter.style.display = (filter.style.display === 'none' ? 'block' : 'none');
       });
     }
+
     function updateCharCount() {
       const textarea = document.getElementById('comment');
       const count = 100 - textarea.value.length;
