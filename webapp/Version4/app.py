@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS offers (
     stunden INTEGER,
     klassenstufe INTEGER,
     geschlecht TEXT,
-    dringlichkeit TEXT,
+    anmerkungen TEXT,
     kontakt TEXT,
     wohnort TEXT,
     status TEXT DEFAULT 'neu',
@@ -97,7 +97,7 @@ def anbieter():
 
     # Offene oder zugewiesene Anfragen
     cursor.execute("""
-        SELECT id, name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort, status, assigned_user_id, created_at
+        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at
         FROM offers
         WHERE (status = 'offen' OR status = 'zugewiesen')
           AND (assigned_user_id IS NULL OR assigned_user_id = ?)
@@ -106,7 +106,7 @@ def anbieter():
 
     # Angenommene Anfragen
     cursor.execute("""
-        SELECT id, name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort, status, assigned_user_id, created_at
+        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at
         FROM offers
         WHERE status = 'angenommen' AND assigned_user_id = ?
     """, (session['user_id'],))
@@ -114,7 +114,7 @@ def anbieter():
 
     # Erledigte Anfragen
     cursor.execute("""
-        SELECT id, name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort, status, assigned_user_id, created_at
+        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at
         FROM offers
         WHERE status = 'erledigt' AND assigned_user_id = ?
     """, (session['user_id'],))
@@ -133,7 +133,7 @@ def anbieter():
             'stunden': row[3],
             'klassenstufe': row[4],
             'geschlecht': row[5],
-            'dringlichkeit': row[6],
+            'anmerkungen': row[6],
             'kontakt': row[7],
             'wohnort': row[8],
             'status': row[9],
@@ -155,7 +155,7 @@ def anbieter():
             'stunden': row[3],
             'klassenstufe': row[4],
             'geschlecht': row[5],
-            'dringlichkeit': row[6],
+            'anmerkungen': row[6],
             'kontakt': row[7],
             'wohnort': row[8],
             'status': row[9],
@@ -173,7 +173,7 @@ def anbieter():
             'stunden': row[3],
             'klassenstufe': row[4],
             'geschlecht': row[5],
-            'dringlichkeit': row[6],
+            'anmerkungen': row[6],
             'kontakt': row[7],
             'wohnort': row[8],
             'status': row[9],
@@ -376,16 +376,16 @@ def create_offer():
         stunden = request.form.get('stunden', 1)
         klassenstufe = request.form.get('klassenstufe', '')
         geschlecht = request.form.get('geschlecht', '')
-        dringlichkeit = request.form.get('dringlichkeit', '')
+        anmerkungen = request.form.get('anmerkungen', '')
         kontakt = request.form.get('kontakt', '')
         wohnort = request.form.get('wohnort', '')
 
         conn = get_db_connection()
         created_at = datetime.now().strftime('%Y-%m-%d')
         conn.execute('''
-            INSERT INTO offers (name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort, status, created_at)
+            INSERT INTO offers (name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'neu', ?)
-        ''', (name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort, created_at))
+        ''', (name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, created_at))
         conn.commit()
         conn.close()
         flash("Anfrage erfolgreich gesendet!")
