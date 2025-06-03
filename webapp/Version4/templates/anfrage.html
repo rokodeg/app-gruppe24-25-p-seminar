@@ -9,16 +9,13 @@
 <body>
 
   <div class="form-container">
-    <h1>Nachhilfe Anfrage</h1>
+    <h1>Nachhilfeanfrage</h1>
     <form method="post" action="{{ url_for('create_offer') }}">
-      <label for="name">Vorname:</label>
-      <input type="text" id="name" name="name" required style="width: 80%;">
-
-      <label for="nachname">Nachname:</label>
-      <input type="text" id="nachname" name="nachname" required style="width: 80%;">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required >
 
       <label for="geschlecht">Geschlecht:</label>
-      <select id="geschlecht" name="geschlecht" required style="width: 82.2%;">
+      <select id="geschlecht" name="geschlecht" required>
         <option value="">Bitte wählen...</option>
         <option value="männlich">Männlich</option>
         <option value="weiblich">Weiblich</option>
@@ -26,7 +23,7 @@
       </select>
 
       <label for="fach">Fach:</label>
-      <select id="fach" name="fach" required style="width: 82.2%;">
+      <select id="fach" name="fach" required >
         <option value="">Bitte wählen...</option>
         <option value="Deutsch">Deutsch</option>
         <option value="Englisch">Englisch</option>       
@@ -46,16 +43,16 @@
       </select>
 
       <label for="wohnort">Wohnort:</label>
-      <input type="text" id="wohnort" name="wohnort" required style="width: 80%;">
+      <input type="text" id="wohnort" name="wohnort" required >
 
       <label for="stunden">Stundenanzahl pro Woche:</label>
-      <input type="number" id="stunden" name="stunden" required min="1" max="20" style="width: 80%;">
+      <input type="number" id="stunden" name="stunden" required min="1" max="20" >
 
       <label for="klassenstufe">Klassenstufe:</label>
-      <input type="number" id="klassenstufe" name="klassenstufe" required min="5" max="13" style="width: 80%;">
+      <input type="number" id="klassenstufe" name="klassenstufe" required min="5" max="13" >
 
       <label for="dringlichkeit">Dringlichkeit:</label>
-      <select id="dringlichkeit" name="dringlichkeit" required style="width: 82.2%;">
+      <select id="dringlichkeit" name="dringlichkeit" required >
         <option value="">Bitte wählen...</option>
         <option value="niedrig">Niedrig</option>
         <option value="mittel">Mittel (Auf Eigenbedarf)</option>
@@ -63,7 +60,7 @@
       </select>
 
       <label for="kontakt">Kontaktdaten (Telefon oder E-Mail):</label>
-      <input type="text" id="kontakt" name="kontakt" required style="width: 80%;">
+      <input type="text" id="kontakt" name="kontakt" required >
 
     <div class="agb-container">
       <input type="checkbox" id="agb" name="agb" required>
@@ -72,10 +69,14 @@
         </label>
     </div>
 
-      <button type="submit" style="width: 80%;">Anfrage Absenden</button>
+      <button type="submit">Anfrage Absenden</button>
     </form>
 
-    <a href="{{ url_for('home') }}" class="button">Zurück zur Startseite</a> | <a href="{{ url_for('impressum') }}">Impressum</a></p>
+    <div class="button-group">
+      <a href="{{ url_for('home') }}" class="button">Zurück zur Startseite</a>
+      <a href="{{ url_for('impressum') }}" class="button">Impressum</a>
+    </div>
+    
 
   </div>
   
