@@ -12,7 +12,7 @@ anfrage = {
     'stunden': 2,
     'klassenstufe': 9,
     'geschlecht': 'männlich',
-    'dringlichkeit': 'hoch',
+    'anmerkungen': 'keine',
     'kontakt': 'max@example.com',
     'wohnort': 'Berlin',
     'status': 'neu',
@@ -21,8 +21,8 @@ anfrage = {
 
 # Anfrage einfügen (jetzt auch assigned_user_id berücksichtigen)
 cursor.execute('''
-INSERT INTO offers (id, name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort, status, assigned_user_id)
-VALUES (:id, :name, :fach, :stunden, :klassenstufe, :geschlecht, :dringlichkeit, :kontakt, :wohnort, :status, :assigned_user_id)
+INSERT INTO offers (id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id)
+VALUES (:id, :name, :fach, :stunden, :klassenstufe, :geschlecht, :anmerkungen, :kontakt, :wohnort, :status, :assigned_user_id)
 ''', anfrage)
 
 # Änderungen speichern und Verbindung schließen

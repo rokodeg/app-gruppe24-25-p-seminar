@@ -8,10 +8,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>Willkommen auf der Startseite!!Tesdt</h1>
-        <p>Bitte wählen Sie eine Option:</p>
+        <h1>Willkommen bei der Schülernachhilfe!</h1>
+        <p>Wenn sie auf der Suche nach Nachhilfe sind, auf "Anfrage" klicken:</p>
         <div class="button-group">
-            <a href="{{ url_for('login') }}" class="button">Login</a> <!-- Link zur Login-Seite -->
+            <a href="{{ url_for('login') }}" class="button">Login (Nachhilfelehrer und Admin)</a> <!-- Link zur Login-Seite -->
             <a href="{{ url_for('create_offer') }}" class="button">Anfrage</a> <!-- Link zur Login-Seite -->
         </div>
         {% with messages = get_flashed_messages() %}
