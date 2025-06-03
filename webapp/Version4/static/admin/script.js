@@ -16,7 +16,7 @@ function loadRequests() {
           <p><strong>Fach:</strong> ${anfrage.fach}</p>
           <p><strong>Klassenstufe:</strong> ${anfrage.klassenstufe}</p>
           <p><strong>Stunden pro Woche:</strong> ${anfrage.stunden}</p>
-          <p><strong>Anmerkungen:</strong> ${anfrage.anmerkungen}</p>
+          <p><strong>Dringlichkeit:</strong> ${anfrage.dringlichkeit}</p>
           <p><strong>Kontakt:</strong> ${anfrage.kontakt}</p>
           <button onclick="confirmRequest(${index})">Bestätigen</button>
           <button class="reject-btn" onclick="rejectRequest(${index})">Ablehnen</button>

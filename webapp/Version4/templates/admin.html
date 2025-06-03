@@ -111,15 +111,14 @@
     {% if neue_anfragen %}
       {% for anfrage in neue_anfragen %}
         <div class="request-card">
+          <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
           <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
-          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen }}</p>
           <p><strong>Status:</strong> {{ anfrage.status }}</p>
 
           <form method="post" action="{{ url_for('update_anfrage_status') }}">
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-            <label>Status:</label>
             <select name="status" onchange="toggleZuweisungTable(this, {{ anfrage.id }})" id="status-{{ anfrage.id }}">
               <option value="offen">Annehmen</option>
               <option value="abgelehnt">Ablehnen</option>
@@ -165,6 +164,7 @@
     {% if abgelehnte_von_user %}
       {% for anfrage in abgelehnte_von_user %}
         <div class="request-card" style="background-color: #ffecec;">
+          <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
           <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username }}</p>
@@ -229,6 +229,7 @@
       {% for anfrage in bestaetigte_anfragen %}
         <div class="anfrage-box">
           <h4>{{ anfrage.name }}</h4>
+          <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -257,6 +258,7 @@
       {% for anfrage in zugewiesene_anfragen %}
         <div class="anfrage-box">
           <h4>{{ anfrage.name }}</h4>
+          <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -286,6 +288,7 @@
       {% for anfrage in aktive_anfragen %}
         <div class="anfrage-box">
           <h4>{{ anfrage.name }}</h4>
+          <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -317,6 +320,7 @@
     {% for anfrage in erledigte_anfragen %}
       <div class="anfrage-box">
         <h4>{{ anfrage.name }}</h4>
+        <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
         <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
         <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
         <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -347,6 +351,7 @@
       {% for anfrage in abgelehnte_anfragen %}
         <div class="anfrage-box">
           <h4>{{ anfrage.name }}</h4>
+          <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>

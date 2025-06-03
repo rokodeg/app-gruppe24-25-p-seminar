@@ -9,14 +9,14 @@ function submitForm(event) {
   const wohnort = document.getElementById('wohnort').value;
   const stunden = document.getElementById('stunden').value;
   const klassenstufe = document.getElementById('klassenstufe').value;
-  const anmerkungen = document.getElementById('anmerkungen').value;
+  const dringlichkeit = document.getElementById('dringlichkeit').value;
   const kontakt = document.getElementById('kontakt').value;
   const einheit = document.querySelector('input[name="einheit"]:checked')?.value;
   const agb = document.getElementById('agb').checked;
   const errorMessage = document.getElementById('error-message');
 
   // Prüfung, ob alle Felder ausgefüllt sind
-  if (!name || !nachname || !geschlecht || !fach || !wohnort || !stunden || !klassenstufe || !kontakt || !einheit || !agb) {
+  if (!name || !nachname || !geschlecht || !fach || !wohnort || !stunden || !klassenstufe || !dringlichkeit || !kontakt || !einheit || !agb) {
     errorMessage.textContent = 'Bitte füllen Sie alle Felder aus und akzeptieren Sie die AGB.';
     return false; // Verhindert das Absenden des Formulars
   }
@@ -30,7 +30,7 @@ function submitForm(event) {
     wohnort: wohnort,
     stunden: stunden,
     klassenstufe: klassenstufe,
-    anmerkungen: anmerkungen,
+    dringlichkeit: dringlichkeit,
     kontakt: kontakt,
     einheit: einheit,
   };
