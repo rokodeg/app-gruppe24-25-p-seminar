@@ -36,7 +36,7 @@
         <option value="Mathematik">Mathematik</option>
         <option value="Physik">Physik</option>
         <option value="Chemie">Chemie</option>
-        <option value="Biologie">Biologie</option>
+        <option value="Biologie">Biologie/Natur und Technik</option>
         <option value="Informatik">Informatik</option>
         <option value="Geschichte">Geschichte</option>
         <option value="Geographie">Geographie</option>
@@ -54,16 +54,11 @@
       <label for="klassenstufe">Klassenstufe:</label>
       <input type="number" id="klassenstufe" name="klassenstufe" required min="5" max="13" style="width: 80%;">
 
-      <label for="dringlichkeit">Dringlichkeit:</label>
-      <select id="dringlichkeit" name="dringlichkeit" required style="width: 82.2%;">
-        <option value="">Bitte wählen...</option>
-        <option value="niedrig">Niedrig</option>
-        <option value="mittel">Mittel (Auf Eigenbedarf)</option>
-        <option value="hoch">Hoch (In der nächsten Zeit Prüfung)</option>
-      </select>
-
       <label for="kontakt">Kontaktdaten (Telefon oder E-Mail):</label>
       <input type="text" id="kontakt" name="kontakt" required style="width: 80%;">
+
+      <label for="anmerkungen">Weitere Anmerkungen:</label>
+      <textarea id="anmerkungen" name="anmerkungen" style="width: 80%;", rows="4"></textarea>
 
     <div class="agb-container">
       <input type="checkbox" id="agb" name="agb" required>

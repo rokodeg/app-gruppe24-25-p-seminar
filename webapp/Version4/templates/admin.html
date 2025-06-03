@@ -114,6 +114,7 @@
           <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
+          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen }}</p>
           <p><strong>Status:</strong> {{ anfrage.status }}</p>
 
           <form method="post" action="{{ url_for('update_anfrage_status') }}">
