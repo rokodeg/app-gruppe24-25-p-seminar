@@ -55,7 +55,8 @@
       <input type="text" id="kontakt" name="kontakt" required >
 
       <label for="anmerkungen">Weitere Anmerkungen:</label>
-      <textarea id="anmerkungen" name="anmerkungen", rows="4"></textarea>
+      <textarea id="anmerkungen" name="anmerkungen" rows="4" maxlength="100"></textarea>
+      <div id="char-counter" class="char-counter">0 / 100 Zeichen</div>
 
     <div class="agb-container">
       <input type="checkbox" id="agb" name="agb" required>
@@ -76,6 +77,19 @@
   </div>
   
   <script src="{{ url_for('static', filename='anfrage/script.js') }}"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const textarea = document.getElementById('anmerkungen');
+      const counter = document.getElementById('char-counter');
+  
+      textarea.addEventListener('input', () => {
+        const length = textarea.value.length;
+        counter.textContent = `${length} / 100 Zeichen`;
+      });
+    });
+  </script>
+  
 
 </body>
 </html>

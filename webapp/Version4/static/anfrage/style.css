@@ -149,6 +149,37 @@ body {
   background-color: #007B9A;
 }
 
+.form-container textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  resize: vertical; /* erlaubt Größenänderung nur vertikal */
+}
+.form-container textarea:focus {
+  border-color: #004F7C;
+  outline: none;
+}
+
+
+/* Globale Touch-/Font-Optimierung */
+input, select, textarea, button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.char-counter {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: -15px;
+  margin-bottom: 20px;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .button-group {
@@ -157,6 +188,7 @@ body {
     max-width: 100%;
     width: 100%;
   }
+
   .button-group .button {
     width: 100%;
     flex: none;

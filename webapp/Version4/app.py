@@ -12,7 +12,10 @@ c.execute('''
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    status TEXT,
+    faecher TEXT, 
+    jahrgang INTEGER
 )
 ''')
 
@@ -94,6 +97,12 @@ def anbieter():
 
     conn = get_db_connection()
     cursor = conn.cursor()
+
+    # Nutzerbezogene Einstellungen abrufen
+    user_data = conn.execute('SELECT status, faecher, jahrgang FROM users WHERE id = ?', (session['user_id'],)).fetchone()
+    anbieter_status = user_data['status']
+    anbieter_faecher = user_data['faecher'].split(',') if user_data['faecher'] else []
+    anbieter_jahrgang = user_data['jahrgang']
 
     # Offene oder zugewiesene Anfragen
     cursor.execute("""
@@ -187,8 +196,12 @@ def anbieter():
         anfragen=anfrage_liste,
         zugewiesene_anfrage=zugewiesene_anfrage,
         angenommene_anfragen=angenommene_anfragen,
-        erledigte_anfragen=erledigte_anfragen
+        erledigte_anfragen=erledigte_anfragen,
+        status=anbieter_status,
+        ausgewaehlte_faecher=anbieter_faecher,
+        user_jahrgang=anbieter_jahrgang
     )
+
 
 
 
@@ -254,7 +267,7 @@ def admin_dashboard():
         ''').fetchall()
 
         nutzer_liste = conn.execute('''
-            SELECT id, username FROM users WHERE username != 'admin'
+            SELECT id, username, status, faecher, jahrgang FROM users WHERE username != 'admin'
         ''').fetchall()
 
         conn.close()
@@ -270,6 +283,7 @@ def admin_dashboard():
             nutzer_liste=nutzer_liste,
             aktive_anfragen=aktive_anfragen
         )
+                     
     else:
         return redirect(url_for('login'))
 
@@ -545,5 +559,47 @@ def datetimeformat(value, format='%d.%m.%Y'):
     except Exception:
         return value
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/update_status', methods=['POST'])
+def update_status():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    neuer_status = request.form.get('status')
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET status = ? WHERE id = ?', (neuer_status, session['user_id']))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('anbieter'))
+
+@app.route('/update_faecher', methods=['POST'])
+def update_faecher():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    ausgewaehlte_faecher = request.form.getlist('faecher')
+    faecher_str = ",".join(ausgewaehlte_faecher)
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET faecher = ? WHERE id = ?', (faecher_str, session['user_id']))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('anbieter'))
+
+
+@app.route('/update_jahrgang', methods=['POST'])
+def update_jahrgang():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    jahrgang = int(request.form['jahrgang'])  # vom Formular
+    user_id = session['user_id']  # aktueller Benutzer aus Session
+
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET jahrgang = ? WHERE id = ?', (jahrgang, user_id))
+    conn.commit()
+    conn.close()
+
+    flash('Jahrgangsstufe gespeichert.', 'success')
+    return redirect(url_for('anbieter'))  # oder eine andere gewünschte Seite
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)

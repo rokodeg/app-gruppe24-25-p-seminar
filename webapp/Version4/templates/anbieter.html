@@ -9,105 +9,544 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 />
-  <style>
- /* Logout Button Styling */
-.logout-wrapper {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+<style>
+  /* Hauptcontainer */
+#neueAnfragenKasten {
+  background-color: #eef7ff;
+  border: 1px solid #cce0f4;
+  border-radius: 10px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
 }
 
-.logout-button {
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: #333;
-  position: relative;
+/* Header mit Titel + Button */
+.filter-header {
+  display: flex;
+   border-bottom: 2px solid #004F7C;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.logout-button:hover::after {
-  
-  position: absolute;
-  top: 50%;
-  right: 110%;
-  transform: translateY(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0.95;
-  z-index: 10;
+.filter-header h2 {
+  color: #004F7C;
+  padding-bottom: 8px;
+  margin: 0;
+  font-size: 1.5rem;
 }
 
-/* Link Buttons */
-.btn-link {
-  background-color: #005f73;
+.btn-toggle-filter {
+  background-color: #004F7C;
   color: white;
   border: none;
   padding: 8px 14px;
-  font-weight: 600;
-  font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
+  font-size: 1rem;
+}
+
+/* Gesamt-Kasten für Filter */
+#filterBereich {
+  background-color: #eef7ff;
+  border: 1px solid #cce0f4;
+  border-radius: 10px;
+  padding: 20px 25px;
+  margin-top: 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Filterzeile */
+.filter-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+/* Linker Bereich */
+.filter-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Weniger Abstand */
+  flex: 1;
+  min-width: 300px;
+  align-items: flex-start;
+}
+
+/* Rechter Bereich */
+.filter-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* wichtig */
+  height: 100%; /* falls nötig */
+  min-height: 200px; /* oder eine feste Höhe wenn nötig */
+  align-items: flex-end;
+}
+
+/* Sortierung oben rechts */
+.filter-right .filter-section.sortierung {
+  align-self: flex-end;
+  margin-bottom: auto;
+}
+
+#sortierung {
+  padding: 8px 12px;
+  border: 1px solid #cce0f4;
+  border-radius: 8px;
+  background-color: white;
+  color: #004F7C;
+  font-size: 15px;
+  font-family: inherit;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#sortierung:hover {
+  border-color: #99c9f3;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#sortierung:focus {
+  outline: none;
+  border-color: #004F7C;
+  box-shadow: 0 0 0 3px rgba(0, 79, 124, 0.2);
+}
+
+
+.filter-right .filter-section.sortierung select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #004F7C;
+  background-color: white;
+  color: #004F7C;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+.filter-right .filter-section.sortierung select:hover {
+  background-color: #e6f2ff;
+}
+
+/* Klassenstufe unten rechts */
+.filter-right .filter-section.klassenstufe {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.filter-right .filter-section.klassenstufe label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  align-self: flex-start;
+}
+
+.klassenstufe-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.klassenstufe-inputs input {
+  padding: 8px;
+  width: 90px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Tags (Fach + Geschlecht) */
+#filterFaecherTags,
+#filterGeschlechtTags {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fach-tag {
+  background-color: #cce0f4;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 14px;
+  display: flex;
   align-items: center;
   gap: 6px;
-  transition: background-color 0.25s ease;
 }
 
-.btn-link:hover,
-.btn-link:focus {
-  background-color: #0a9396;
+.remove-fach {
+  cursor: pointer;
+  font-weight: bold;
+  color: #004F7C;
+}
+
+/* Plus-Button */
+.filter-left button {
+  margin-top: 8px;
+  background-color: #004F7C;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Dropdowns */
+.filter-section {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.button-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+.dropdown-wrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+  padding: 4px;
+  min-width: 220px;
+  border-radius: 8px;
+}
+
+.dropdown-wrapper select {
+  width: 100%;
+  border: none;
   outline: none;
+  font-size: 15px;
+  background: transparent;
+  font-family: inherit;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 6px 0;
+  cursor: pointer;
 }
 
-.btn-link i {
-  margin-right: 6px;
+.dropdown-wrapper select option:hover {
+  background-color: #eef7ff;
 }
 
-.filter-container {
-  overflow: hidden;
-  max-height: 0;
-  padding: 0 10px; /* Seiten-Padding */
-  transition: max-height 0.4s ease, padding 0.4s ease;
+/* Tabellen für Anfragen */
+.anbieter-requests-section {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 30px;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Klasse, wenn Filter sichtbar sind */
-.filter-container.active {
-  max-height: 500px; /* groß genug, um Inhalt zu zeigen */
-  padding: 10px 10px;
+.anbieter-requests-section h2 {
+  color: #004F7C;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #004F7C;
+  padding-bottom: 5px;
 }
- </style>
+
+.requests-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.requests-table th,
+.requests-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+  font-size: 15px;
+}
+
+.requests-table th {
+  background-color: #e0f0ff;
+  color: #004F7C;
+}
+
+.requests-table tr:hover {
+  background-color: #d0e7ff;
+}
+
+.status-active {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.status-completed {
+  color: #757575;
+  font-style: italic;
+}
+
+.btn-action {
+  font-size: 14px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-decline {
+  background-color: #ff7043;
+  color: white;
+}
+
+.btn-delete {
+  background-color: #e53935;
+  color: white;
+}
+
+.btn-action:hover {
+  opacity: 0.85;
+}
+
+
+
+
+
+
+.anfragen-uebersicht-title {
+  color: #004F7C;
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-bottom: 2px solid #004F7C;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+}
+
+.anbieter-requests-section {
+  margin-top: 15px;
+}
+
+.erledigte-anfragen-section {
+  margin-top: 30px;
+}
+
+
+
+
+.custom-hr {
+  border: none;
+  border-top: 1px solid #ddd;  /* Hellgrau, dezenter als #888 */
+  margin: 24px 0 12px 0;       /* Weniger Abstand, wirkt zurückhaltender */
+  width: 100%;
+}
+
+.agb-box {
+  display: flex;
+  justify-content: center;
+}
+
+.agb-box a {
+  font-size: 12px;
+  color: #888;
+  padding: 6px 12px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #fafafa;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.agb-box a:hover {
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transform: translateY(-1px);
+}
+
+.header-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1rem;
+  position: relative;
+}
+
+/* Logo links */
+.logo-wrapper .logo {
+  height: auto;
+  max-height: 10vh;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Titel zentriert, unabhängig von links/rechts */
+.dashboard-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none; /* Klicks durchlassen */
+   margin-top: 1rem;
+}
+
+.dashboard-title h1 {
+  margin: 0;
+  color: #004F7C;
+  font-size: 2rem;
+}
+
+/* Logout rechts */
+.logout-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Responsive Verhalten */
+@media (max-width: 768px) {
+  .header-bar {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .logo-wrapper,
+  .logout-wrapper {
+    justify-self: center;
+  }
+
+  .dashboard-title {
+    position: static;
+    transform: none;
+    margin-top: 1rem;
+    pointer-events: auto;
+  }
+
+  .dashboard-title h1 {
+    font-size: 1.5rem;
+  }
+
+  .logo-wrapper .logo {
+    max-height: 6vh;
+  }
+
+  .logout-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+</style>
 </head>
 <body>
 
 <div class="main-container">
-  <div class="header-row">
-    <div class="dashboard-title">
-      <h1 style="color: #004F7C;">Willkommen zurück, {{ session['username'] }}!</h1>
-    </div>
-  <div class="logout-wrapper" style="display: flex; align-items: center; gap: 15px;">
+
+<div class="header-bar">
+  <div class="logo-wrapper">
+    <a href="{{ url_for('login') }}">
+      <img src="{{ url_for('static', filename='images/logoFinish.svg') }}" alt="Logo" class="logo">
+    </a>
+  </div>
+
+  <div class="dashboard-title">
+    <h1>Willkommen zurück, {{ session['username'] }}!</h1>
+  </div>
+
+  <div class="logout-wrapper">
     <a href="{{ url_for('user_settings') }}" class="btn-link" title="Benutzereinstellungen">
       <i class="fas fa-user-cog"></i> Einstellungen
     </a>
-      <form action="{{ url_for('logout') }}" method="post" title="Ausloggen" style="margin: 0;">
-        <button type="submit" class="btn-link logout-button" aria-label="Logout">
-          <i class="fas fa-power-off"></i> Logout
-        </button>
-      </form>
-    </div>
-    
+    <form action="{{ url_for('logout') }}" method="post" style="margin: 0;">
+      <button type="submit" class="btn-link logout-button" aria-label="Logout">
+        <i class="fas fa-power-off"></i> Logout
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<!-- Anbieter-Status & Fächer-Auswahl -->
+<div class="anbieter-status-section" style="background-color: #eef7ff; border: 1px solid #cce0f4; border-radius: 10px; padding: 25px; margin: 20px 0; box-shadow: 0 3px 8px rgba(0,0,0,0.1);">
+  <h2 style="color: #004F7C; border-bottom: 2px solid #004F7C; padding-bottom: 8px;">Deine Informationen</h2>
+
+  <!-- Status und Jahrgang in einer Zeile -->
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
+    <!-- Status-Auswahl -->
+    <form action="{{ url_for('update_status') }}" method="POST" style="flex: 1 1 250px;">
+      <label for="status" style="font-weight: bold;">Status:</label><br>
+      <select name="status" id="status" style="padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; width: 100%;">
+        <option value="offen" {% if status == 'offen' %}selected{% endif %}>✅ Offen für Anfragen</option>
+        <option value="beschäftigt" {% if status == 'beschäftigt' %}selected{% endif %}>⛔ Beschäftigt</option>
+      </select>
+      <button type="submit" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;">Speichern</button>
+    </form>
+
+    <!-- Jahrgangsstufe Auswahl -->
+    <form action="{{ url_for('update_jahrgang') }}" method="POST" style="flex: 1 1 250px;">
+      <label for="jahrgang" style="font-weight: bold;">Jahrgangsstufe:</label><br>
+      <select name="jahrgang" id="jahrgang" style="padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; width: 100%;">
+        {% for stufe in range(5, 13) %}
+          <option value="{{ stufe }}" {% if stufe == user_jahrgang|int %}selected{% endif %}>{{ stufe }}. Klasse</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;">Speichern</button>
+    </form>
+  </div>
+
+<!-- Unterrichtbare Fächer mit Tag-Auswahl -->
+<form action="{{ url_for('update_faecher') }}" method="POST" onsubmit="syncFaecher(event)">
+  <label style="font-weight: bold;">Unterrichtbare Fächer:</label><br>
+
+  <!-- Ausgewählte Fächer als Tags -->
+  <div id="gewaehlteFaecher" style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
+    {% for fach in ausgewaehlte_faecher %}
+      <div class="fach-tag" data-fach="{{ fach }}">{{ fach }} <span class="remove-fach" onclick="this.parentElement.remove()">×</span></div>
+    {% endfor %}
+  </div>
+
+  <!-- Plus-Button und Dropdown darunter (Dropdown wird über Position gesteuert) -->
+  <div style="position: relative; display: inline-block; margin-top: 12px;">
+    <button type="button" id="fachPlusBtn" style="background-color: #004F7C; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">+</button>
+    <select id="fachDropdown"
+            size="6"
+            style="display: none; position: absolute; top: 110%; left: 0; z-index: 10;
+                   min-width: 220px; background: white; border: 1px solid #ccc;
+                   border-radius: 8px; padding: 10px; font-size: 15px;">
+      <option value="">Fach wählen</option>
+      {% for fach in ['Deutsch','Englisch','Latein','Französisch','Spanisch','Mathematik','Physik','Chemie','Biologie','Informatik','Geschichte','Geographie','Wirtschaft und Recht','Politik und Gesellschaft','Musik'] %}
+        <option value="{{ fach }}">{{ fach }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Verstecktes Feld -->
+  <input type="hidden" name="faecher" id="hiddenFaecher">
+
+  <button type="submit" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;">Fächer speichern</button>
+</form>
+
+
+
+
+
+
+
   </div>
   
-  
 
-
-    
-    {% if zugewiesene_anfrage %}
+<div id="neueAnfragenKasten">
+  <div class="filter-header">
+    <h2>Offene Anfragen</h2>
+    <button class="btn-toggle-filter">Filter anzeigen</button>
+  </div>
+      {% if zugewiesene_anfrage %}
     <div class="request-card">
       <h2>Ihnen wurde eine Anfrage zugewiesen:</h2>
       <p><strong>Erstellt am:</strong> {{ zugewiesene_anfrage.created_at | datetimeformat }}</p>
@@ -147,127 +586,80 @@
     </div>
     {% endif %}
 
-    {% if angenommene_anfragen %}
-<div class="assigned-requests-dropdown">
-  <button onclick="toggleAcceptedList()" class="toggle-all-button">
-    Aktive Anfragen anzeigen/verstecken
-  </button>
-  <div id="acceptedRequestsList" style="display: none; margin-top: 10px;">
-    {% for anfrage in angenommene_anfragen %}
-      <div class="request-card">
-        <h3>{{ anfrage.fach }}</h3>
-        <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
-        <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
-        <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
-        <p><strong>Kontakt:</strong> {{ anfrage.kontakt }}</p>
-        <p><strong>Status:</strong> Aktiv</p>
-
-        <form action="{{ url_for('anfrage_erledigen') }}" method="POST">
-          <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-          <button type="submit" class="decline-btn">Als erledigt markieren</button>
-        </form>
-      </div>
-    {% endfor %}
-  </div>
-</div>
-{% endif %}
-
-{% if erledigte_anfragen %}
-<div class="completed-requests-dropdown">
-  <button onclick="toggleCompletedList()" class="toggle-all-button">
-    Erledigte Anfragen anzeigen/verstecken
-  </button>
-  <div id="completedRequestsList" style="display: none; margin-top: 10px;">
-    {% for anfrage in erledigte_anfragen %}
-      <div class="request-card">
-        <h3>{{ anfrage.fach }}</h3>
-        <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
-        <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
-        <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
-        <p><strong>Kontakt:</strong> {{ anfrage.kontakt }}</p>
-        <p><strong>Status:</strong> Erledigt</p>
-
-        <!-- Optional: Wenn du einen Button möchtest, um erledigte Anfragen zu löschen -->
-        <form action="{{ url_for('delete_anfrage') }}" method="POST" style="margin-top: 10px;">
-          <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-          <button type="submit" class="decline-btn">Löschen</button>
-        </form>
-      </div>
-    {% endfor %}
-  </div>
-</div>
-{% endif %}
-
-    <h4>Hier kannst du eine Anfrage auswählen und mit deiner Nachhilfe starten!</h4>
-
-    <!-- Button zum Ein-/Ausklappen aller Filter -->
-    <div class="button-container">
-      <button class="toggle-all-button" onclick="toggleAllFilters()">Alle Filter ein-/ausklappen</button>
+  <div id="filterBereich" style="display: none;">
+    <div class="filter-main">
+  <!-- Linke Seite: Fächer und Geschlecht -->
+  <div class="filter-left">
+    <!-- Fächer -->
+   <!-- Fach-Filter -->
+<div class="filter-section">
+  <label style="font-weight: bold;">Fächer:</label>
+  <div id="filterFaecherTags"></div>
+  <div class="button-wrapper">
+    <button id="filterFachPlusBtn" type="button">+</button>
+    <div class="dropdown-wrapper" id="filterFachDropdownWrapper">
+      <select id="filterFachDropdown" size="5">
+        <option value="">Fach wählen</option>
+        <option>Deutsch</option>
+        <option>Mathematik</option>
+        <option>Englisch</option>
+        <option>Physik</option>
+        <option>Informatik</option>
+      </select>
     </div>
-
-    <!-- Fach-Filter -->
-<div class="filter-container" id="filterFachContainer">
-  <label for="filterFach"><strong>Filter nach Fach:</strong></label><br>
-  <select id="filterFach" onchange="filterRequests()">
-    <option value="">Bitte wählen...</option>
-    <option value="deutsch">Deutsch</option>
-    <option value="englisch">Englisch</option>
-    <option value="latein">Latein</option>
-    <option value="französisch">Französisch</option>
-    <option value="spanisch">Spanisch</option>
-    <option value="mathematik">Mathematik</option>
-    <option value="physik">Physik</option>
-    <option value="chemie">Chemie</option>
-    <option value="biologie">Biologie</option>
-    <option value="informatik">Informatik</option>
-    <option value="geschichte">Geschichte</option>
-    <option value="geographie">Geographie</option>
-    <option value="wirtschaft und recht">Wirtschaft und Recht</option>
-    <option value="politik und gesellschaft">Politik und Gesellschaft</option>
-    <option value="musik">Musik</option>
-  </select>
+  </div>
 </div>
 
 <!-- Geschlecht-Filter -->
-<div class="filter-container" id="filterGeschlechtContainer">
-  <label for="filterGeschlecht"><strong>Filter nach Geschlecht:</strong></label><br>
-  <select id="filterGeschlecht" onchange="filterRequests()">
-    <option value="">Alle Geschlechter</option>
-    <option value="männlich">Nur männlich</option>
-    <option value="weiblich">Nur weiblich</option>
-    <option value="divers">Nur divers</option>
-    <option value="exclude_männlich">Alle ohne männlich</option>
-    <option value="exclude_weiblich">Alle ohne weiblich</option>
-    <option value="exclude_divers">Alle ohne divers</option>
-  </select>
+<div class="filter-section">
+  <label style="font-weight: bold;">Geschlecht:</label>
+  <div id="filterGeschlechtTags"></div>
+  <div class="button-wrapper">
+    <button id="filterGeschlechtPlusBtn" type="button">+</button>
+    <div class="dropdown-wrapper" id="filterGeschlechtDropdownWrapper">
+      <select id="filterGeschlechtDropdown" size="3">
+        <option value="" >Geschlecht wählen</option>
+        <option>weiblich</option>
+        <option>männlich</option>
+        <option>divers</option>
+      </select>
+    </div>
+  </div>
+</div>
+  </div>
+  <!-- Rechte Seite: Sortierung & Klassen -->
+ <!-- Rechter Bereich: Sortierung & Klassenstufe -->
+  <div class="filter-right">
+    <!-- Sortierung -->
+    <div class="filter-section">
+      <select id="sortierung">
+        <option value="neueste">Neueste zuerst</option>
+        <option value="älteste">Älteste zuerst</option>
+      </select>
+    </div>
+
+    <!-- Klassenstufe -->
+    <div class="filter-section klassenstufe">
+      <label for="minKlasse">Klassenstufe:</label>
+      <div class="klassenstufe-inputs">
+        <input type="number" id="minKlasse" placeholder="von" min="5" max="13" />
+        <input type="number" id="maxKlasse" placeholder="bis" min="5" max="13"/>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- Klassenstufen-Filter -->
-<div class="filter-container" id="filterKlassenstufenContainer">
-  <label><strong>Filter nach Klassenstufe:</strong></label><br>
-  <label for="minKlassenstufe">Min:</label>
-  <input type="number" id="minKlassenstufe" placeholder="Min" onchange="filterRequests()">
-  <label for="maxKlassenstufe">Max:</label>
-  <input type="number" id="maxKlassenstufe" placeholder="Max" onchange="filterRequests()">
-</div>
+  </div>
 
-<!-- Sortierung nach Datum -->
-<div class="filter-container" id="filterSortierungContainer">
-  <label for="filterSortierung"><strong>Sortierung nach Datum:</strong></label><br>
-  <select id="filterSortierung" onchange="filterRequests()">
-    <option value="neueste">Neueste zuerst</option>
-    <option value="älteste">Älteste zuerst</option>
-  </select>
-</div>
-
-    <!-- ANFRAGEN-LISTE -->
+<!-- ANFRAGEN-LISTE -->
     <div id="confirmedRequestsList">
       {% if anfragen %}
         {% for anfrage in anfragen %}
         <div class="anfrage-container"
-             data-fach="{{ anfrage.fach|lower }}"
-             data-geschlecht="{{ anfrage.geschlecht|lower }}"
-             data-klassenstufe="{{ anfrage.klassenstufe }}">
+          data-fach="{{ anfrage.fach|lower }}"
+          data-geschlecht="{{ anfrage.geschlecht|lower }}"
+          data-klassenstufe="{{ anfrage.klassenstufe }}"
+          data-created="{{ anfrage.created_at }}">
           <div class="anfrage">
             <h3>{{ anfrage.name }}</h3>
             <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
@@ -289,117 +681,100 @@
         <p class="no-requests">Keine bestätigten Anfragen vorhanden.</p>
       {% endif %}
     </div>
+</div>
 
-    <!-- Impressum-Link -->
-    <div class="impressum-link">
-      <p><a href="{{ url_for('agb') }}" target="_blank">AGB</a></p>
-    </div>
+<div class="anbieter-status-section" style="background-color: #eef7ff; border: 1px solid #cce0f4; border-radius: 10px; padding: 25px; margin: 20px 0; box-shadow: 0 3px 8px rgba(0,0,0,0.1);">
+  <h2 class="anfragen-uebersicht-title">Anfragenübersicht</h2>
 
-  
+  <div class="anbieter-requests-section">
+    <h2>Aktive Anfragen</h2>
+    {% if angenommene_anfragen %}
+      <table class="requests-table">
+        <thead>
+          <tr>
+            <th>Fach</th>
+            <th>Erstellt am</th>
+            <th>Stunden</th>
+            <th>Klassenstufe</th>
+            <th>Kontakt</th>
+            <th>Status</th>
+            <th>Aktion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for anfrage in angenommene_anfragen %}
+            <tr>
+              <td>{{ anfrage.fach }}</td>
+              <td>{{ anfrage.created_at | datetimeformat }}</td>
+              <td>{{ anfrage.stunden }}</td>
+              <td>{{ anfrage.klassenstufe }}</td>
+              <td>{{ anfrage.kontakt }}</td>
+              <td><span class="status-active">Aktiv</span></td>
+              <td>
+                <form action="{{ url_for('anfrage_erledigen') }}" method="POST">
+                  <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+                  <button type="submit" class="btn-action btn-decline">Als erledigt markieren</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Keine aktiven Anfragen vorhanden.</p>
+    {% endif %}
+  </div>
+
+  <div class="anbieter-requests-section erledigte-anfragen-section">
+    <h2>Erledigte Anfragen</h2>
+    {% if erledigte_anfragen %}
+      <table class="requests-table">
+        <thead>
+          <tr>
+            <th>Fach</th>
+            <th>Erstellt am</th>
+            <th>Stunden</th>
+            <th>Klassenstufe</th>
+            <th>Kontakt</th>
+            <th>Status</th>
+            <th>Aktion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for anfrage in erledigte_anfragen %}
+            <tr>
+              <td>{{ anfrage.fach }}</td>
+              <td>{{ anfrage.created_at | datetimeformat }}</td>
+              <td>{{ anfrage.stunden }}</td>
+              <td>{{ anfrage.klassenstufe }}</td>
+              <td>{{ anfrage.kontakt }}</td>
+              <td><span class="status-completed">Erledigt</span></td>
+              <td>
+                <form action="{{ url_for('delete_anfrage') }}" method="POST">
+                  <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+                  <button type="submit" class="btn-action btn-delete">Löschen</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Keine erledigten Anfragen vorhanden.</p>
+    {% endif %}
+  </div>
+</div>
+
+<hr class="custom-hr">
+
+<div class="agb-box">
+  <a href="{{ url_for('agb') }}" target="_blank">Allgemeine Geschäftsbedingungen (AGB)</a>
+  <a href="{{ url_for('impressum') }}" target="_blank">
+    Impressum</a>
+</div>
 
   </div> <!-- Ende .main-container -->
+<script src="{{ url_for('static', filename='anbieter/script.js') }}" ></script>
 
-  <script>
-    function filterRequests() {
-  const fachFilter = document.getElementById("filterFach").value.toLowerCase();
-  const geschlechtFilter = document.getElementById("filterGeschlecht").value.toLowerCase();
-  const minKlasse = parseInt(document.getElementById("minKlassenstufe").value);
-  const maxKlasse = parseInt(document.getElementById("maxKlassenstufe").value);
-  const sortierung = document.getElementById("filterSortierung").value;
-
-  const container = document.getElementById('confirmedRequestsList');
-  let anfragen = Array.from(container.querySelectorAll('.anfrage-container'));
-
-  // Filter anwenden
-  anfragen.forEach(container => {
-    const fach = container.dataset.fach;
-    const geschlecht = container.dataset.geschlecht;
-    const klasse = parseInt(container.dataset.klassenstufe);
-
-    let visible = true;
-
-    if (fachFilter && fach !== fachFilter) visible = false;
-
-    if (geschlechtFilter) {
-      if (geschlechtFilter.startsWith("exclude_")) {
-        const exclude = geschlechtFilter.replace("exclude_", "");
-        if (geschlecht === exclude) visible = false;
-      } else if (geschlecht !== geschlechtFilter) {
-        visible = false;
-      }
-    }
-
-    if (!isNaN(minKlasse) && klasse < minKlasse) visible = false;
-    if (!isNaN(maxKlasse) && klasse > maxKlasse) visible = false;
-
-    container.style.display = visible ? "block" : "none";
-  });
-
-  // Nur sichtbare Elemente für Sortierung herausfiltern
-  anfragen = anfragen.filter(el => el.style.display !== "none");
-
-  // Sortieren
-  anfragen.sort((a, b) => {
-    const dateA = new Date(a.dataset.created);
-    const dateB = new Date(b.dataset.created);
-    if (sortierung === "neueste") {
-      return dateB - dateA; // neueste zuerst
-    } else {
-      return dateA - dateB; // älteste zuerst
-    }
-  });
-
-  // Neu sortierte Elemente an den Container anhängen (Reihenfolge ändern)
-  anfragen.forEach(el => container.appendChild(el));
-}
-
-
-    function toggleAllFilters() {
-      const filters = document.querySelectorAll('.filter-container');
-      filters.forEach(filter => {
-      filter.classList.toggle('active');
-      });
-    }
-    function updateCharCount() {
-      const textarea = document.getElementById('comment');
-      const count = 100 - textarea.value.length;
-      document.getElementById('charCount').textContent = `${count} Zeichen übrig`;
-    }
-    function updateCharCount() {
-    const textarea = document.getElementById('kommentar');
-    const count = 100 - textarea.value.length;
-    document.getElementById('charCount').textContent = count + ' Zeichen übrig';
-  }
-
-  // Bei Seitenstart einmal aufrufen, um initialen Zustand anzuzeigen
-  updateCharCount();
-
-  function toggleAcceptedList() {
-  const list = document.getElementById('acceptedRequestsList');
-  list.style.display = list.style.display === 'none' ? 'block' : 'none';
-}
-
-
-  function toggleCompletedList() {
-    const list = document.getElementById('completedRequestsList');
-    list.style.display = list.style.display === 'none' ? 'block' : 'none';
-  }
-
-  function openPopup() {
-  document.getElementById('popupModal').style.display = 'flex';
-}
-
-function closePopup() {
-  document.getElementById('popupModal').style.display = 'none';
-}
-
-function updateCharCount() {
-  const textArea = document.getElementById("kommentar");
-  const charCount = document.getElementById("charCount");
-  const remaining = 100 - textArea.value.length;
-  charCount.textContent = `${remaining} Zeichen übrig`;
-}
-
-  </script>
 </body>
 </html>
