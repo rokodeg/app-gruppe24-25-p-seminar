@@ -6,7 +6,23 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    position: relative;  /* wichtig für das Pseudo-Element */
+    overflow: hidden;
 }
+
+/* Unscharfer Hintergrund als Pseudo-Element */
+body::before {
+    content: "";
+    position: fixed;   /* fixiert über den ganzen Viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('../login/background.jpg') no-repeat center center/cover;
+    filter: blur(8px);
+    z-index: -1;   /* hinter allen Inhalten */
+}
+
 
 .container {
     background: white;

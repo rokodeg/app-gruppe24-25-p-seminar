@@ -6,81 +6,293 @@
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='admin/style.css') }}">
   <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-/>
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
 <style>
-/* Grundstil für toggle sections */
-.toggle-section {
-  margin-bottom: 1.5rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  background-color: #fafafa;
-  transition: background-color 0.3s ease;
-}
+  .dropdown-arrow {
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 0.8em;
+  }
 
-/* Toggle Button Design */
-.toggle-btn {
-  width: 100%;
-  background-color: #005f73;
-  color: #ffffff;
-  border: none;
-  padding: 12px 16px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 8px 8px 0 0;
-  transition: background-color 0.25s ease;
-}
+  .dropdown-menu {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    max-height: 150px;
+    overflow-y: auto;
+  }
 
-.toggle-btn:hover {
-  background-color: #0a9396;
-}
+  .hidden {
+    display: none;
+  }
 
-/* Pfeil Icon drehen, wenn offen */
-.toggle-btn.active .arrow-icon {
-  transform: rotate(180deg);
-  transition: transform 0.3s ease;
-}
+  .custom-hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 24px 0 12px 0;
+    width: 100%;
+  }
 
-.arrow-icon {
-  transition: transform 0.3s ease;
-  font-size: 1rem;
-  margin-left: 8px;
-}
+  .agb-box {
+    display: flex;
+    justify-content: center;
+  }
 
-/* Container für den aufgeklappten Bereich */
-.toggle-section > div {
-  padding: 1rem;
-  border-top: 1px solid #ccc;
-  animation: fadeIn 0.3s ease;
-}
+  .agb-box a {
+    font-size: 0.8rem;
+    color: #888;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #eee;
+    border-radius: 0.4rem;
+    background-color: #fafafa;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+  }
 
-/* Anfrage-Box Styling */
-.anfrage-box {
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin-bottom: 12px;
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  transition: box-shadow 0.3s ease;
-}
+  .agb-box a:hover {
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+  }
 
-.anfrage-box:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
+  .header-row {
+    position: relative;
+    display: grid;                       /* von flex auf grid */
+    grid-template-columns: auto 1fr auto;/* Logo – Titel – Buttons */
+    align-items: center;
+    padding: 2vw 1vw;
+    gap: 1vw;
+    box-sizing: border-box;
+    /* kein flex-wrap mehr nötig */
+  }
+  
 
-/* Sanfte Einblendung */
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
+/* Kleiner als 768px: Überschrift in voller Breite, Buttons in neuer Zeile */
+  @media (max-width: 768px) {
+    /* 1) Header als einspaltiges Grid */
+    .header-row {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      padding: 2vw 1vw;
+      /* größerer vertikaler Abstand: */
+      row-gap: 1.5rem;
+      /* horizontaler Abstand bleibt */
+      column-gap: 1.5vw;
+    }
 
+    /* 2) Logo immer oben links */
+    .header-row > .left-side {
+      grid-row: 1;
+      justify-self: start;
+    }
+
+    /* 3) Titel mittig in zweiter Zeile */
+    .header-row > .center-title {
+      grid-row: 2;
+      justify-self: left;
+      text-align: left;
+      margin: 0 0 1rem 0;
+    }
+
+    /* 4) Buttons in dritte Zeile, linksbündig */
+    .header-row > .right-side {
+      grid-row: 3;
+      justify-self: start;
+      margin-top: 0;
+    }
+
+    /* 5) Button‑Icons statt Text */
+    .logout-wrapper .btn-link {
+      font-size: 0;
+      padding: 0;
+      width: 3rem;
+      height: 3rem;
+    }
+    .logout-wrapper .btn-link i {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Sehr schmal: Icons statt Text (wie gehabt) */
+  @media (max-width: 480px) {
+    .btn-link {
+      padding: 0;
+      font-size: 0;
+      width: 3rem;
+      height: 3rem;
+    }
+    .btn-link i {
+      font-size: 1.5rem;
+    }
+  }
+
+
+  /* Logo unverändert */
+  .left-side img.logo {
+    max-height: 4rem;
+    width: auto;
+  }
+
+  /* Mittlerer Titel */
+  .center-title {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    padding: 0 1vw;
+  }
+
+  .admin-title {
+    margin: 0;
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #004F7C;
+  }
+
+  .welcome-slogan {
+    margin-top: 0.5vw;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    white-space: normal;
+    word-break: break-word;
+    color: #555;
+  }
+
+  /* Button-Spalte rechts */
+  .right-side {
+    align-self: flex-start;
+  }
+
+  .logout-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;    /* rechtsbündig, damit max-content wirkt */
+    gap: 1vw;
+    width: max-content;       /* Container so breit wie das breiteste Kind */
+  }
+
+  .logout-wrapper form {
+    order: -1;  /* Logout immer oben */
+  }
+
+  .btn-link {
+    width: 100%;              /* füllt die Container-Breite */
+    box-sizing: border-box;   /* padding wird eingerechnet */
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  /* Smartphone-Layout */
+  @media (max-width: 480px) {
+    .header-row {
+      flex-direction: column;    /* Spalte: Logo → Titel → Buttons */
+      align-items: center;
+      padding: 4vw 2vw;
+      gap: 2vw;
+    }
+
+    /* Titel nicht mehr absolut positioniert */
+    .center-title {
+      position: static !important;
+      transform: none !important;
+      padding: 0;
+      margin: 0;
+      max-width: 100%;
+    }
+
+    /* Abstand zwischen Titel und Buttons */
+    .center-title {
+      margin-bottom: 2vw;
+    }
+
+    .logout-wrapper {
+      flex-direction: row;       /* Buttons nebeneinander */
+      justify-content: center;
+      gap: 4vw;
+      margin: 0;
+    }
+
+    /* Quadratische Icon-Buttons */
+    .btn-link {
+      padding: 0;
+      font-size: 0;
+      width: 12vw;
+      height: 12vw;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 0.8vw;
+    }
+    .btn-link i {
+      font-size: clamp(1.4rem, 6vw, 2rem);
+    }
+  }
+  /* Responsive: Admin Dashboard Text in mehrere Zeilen --> Buttons links ausrichten und nur Icons zeigen */
+  /* Responsive: Text und Buttons linksbündig bei kleiner Breite */
+@media (max-width: 768px) {
+  .center-title {
+    text-align: left !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+  
+  .center-title .admin-title,
+  .center-title .welcome-slogan {
+    text-align: left !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    margin-right: 0 !important;
+    padding-right: 5rem !important;
+  }
+
+  .right-side {
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    margin-left: 0 !important;
+  }
+
+  .logout-wrapper {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem;
+  }
+
+  .logout-wrapper .btn-link {
+    font-size: 0;
+    padding: 0;
+    width: 3rem;
+    height: 3rem;
+
+    position: relative;      /* für das Icon absolut relativieren */
+    display: block;          /* kein Flex mehr nötig */
+  }
+
+  .logout-wrapper .btn-link i {
+    font-size: 1.5rem;
+
+      position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .center-title {
+    margin-top: 1rem; /* Hier kannst du den Wert anpassen, z.B. 1rem, 1.5rem, 2rem */
+  }
+}
 
 </style>
 </head>
@@ -88,88 +300,186 @@
 
 <div class="content-box">
   <div class="header-row">
-    <div class="dashboard-title">
-      <h1>Admin Dashboard</h1>
+    <div class="left-side">
+      <img src="{{ url_for('static', filename='images/logoFinish.svg') }}" alt="Logo" class="logo">
+    </div>
+
+    <div class="center-title">
+      <h1 class="admin-title">Admin Dashboard</h1>
       <div class="welcome-slogan">Verwalten Sie Anfragen und Benutzer von hier aus!</div>
     </div>
-    <div class="logout-wrapper" style="display: flex; align-items: center; gap: 15px;">
-      <a href="{{ url_for('benutzerverwaltung') }}" class="btn-link" title="Benutzerverwaltung">
-        <i class="fas fa-users"></i> Benutzer
-      </a>
-      <form action="{{ url_for('logout') }}" method="post" title="Ausloggen" style="margin: 0;">
-        <button type="submit" class="btn-link logout-button" aria-label="Logout">
-          <i class="fas fa-power-off"></i> Logout
-        </button>
-      </form>
+
+    <div class="right-side">
+      <div class="logout-wrapper">
+        <a href="{{ url_for('benutzerverwaltung') }}" class="btn-link" title="Benutzerverwaltung">
+          <i class="fas fa-users"></i> Benutzer
+        </a>
+        <form action="{{ url_for('logout') }}" method="post" title="Ausloggen">
+          <button type="submit" class="btn-link logout-button" aria-label="Logout">
+            <i class="fas fa-power-off"></i> Logout
+          </button>
+        </form>
+      </div>
     </div>
-    
   </div>
 
-  <!-- Neue Anfragen -->
-  <div class="section">
-    <h2 class="section-title">Neue Anfragen</h2>
-    {% if neue_anfragen %}
-      {% for anfrage in neue_anfragen %}
-        <div class="request-card">
-          <p><strong>Name:</strong> {{ anfrage.name }}</p>
-          <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-          <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
-          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen }}</p>
-          <p><strong>Status:</strong> {{ anfrage.status }}</p>
 
-          <form method="post" action="{{ url_for('update_anfrage_status') }}">
-            <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-            <label>Status:</label>
-            <select name="status" onchange="toggleZuweisungTable(this, {{ anfrage.id }})" id="status-{{ anfrage.id }}">
-              <option value="offen">Annehmen</option>
-              <option value="abgelehnt">Ablehnen</option>
-              <option value="zuweisen">Zuweisen</option>
-            </select>
-            <button type="submit">Speichern</button>
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+<!-- Neue Anfragen -->
+<div class="section">
+  <h2 class="section-title">Neue Anfragen</h2>
+  {% if neue_anfragen %}
+    {% for anfrage in neue_anfragen %}
+      <div class="request-card" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
+        <p><strong>Name:</strong> {{ anfrage.name }}</p>
+        <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
+        <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
+        <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+        <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
+        <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
+        <p><strong>Kontaktdaten:</strong> {{ anfrage.kontaktdaten }}</p>
+        <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen }}</p>
+        <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
+        <p></p>
+
+        <form method="post" action="{{ url_for('update_anfrage_status') }}">
+          <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+          <label>Status:</label>
+          <select name="status" onchange="toggleZuweisungTable(this, {{ anfrage.id }})" id="status-{{ anfrage.id }}">
+            <option value="offen" {% if anfrage.status == 'offen' %}selected{% endif %}>Annehmen</option>
+            <option value="abgelehnt" {% if anfrage.status == 'abgelehnt' %}selected{% endif %}>Ablehnen</option>
+            <option value="zuweisen" {% if anfrage.status == 'zuweisen' %}selected{% endif %}>Zuweisen</option>
+          </select>
+          <button type="submit">Speichern</button>
+        </form>
+
+<!-- Benutzer-Zuweisung -->
+<div id="zuweisung-{{ anfrage.id }}" class="hidden" style="margin-top: 15px;" data-klassenstufe="{{ anfrage.klassenstufe }}">
+
+  <!-- Suchfeld: linksbündig, stilvoll -->
+  <div style="margin-bottom: 8px;">
+    <div style="position: relative; width: 260px;">
+      <input 
+        type="text" 
+        placeholder="Benutzer suchen..." 
+        oninput="filterBenutzer({{ anfrage.id }})" 
+        id="search-{{ anfrage.id }}"
+        style="
+          width: 100%;
+          padding: 8px 12px 8px 36px;
+          border: 1px solid #ccc;
+          border-radius: 20px;
+          box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+          font-size: 14px;
+        "
+      >
+      <span style="
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        font-size: 14px;
+        color: #888;
+      ">🔍</span>
+    </div>
+  </div>
+
+  <form method="post" action="{{ url_for('zuweisung_speichern') }}">
+    <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+
+    <table class="user-table" id="table-{{ anfrage.id }}">
+      <thead>
+        <tr>
+          <th>Benutzername</th>
+          <th style="position: relative;">
+            Status
+            <span class="dropdown-arrow" onclick="toggleDropdown('statusFilter-{{ anfrage.id }}')">▼</span>
+            <div class="dropdown-menu hidden" id="statusFilter-{{ anfrage.id }}">
+              <label><input type="checkbox" value="offen" onchange="applyFilters({{ anfrage.id }})" checked> Offen</label><br>
+            </div>
+          </th>
+          <th style="position: relative;">
+            Fächer
+            <span class="dropdown-arrow" onclick="toggleDropdown('faecherFilter-{{ anfrage.id }}')">▼</span>
+            <div class="dropdown-menu hidden" id="faecherFilter-{{ anfrage.id }}">
+              {% set fachliste = anfrage.fach.split(',') %}
+              {% for fach in fachliste %}
+                <label><input type="checkbox" value="{{ fach.strip() }}" onchange="applyFilters({{ anfrage.id }})" checked> {{ fach.strip() }}</label><br>
+              {% endfor %}
+            </div>
+          </th>
+          <th style="position: relative;">
+            Jgst.
+            <span class="dropdown-arrow" onclick="toggleDropdown('jahrgangFilter-{{ anfrage.id }}')">▼</span>
+            <div class="dropdown-menu hidden" id="jahrgangFilter-{{ anfrage.id }}">
+              <label>
+                <input type="checkbox" id="jahrgang-check-{{ anfrage.id }}" onchange="applyFilters({{ anfrage.id }})" checked>
+                Jahrgang ≥ Klassenstufe ({{ anfrage.klassenstufe }})
+              </label>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="table-body-{{ anfrage.id }}">
+               {% set anfrage_klassenstufe = anfrage.klassenstufe | int %}
+
+{% for user in nutzer_liste %}
+  <tr>
+    <td>
+      <label>
+        <input type="radio" name="assigned_user_id" value="{{ user.id }}" required>
+        {{ user.username }}
+      </label>
+    </td>
+    <td>{{ user.status }}</td>
+    <td>
+      {% if user.faecher %}
+        {{ user.faecher.split(',') | join(', ') }}
+      {% else %}
+        Keine Fächer
+      {% endif %}
+    </td>
+    <td>{{ user.jahrgang }}</td>
+  </tr>
+{% endfor %}
+              </tbody>
+            </table>
+            <button type="submit">Zuweisen</button>
           </form>
-
-          <!-- Benutzer-Zuweisung -->
-          <div id="zuweisung-{{ anfrage.id }}" class="hidden">
-            <input type="text" placeholder="Benutzer suchen..." oninput="filterBenutzer({{ anfrage.id }})" id="search-{{ anfrage.id }}">
-            <form method="post" action="{{ url_for('zuweisung_speichern') }}">
-              <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-              <table class="user-table" id="table-{{ anfrage.id }}">
-                <thead>
-                  <tr><th>Benutzername</th></tr>
-                </thead>
-                <tbody id="table-body-{{ anfrage.id }}">
-                  {% for user in nutzer_liste %}
-                    <tr>
-                      <td>
-                        <label>
-                          <input type="radio" name="assigned_user_id" value="{{ user.id }}" required>
-                          {{ user.username }}
-                        </label>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-              <button type="submit">Zuweisen</button>
-            </form>
-          </div>
         </div>
-      {% endfor %}
-    {% else %}
-      <p>Keine neuen Anfragen vorhanden.</p>
-    {% endif %}
-  </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>Keine neuen Anfragen vorhanden.</p>
+  {% endif %}
+</div>
+
 
   <div class="section">
     <h2 class="section-title">Vom Benutzer abgelehnte Anfragen</h2>
     {% if abgelehnte_von_user %}
       {% for anfrage in abgelehnte_von_user %}
-        <div class="request-card" style="background-color: #ffecec;">
+        <div class="request-card" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
           <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
+          <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
+          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username }}</p>
           <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.user_comment or "Kein Kommentar" }}</p>
-  
+          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+          <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
+
           <!-- Auswahlmenü wie bei neue Anfragen -->
           <form method="post" action="{{ url_for('update_anfrage_status') }}">
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
@@ -182,33 +492,101 @@
             <button type="submit">Speichern</button>
           </form>
   
-          <!-- Benutzer-Zuweisung -->
-          <div id="zuweisung-{{ anfrage.id }}" class="hidden">
-            <input type="text" placeholder="Benutzer suchen..." oninput="filterBenutzer({{ anfrage.id }})" id="search-{{ anfrage.id }}">
-            <form method="post" action="{{ url_for('zuweisung_speichern') }}">
-              <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-              <table class="user-table" id="table-{{ anfrage.id }}">
-                <thead>
-                  <tr><th>Benutzername</th></tr>
-                </thead>
-                <tbody id="table-body-{{ anfrage.id }}">
-                  {% for user in nutzer_liste %}
-                    <tr>
-                      <td>
-                        <label>
-                          <input type="radio" name="assigned_user_id" value="{{ user.id }}" required>
-                          {{ user.username }}
-                        </label>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-              <button type="submit">Zuweisen</button>
-            </form>
-          </div>
+<!-- Benutzer-Zuweisung -->
+<div id="zuweisung-{{ anfrage.id }}" class="hidden" style="margin-top: 15px;" data-klassenstufe="{{ anfrage.klassenstufe }}">
+
+  <!-- Suchfeld: linksbündig, stilvoll -->
+  <div style="margin-bottom: 8px;">
+    <div style="position: relative; width: 260px;">
+      <input 
+        type="text" 
+        placeholder="Benutzer suchen..." 
+        oninput="filterBenutzer({{ anfrage.id }})" 
+        id="search-{{ anfrage.id }}"
+        style="
+          width: 100%;
+          padding: 8px 12px 8px 36px;
+          border: 1px solid #ccc;
+          border-radius: 20px;
+          box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+          font-size: 14px;
+        "
+      >
+      <span style="
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        font-size: 14px;
+        color: #888;
+      ">🔍</span>
+    </div>
+  </div>
+
+  <form method="post" action="{{ url_for('zuweisung_speichern') }}">
+    <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+
+    <table class="user-table" id="table-{{ anfrage.id }}">
+      <thead>
+        <tr>
+          <th>Benutzername</th>
+          <th style="position: relative;">
+            Status
+            <span class="dropdown-arrow" onclick="toggleDropdown('statusFilter-{{ anfrage.id }}')">▼</span>
+            <div class="dropdown-menu hidden" id="statusFilter-{{ anfrage.id }}">
+              <label><input type="checkbox" value="offen" onchange="applyFilters({{ anfrage.id }})" checked> Offen</label><br>
+            </div>
+          </th>
+          <th style="position: relative;">
+            Fächer
+            <span class="dropdown-arrow" onclick="toggleDropdown('faecherFilter-{{ anfrage.id }}')">▼</span>
+            <div class="dropdown-menu hidden" id="faecherFilter-{{ anfrage.id }}">
+              {% set fachliste = anfrage.fach.split(',') %}
+              {% for fach in fachliste %}
+                <label><input type="checkbox" value="{{ fach.strip() }}" onchange="applyFilters({{ anfrage.id }})" checked> {{ fach.strip() }}</label><br>
+              {% endfor %}
+            </div>
+          </th>
+          <th style="position: relative;">
+            Jahrgangsstufe
+            <span class="dropdown-arrow" onclick="toggleDropdown('jahrgangFilter-{{ anfrage.id }}')">▼</span>
+            <div class="dropdown-menu hidden" id="jahrgangFilter-{{ anfrage.id }}">
+              <label>
+                <input type="checkbox" id="jahrgang-check-{{ anfrage.id }}" onchange="applyFilters({{ anfrage.id }})" checked>
+                Jahrgang ≥ Klassenstufe ({{ anfrage.klassenstufe }})
+              </label>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="table-body-{{ anfrage.id }}">
+               {% set anfrage_klassenstufe = anfrage.klassenstufe | int %}
+
+{% for user in nutzer_liste %}
+  <tr>
+    <td>
+      <label>
+        <input type="radio" name="assigned_user_id" value="{{ user.id }}" required>
+        {{ user.username }}
+      </label>
+    </td>
+    <td>{{ user.status }}</td>
+    <td>
+      {% if user.faecher %}
+        {{ user.faecher.split(',') | join(', ') }}
+      {% else %}
+        Keine Fächer
+      {% endif %}
+    </td>
+    <td>{{ user.jahrgang }}</td>
+  </tr>
+{% endfor %}
+              </tbody>
+            </table>
+            <button type="submit">Zuweisen</button>
+          </form>
         </div>
-      {% endfor %}
+      </div>
+    {% endfor %}
     {% else %}
       <p>Keine vom Benutzer abgelehnten Anfragen vorhanden.</p>
     {% endif %}
@@ -362,9 +740,13 @@
   </div>
 
 
-  <div class="link-container">
-    <a href="{{ url_for('home') }}" class="button">Zurück zur Startseite</a> | <a href="{{ url_for('impressum') }}">Impressum</a></p>
-  </div>
+<hr class="custom-hr">
+
+<div class="agb-box">
+  <a href="{{ url_for('agb') }}" target="_blank">Allgemeine Geschäftsbedingungen (AGB)</a>
+  <a href="{{ url_for('impressum') }}" target="_blank">
+    Impressum</a>
+</div>
 </div>
 
 <script>
@@ -374,6 +756,8 @@
     const usernameInput = document.getElementById('username');
     const submitButton = document.getElementById('submit-button');
     const feedback = document.getElementById('username-feedback');
+    const anfrageIds = [...document.querySelectorAll('[id^="zuweisung-"]')].map(div => div.id.split('-')[1]);
+    anfrageIds.forEach(id => applyFilters(id));
 
     if (passwordCheckbox) {
       passwordCheckbox.addEventListener('change', () => {
@@ -483,6 +867,75 @@
     }
   }
 }
+
+
+
+
+
+function toggleDropdown(id) {
+  const menu = document.getElementById(id);
+  menu.classList.toggle('hidden');
+}
+
+function applyFilters(anfrageId) {
+  const tableBody = document.getElementById("table-body-" + anfrageId);
+  const rows = tableBody.querySelectorAll("tr");
+
+  const statusMenu = document.getElementById("statusFilter-" + anfrageId);
+  const checkedStatus = Array.from(statusMenu.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value.toLowerCase());
+
+  const faecherMenu = document.getElementById("faecherFilter-" + anfrageId);
+  const checkedFaecher = Array.from(faecherMenu.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value.toLowerCase());
+
+  const jahrgangCheckbox = document.getElementById("jahrgang-check-" + anfrageId);
+  const zuweisungDiv = document.getElementById("zuweisung-" + anfrageId);
+  const klassenstufe = parseInt(zuweisungDiv.dataset.klassenstufe);
+
+  rows.forEach(row => {
+    const status = row.cells[1].textContent.trim().toLowerCase();
+    const faecherText = row.cells[2].textContent.toLowerCase();
+    const jahrgangText = row.cells[3].textContent.trim();
+    const jahrgang = jahrgangText === "Keine Angabe" ? 0 : parseInt(jahrgangText);
+
+    const statusPass = checkedStatus.length === 0 || checkedStatus.includes(status);
+    const fachPass = checkedFaecher.length === 0 || checkedFaecher.some(fach => faecherText.includes(fach));
+    const jahrgangPass = !jahrgangCheckbox.checked || (jahrgang >= klassenstufe);
+
+    if (statusPass && fachPass && jahrgangPass) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+
+
+
+
+// Dropdown schließen, wenn außerhalb geklickt wird
+document.addEventListener('click', function(e) {
+  if (!e.target.matches('.dropdown-arrow')) {
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+      if (!menu.classList.contains('hidden')) {
+        // Prüfen, ob Klick in Menu
+        if (!menu.contains(e.target)) {
+          menu.classList.add('hidden');
+        }
+      }
+    });
+  }
+});
+
+
+  // Tabelle leeren und gefilterte Zeilen anhängen
+  tableBody.innerHTML = '';
+  if (filteredRows.length > 0) {
+    filteredRows.forEach(row => tableBody.appendChild(row.cloneNode(true)));
+  } else {
+    const noRow = document.createElement('tr');
+    noRow.innerHTML = '<td colspan="4">Keine Benutzer gefunden.</td>';
+    tableBody.appendChild(noRow);
+  }
 
 </script>
 

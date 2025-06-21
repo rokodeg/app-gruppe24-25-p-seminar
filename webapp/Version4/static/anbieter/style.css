@@ -186,17 +186,32 @@ margin: 15px 0;
 box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.decline-btn {
-  background-color: #ee1f1f;
+.accept-button {
+  background-color: #004F7C;
   color: white;
   border: none;
-  padding: 10px 20px;
-  cursor: pointer;
+  padding: 10px 18px;
   border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.decline-btn {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.accept-button:hover {
+  background-color: #003860;
 }
 
 .decline-btn:hover {
-background-color: #d40202;
+  background-color: #c9302c;
 }
 
 .button-row {
@@ -237,27 +252,27 @@ align-self: flex-end; /* Zeichenzähler rechts unten */
 margin-top: 3px;
 }
 
+/* Modal-Hintergrund */
 .modal {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0,0,0,0.5);
-display: flex;
-align-items: center;
-justify-content: center;
-z-index: 1000;
+  display: none; /* Standard versteckt */
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center; /* für Flexbox */
+  align-items: center;     /* für Flexbox */
 }
 
+/* Modal-Inhalt */
 .modal-content {
-background-color: white;
-padding: 30px;
-border-radius: 12px;
-width: 500px; /* statt 300px */
-max-width: 90%; /* optional für kleinere Bildschirme */
-position: relative;
-min-height: 200px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  position: relative;
 }
 
 
@@ -319,13 +334,7 @@ cursor: pointer;
     min-height: auto;
   }
 
-  .filter-container select,
-  .filter-container input {
-    width: 100%;
-    max-width: none;
-    margin-top: 10px;
-  }
-
+ 
   .button-container button {
     width: 100%;
   }
@@ -346,8 +355,182 @@ cursor: pointer;
     font-size: 10px;
   }
 
-  .decline-btn, .accept-button {
-    padding: 8px 10px;
-    font-size: 14px;
-  }
+
 }
+
+ /* Logout Button Styling */
+ .logout-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #333;
+  position: relative;
+}
+
+.logout-button:hover::after {
+  
+  position: absolute;
+  top: 50%;
+  right: 110%;
+  transform: translateY(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0.95;
+  z-index: 10;
+}
+
+/* Link Buttons */
+.btn-link {
+  background-color: #005f73;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.25s ease;
+}
+
+.btn-link:hover,
+.btn-link:focus {
+  background-color: #0a9396;
+  outline: none;
+}
+
+.btn-link i {
+  margin-right: 6px;
+}
+
+.anbieter-requests-section {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 30px;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.anbieter-requests-section h2 {
+  color: #004F7C; /* Blau, passend zu deinem Titel */
+  margin-bottom: 15px;
+  border-bottom: 2px solid #004F7C;
+  padding-bottom: 5px;
+}
+
+.requests-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.requests-table th,
+.requests-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+  font-size: 15px;
+}
+
+.requests-table th {
+  background-color: #e0f0ff; /* Heller Blauton */
+  color: #004F7C;
+}
+
+.requests-table tr:hover {
+  background-color: #d0e7ff;
+}
+
+.status-active {
+  color: #2e7d32; /* Grün */
+  font-weight: 600;
+}
+
+.status-completed {
+  color: #757575; /* Grau */
+  font-style: italic;
+}
+
+.btn-action {
+  font-size: 14px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-decline {
+  background-color: #ff7043; /* Koralle/Orange-Rot */
+  color: white;
+}
+
+.btn-delete {
+  background-color: #e53935; /* Rot */
+  color: white;
+}
+
+.btn-action:hover {
+  opacity: 0.85;
+}
+
+
+
+  .fach-tag {
+    background-color: #d1ecf1;
+    color: #004F7C;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .remove-fach {
+    cursor: pointer;
+    font-weight: bold;
+  }
+#fachDropdown {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  z-index: 100;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px; /* gleich wie andere Selects */
+  padding: 5px 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  min-width: 250px;  /* gleich wie Status/Jahrgangsselect */
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.dropdown-item {
+  padding: 10px 14px;  /* gleich wie select-option padding */
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+  border-radius: 6px;
+}
+
+.dropdown-item:hover {
+  background-color: #eef7ff; /* wie deine Boxfarbe */
+}
+

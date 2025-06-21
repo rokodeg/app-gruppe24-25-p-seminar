@@ -1,208 +1,196 @@
-/* Existierende CSS-Regeln */
+/* Grundstil */
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
+  margin: 0;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
 }
 
-h1 {
-  text-align: center;
-}
-
+/* Container des Formulars */
 .form-container {
   background-color: white;
-  padding: 20px;
-  margin: 20px 0;
+  padding: 30px 40px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  text-align: left;
 }
 
+.form-container h1 {
+  text-align: center;
+  color: #004F7C;
+  margin-bottom: 30px;
+}
+
+/* Labels */
 .form-container label {
   display: block;
-  margin: 10px 0 5px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
 }
 
-.form-container input, .form-container select, .form-container textarea {
-
-  padding: 1%;
-  margin: 1% 0;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.form-container button {
-  background-color: #004F7C;
-  color: white;
-  cursor: pointer;
+/* Eingabefelder und Selects alle gleich breit */
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container select {
+  width: 100%;
   padding: 10px;
-  margin-top: 10px;
-  border-radius: 4px;
-  border: none;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
 }
 
-.form-container button:hover {
-  background-color: #007B9A;
+.form-container input[type="text"]:focus,
+.form-container input[type="number"]:focus,
+.form-container select:focus {
+  border-color: #004F7C;
+  outline: none;
 }
 
-.form-container .error {
-  color: red;
-  font-size: 12px;
-}
-
-/* Styling für die neuen Felder */
-.form-container div {
-  margin-bottom: 15px;
-}
-
-.form-container input[type="radio"], 
-.form-container input[type="checkbox"] {
-  margin-right: 5px;
-}
-
-/* Neue Regel für die "Unterrichtseinheit Dauer" und "AGB akzeptieren" */
-.form-container div label, .form-container .agb-container label {
-  text-align: left; /* Links ausrichten */
-  display: inline-block; /* Die Labels und Inputs nebeneinander anordnen */
-  margin-right: 10px; /* Etwas Abstand zwischen Label und Auswahl */
-}
-
-.form-container div {
-  text-align: left; /* Links ausrichten für die Radio-Buttons */
-}
-
-/* Flexbox für AGB Container: Checkbox links, Text rechts */
-.form-container .agb-container {
+/* AGB Checkbox und Label nebeneinander */
+.agb-container {
   display: flex;
-  align-items: center; 
-  /* Stellt sicher, dass Checkbox und Text auf der gleichen vertikalen Ebene sind */
+  align-items: center;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+  color: #555;
 }
 
-.form-container .agb-container input[type="checkbox"] {
-  margin-right: 1px;
-  width: 5%; /* Abstand zwischen Checkbox und Text */
+.agb-container input[type="checkbox"] {
+  margin-right: 10px;
+  width: auto;
+  height: auto;
 }
 
-.impressum-link {
-  text-align: center;
-  margin-top: 10px;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  padding: 20px;
-}
-
-h1 {
-  text-align: center;
-}
-
-h4 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.main-container {
-  background-color: white;
-  padding: 30px;
-  margin: 20px auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  position: relative;
-}
-
-.info-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  color: black;
+.agb-container a {
+  color: #004F7C;
   text-decoration: none;
+  font-weight: 600;
 }
 
-.anfrage-container {
-  background-color: #f9f9f9;
-  padding: 20px;
-  margin: 10px 0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.agb-container a:hover {
+  text-decoration: underline;
 }
 
-.anfrage {
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
-}
-
-.anfrage:last-child {
-  border-bottom: none;
-}
-
-.anfrage h3 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.anfrage p {
-  margin: 5px 0;
-}
-
-.no-requests {
-  text-align: center;
-  color: #777;
-}
-
-.back-link {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.impressum-link {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.filter-container {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.filter-container select,
-.filter-container input {
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 150px;
-}
-
-.button-container {
-  text-align: center;
-}
-
-.button-container button {
+/* Submit-Button (Anfrage absenden) */
+.form-container button[type="submit"] {
+  width: 100%;
   background-color: #004F7C;
   color: white;
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 12px 0;
   border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.button-container button:hover {
+.form-container button[type="submit"]:hover {
   background-color: #007B9A;
 }
 
-.toggle-all-button {
-  background-color: #2196F3;
+/* Container für die Buttons "Zurück" und "Impressum" */
+.button-group {
+  margin: 20px auto 0 auto;      /* Abstand oben, zentriert */
+  max-width: 600px;              /* gleiche max-Breite wie Formular */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;                    /* Abstand zwischen den beiden Buttons */
+  box-sizing: border-box;
 }
 
-.toggle-all-button:hover {
-  background-color: #1976D2;
+/* Buttons teilen sich die volle Breite vom Container */
+.button-group .button {
+  flex: 1;                      /* Jeder Button nimmt gleich viel Platz ein */
+  padding: 12px 0;
+  background-color: #004F7C;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  text-align: center;
+  box-sizing: border-box;
+  min-width: 0;                 /* Verhindert, dass min-width Probleme macht */
 }
 
-.filter-content {
-  display: none;
+.button-group .button:hover {
+  background-color: #007B9A;
+}
+
+/* Submit-Button volle Breite */
+.form-container button[type="submit"] {
+  width: 100%;                 /* volle Breite */
+  background-color: #004F7C;
+  color: white;
+  padding: 12px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;         /* Abstand unter Absende-Button */
+}
+
+.form-container button[type="submit"]:hover {
+  background-color: #007B9A;
+}
+
+.form-container textarea {
+  width: 100%;
   padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 4px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  resize: vertical; /* erlaubt Größenänderung nur vertikal */
+}
+.form-container textarea:focus {
+  border-color: #004F7C;
+  outline: none;
+}
+
+
+/* Globale Touch-/Font-Optimierung */
+input, select, textarea, button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.char-counter {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: -15px;
+  margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .button-group .button {
+    width: 100%;
+    flex: none;
+  }
 }

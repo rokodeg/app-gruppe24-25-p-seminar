@@ -170,6 +170,8 @@ h1, h2 {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+
+  
 }
 
 .user-table th, .user-table td,
@@ -177,6 +179,7 @@ h1, h2 {
   border: 1px solid #ccc;
   padding: 10px 12px;
   text-align: left;
+  
 }
 
 .admin-table th, .user-table th {
@@ -323,3 +326,228 @@ form[data-confirm] {
 .toggle-button:hover {
   background-color: #0056b3;
 }
+
+/* Grundstil für toggle sections */
+.toggle-section {
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: #fafafa;
+  transition: background-color 0.3s ease;
+}
+
+/* Toggle Button Design */
+.toggle-btn {
+  width: 100%;
+  background-color: #005f73;
+  color: #ffffff;
+  border: none;
+  padding: 12px 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 0 0;
+  transition: background-color 0.25s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #0a9396;
+}
+
+/* Pfeil Icon drehen, wenn offen */
+.toggle-btn.active .arrow-icon {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+.arrow-icon {
+  transition: transform 0.3s ease;
+  font-size: 1rem;
+  margin-left: 8px;
+}
+
+/* Container für den aufgeklappten Bereich */
+.toggle-section > div {
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Anfrage-Box Styling */
+.anfrage-box {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.anfrage-box:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Sanfte Einblendung */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.dropdown-arrow {
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 0.8em;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.custom-hr {
+  border: none;
+  border-top: 1px solid #ddd;  /* Hellgrau, dezenter als #888 */
+  margin: 24px 0 12px 0;       /* Weniger Abstand, wirkt zurückhaltender */
+  width: 100%;
+}
+
+.agb-box {
+  display: flex;
+  justify-content: center;
+}
+
+.agb-box a {
+  font-size: 12px;
+  color: #888;
+  padding: 6px 12px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #fafafa;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.agb-box a:hover {
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transform: translateY(-1px);
+}
+
+.header-row {
+  display: grid;
+  grid-template-columns: auto 1fr min-content;
+  align-items: center;
+  padding: 2rem 1rem;
+  gap: 1rem;
+  position: relative;
+}
+
+/* LOGO LINKS */
+.left-side {
+  display: flex;
+  align-items: center;
+}
+
+.left-side img.logo {
+  height: auto;
+  width: auto;
+  max-height: 12vh; /* Dynamisch skalierend */
+  object-fit: contain;
+  display: block;
+}
+
+/* ZENTRALER TITEL UNABHÄNGIG POSITIONIERT */
+.center-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* Durchklickbar, falls nötig */
+}
+
+.admin-title {
+  margin: 0;
+  font-size: 2rem;
+  color: #004F7C;
+}
+
+.welcome-slogan {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+/* BUTTONS RECHTS */
+.right-side {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  top: 0.5rem;
+  right: 0.5rem;
+  
+}
+
+.logout-wrapper {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* RESPONSIVE VERHALTEN */
+@media (max-width: 768px) {
+  .header-row {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1rem;
+  }
+
+  .left-side,
+  .right-side {
+    justify-content: center;
+  }
+
+  .center-title {
+    position: static;
+    transform: none;
+    margin-top: 1rem;
+  }
+
+  .logout-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left-side img.logo {
+    max-height: 6vh;
+  }
+
+  .admin-title {
+    font-size: 1.5rem;
+  }
+
+  .welcome-slogan {
+    font-size: 0.9rem;
+  }
+}
+
+

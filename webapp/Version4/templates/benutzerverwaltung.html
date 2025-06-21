@@ -166,6 +166,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Benutzername</th>
+                    <th>Aktive Anfragen</th> <!-- Neue Spalte -->
                     <th>Aktionen</th>
                 </tr>
             </thead>
@@ -175,6 +176,17 @@
                 <tr>
                     <td>{{ user.id }}</td>
                     <td>{{ user.username }}</td>
+                    <td>
+                        {% if user.active_requests %}
+                            <ul style="padding-left: 18px; margin: 0;">
+                            {% for req in user.active_requests %}
+                                <li>{{ req.request_name }} ({{ req.fach }})</li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            Keine Anfragen
+                        {% endif %}
+                    </td>
                     <td>
                         <div class="aktionen">
                             <form method="POST" action="{{ url_for('benutzer_loeschen', user_id=user.id) }}">

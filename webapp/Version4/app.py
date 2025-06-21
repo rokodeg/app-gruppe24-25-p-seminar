@@ -1,6 +1,7 @@
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify, flash, get_flashed_messages
+from datetime import datetime
 
 # Initialisiere und erstelle Datenbanktabellen
 conn = sqlite3.connect('database.db')
@@ -11,7 +12,10 @@ c.execute('''
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    status TEXT,
+    faecher TEXT, 
+    jahrgang INTEGER
 )
 ''')
 
@@ -29,7 +33,8 @@ CREATE TABLE IF NOT EXISTS offers (
     wohnort TEXT,
     status TEXT DEFAULT 'neu',
     assigned_user_id INTEGER,
-    user_comment TEXT
+    user_comment TEXT,
+    created_at TEXT
 )
 ''')
 
@@ -93,26 +98,32 @@ def anbieter():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Alle offenen oder zugewiesenen Anfragen, die offen oder zugewiesen sind
+    # Nutzerbezogene Einstellungen abrufen
+    user_data = conn.execute('SELECT status, faecher, jahrgang FROM users WHERE id = ?', (session['user_id'],)).fetchone()
+    anbieter_status = user_data['status']
+    anbieter_faecher = user_data['faecher'].split(',') if user_data['faecher'] else []
+    anbieter_jahrgang = user_data['jahrgang']
+
+    # Offene oder zugewiesene Anfragen
     cursor.execute("""
-        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id
+        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at
         FROM offers
         WHERE (status = 'offen' OR status = 'zugewiesen')
           AND (assigned_user_id IS NULL OR assigned_user_id = ?)
     """, (session['user_id'],))
     offene_und_zugewiesene = cursor.fetchall()
 
-    # Alle angenommenen Anfragen
+    # Angenommene Anfragen
     cursor.execute("""
-        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id
+        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at
         FROM offers
         WHERE status = 'angenommen' AND assigned_user_id = ?
     """, (session['user_id'],))
     angenommene_anfragen_raw = cursor.fetchall()
 
-    # Alle erledigten Anfragen
+    # Erledigte Anfragen
     cursor.execute("""
-        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id
+        SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at
         FROM offers
         WHERE status = 'erledigt' AND assigned_user_id = ?
     """, (session['user_id'],))
@@ -135,7 +146,8 @@ def anbieter():
             'kontakt': row[7],
             'wohnort': row[8],
             'status': row[9],
-            'assigned_user_id': row[10]
+            'assigned_user_id': row[10],
+            'created_at': row[11]
         }
 
         if anfrage['assigned_user_id'] == session['user_id'] and anfrage['status'] == 'zugewiesen':
@@ -156,7 +168,8 @@ def anbieter():
             'kontakt': row[7],
             'wohnort': row[8],
             'status': row[9],
-            'assigned_user_id': row[10]
+            'assigned_user_id': row[10],
+            'created_at': row[11]
         }
         angenommene_anfragen.append(anfrage)
 
@@ -173,7 +186,8 @@ def anbieter():
             'kontakt': row[7],
             'wohnort': row[8],
             'status': row[9],
-            'assigned_user_id': row[10]
+            'assigned_user_id': row[10],
+            'created_at': row[11]
         }
         erledigte_anfragen.append(anfrage)
 
@@ -182,8 +196,12 @@ def anbieter():
         anfragen=anfrage_liste,
         zugewiesene_anfrage=zugewiesene_anfrage,
         angenommene_anfragen=angenommene_anfragen,
-        erledigte_anfragen=erledigte_anfragen
+        erledigte_anfragen=erledigte_anfragen,
+        status=anbieter_status,
+        ausgewaehlte_faecher=anbieter_faecher,
+        user_jahrgang=anbieter_jahrgang
     )
+
 
 
 
@@ -191,45 +209,65 @@ def anbieter():
 def admin_dashboard():
     if 'username' in session and session['username'] == 'admin':
         conn = get_db_connection()
-        
-        neue_anfragen = conn.execute("SELECT * FROM offers WHERE status = 'neu'").fetchall()
-        
+
+        neue_anfragen = conn.execute('''
+            SELECT offers.*, offers.created_at, users.username AS assigned_user
+            FROM offers
+            LEFT JOIN users ON offers.assigned_user_id = users.id
+            WHERE offers.status = 'neu'
+            ORDER BY offers.created_at DESC
+        ''').fetchall()
+
         bestaetigte_anfragen = conn.execute('''
-            SELECT offers.*, users.username FROM offers
+            SELECT offers.*, offers.created_at, users.username AS assigned_user
+            FROM offers
             LEFT JOIN users ON offers.assigned_user_id = users.id
             WHERE offers.status = 'offen'
+            ORDER BY offers.created_at DESC
         ''').fetchall()
-        
+
         abgelehnte_anfragen = conn.execute('''
-            SELECT offers.*, users.username FROM offers
+            SELECT offers.*, offers.created_at, users.username AS assigned_user
+            FROM offers
             LEFT JOIN users ON offers.assigned_user_id = users.id
             WHERE offers.status = 'abgelehnt'
+            ORDER BY offers.created_at DESC
         ''').fetchall()
-        
+
         erledigte_anfragen = conn.execute('''
-            SELECT offers.*, users.username FROM offers
+            SELECT offers.*, offers.created_at, users.username AS assigned_user
+            FROM offers
             LEFT JOIN users ON offers.assigned_user_id = users.id
             WHERE offers.status = 'erledigt'
+            ORDER BY offers.created_at DESC
         ''').fetchall()
-        
-        nutzer_liste = conn.execute("SELECT id, username FROM users WHERE username != 'admin'").fetchall()
-        
+
         zugewiesene_anfragen = conn.execute('''
-            SELECT offers.*, users.username FROM offers
+            SELECT offers.*, offers.created_at, users.username AS assigned_user
+            FROM offers
             JOIN users ON offers.assigned_user_id = users.id
             WHERE offers.status = 'zugewiesen'
+            ORDER BY offers.created_at DESC
         ''').fetchall()
-        
+
         abgelehnte_von_user = conn.execute('''
-            SELECT offers.*, users.username FROM offers
+            SELECT offers.*, offers.created_at, users.username AS assigned_user
+            FROM offers
             JOIN users ON offers.assigned_user_id = users.id
             WHERE offers.status = 'abgelehnt_von_user'
+            ORDER BY offers.created_at DESC
         ''').fetchall()
-        
+
         aktive_anfragen = conn.execute('''
-            SELECT offers.*, users.username FROM offers
+            SELECT offers.*, offers.created_at, users.username AS assigned_user
+            FROM offers
             LEFT JOIN users ON offers.assigned_user_id = users.id
             WHERE offers.status IN ('offen', 'zugewiesen', 'angenommen')
+            ORDER BY offers.created_at DESC
+        ''').fetchall()
+
+        nutzer_liste = conn.execute('''
+            SELECT id, username, status, faecher, jahrgang FROM users WHERE username != 'admin'
         ''').fetchall()
 
         conn.close()
@@ -245,10 +283,9 @@ def admin_dashboard():
             nutzer_liste=nutzer_liste,
             aktive_anfragen=aktive_anfragen
         )
+                     
     else:
         return redirect(url_for('login'))
-
-
 
 @app.route('/admin/delete_anfrage', methods=['POST'])
 def delete_anfrage():
@@ -358,10 +395,11 @@ def create_offer():
         wohnort = request.form.get('wohnort', '')
 
         conn = get_db_connection()
+        created_at = datetime.now().strftime('%Y-%m-%d')
         conn.execute('''
-            INSERT INTO offers (name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'neu')
-        ''', (name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort))
+            INSERT INTO offers (name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'neu', ?)
+        ''', (name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, created_at))
         conn.commit()
         conn.close()
         flash("Anfrage erfolgreich gesendet!")
@@ -448,8 +486,24 @@ def anfrage_erledigen():
 def benutzerverwaltung():
     conn = get_db_connection()
     users = conn.execute('SELECT * FROM users').fetchall()
+
+    user_list = []
+    for user in users:
+        active_requests = conn.execute('''
+            SELECT name AS request_name, fach
+            FROM offers
+            WHERE assigned_user_id = ? AND status IN ('offen', 'zugewiesen', 'angenommen')
+        ''', (user['id'],)).fetchall()
+
+        user_dict = dict(user)
+        user_dict['active_requests'] = active_requests
+        user_list.append(user_dict)
+
     conn.close()
-    return render_template('benutzerverwaltung.html', users=users)
+    return render_template('benutzerverwaltung.html', users=user_list)
+
+
+
 
 @app.route('/passwort_zuruecksetzen/<int:user_id>', methods=['POST'])
 def passwort_zuruecksetzen(user_id):
@@ -498,5 +552,54 @@ def impressum():
 def agb():
     return render_template('agb.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.template_filter('datetimeformat')
+def datetimeformat(value, format='%d.%m.%Y'):
+    try:
+        return datetime.fromisoformat(value).strftime(format)
+    except Exception:
+        return value
+
+@app.route('/update_status', methods=['POST'])
+def update_status():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    neuer_status = request.form.get('status')
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET status = ? WHERE id = ?', (neuer_status, session['user_id']))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('anbieter'))
+
+@app.route('/update_faecher', methods=['POST'])
+def update_faecher():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    ausgewaehlte_faecher = request.form.getlist('faecher')
+    faecher_str = ",".join(ausgewaehlte_faecher)
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET faecher = ? WHERE id = ?', (faecher_str, session['user_id']))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('anbieter'))
+
+
+@app.route('/update_jahrgang', methods=['POST'])
+def update_jahrgang():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    jahrgang = int(request.form['jahrgang'])  # vom Formular
+    user_id = session['user_id']  # aktueller Benutzer aus Session
+
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET jahrgang = ? WHERE id = ?', (jahrgang, user_id))
+    conn.commit()
+    conn.close()
+
+    flash('Jahrgangsstufe gespeichert.', 'success')
+    return redirect(url_for('anbieter'))  # oder eine andere gewünschte Seite
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
