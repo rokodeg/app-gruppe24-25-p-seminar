@@ -1,59 +1,148 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    position: relative;  /* wichtig für das Pseudo-Element */
-    overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Unscharfer Hintergrund als Pseudo-Element */
 body::before {
-    content: "";
-    position: fixed;   /* fixiert über den ganzen Viewport */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: url('../login/background.jpg') no-repeat center center/cover;
-    filter: blur(8px);
-    z-index: -1;   /* hinter allen Inhalten */
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: url('../images/background.jpg') no-repeat center center/cover;
+  filter: blur(8px);
+  z-index: -1;
 }
+
 .container {
-    text-align: center;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+}
+
+.logo {
+  max-width: 150px;
+  margin-bottom: 8px; /* kleiner, aber sicher */
+}
+
+h1 {
+  margin-top: 0;
+  font-size: clamp(1.5rem, 4vw, 2rem); /* optional: responsiv skalieren */
+  color: #004F7C;
+}
+
+.subtitle {
+  color: #555;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem); /* min: 0.9rem, ideal: 2.5vw, max: 1.2rem */
+  margin-bottom: 20px;
 }
 
 .button-group {
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .button {
-    display: inline-block;
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #004F7C; /* Blau */
-    color: white; /* Weiße Schriftfarbe */
-    text-decoration: none; /* Keine Unterstreichung */
-    border-radius: 5px; /* Abgerundete Ecken */
-    transition: background-color 0.3s; /* Übergangseffekt */
+  padding: 12px;
+  text-decoration: none;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  background-color: #004F7C;
+  color: white;
+}
+
+.button.secondary {
+   background-color: #ec6421;        /* deine Hauptfarbe */
+   color: white;
 }
 
 .button:hover {
-    background-color: #007B9A; /* Dunklerer Blauton beim Hover */
+  background-color: #006088;
+  transform: translateY(-1px);
 }
+
+.button.secondary:hover {
+  background-color: #d8561a;
+  transform: translateY(-1px);
+}
+
 .message {
-    margin-top: 15px;
-    padding: 15px;
-    border: 1px solid #004F7C;
-    background-color: #e0f0ff;
-    color: #004F7C;
-    border-radius: 5px;
-    font-weight: bold;
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid #004F7C;
+  background-color: #e0f0ff;
+  color: #004F7C;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.footer {
+  margin-top: 30px;
+}
+
+.footer a {
+  text-decoration: none;
+  color: #004F7C;
+  font-size: 0.9rem;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsiv */
+@media (min-width: 600px) {
+  .button-group {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .button {
+    width: 45%;
+  }
+}
+
+
+.custom-hr {
+  border: none;
+  border-top: 1px solid #ddd;  /* Hellgrau, dezenter als #888 */
+  margin: 24px 0 12px 0;       /* Weniger Abstand, wirkt zurückhaltender */
+  width: 100%;
+}
+
+.agb-box {
+  display: flex;
+  justify-content: center;
+}
+
+.agb-box a {
+  font-size: 12px;
+  color: #888;
+  padding: 6px 12px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #fafafa;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.agb-box a:hover {
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transform: translateY(-1px);
 }

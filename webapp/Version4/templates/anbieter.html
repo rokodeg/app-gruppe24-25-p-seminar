@@ -442,6 +442,30 @@
   }
 }
 
+.scroll-hint {
+  font-size: 14px;
+  color: #888;
+  margin: 4px 0 4px 0;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .scroll-hint {
+    display: block;
+  }
+}
+@media (max-width: 768px) {
+  .scroll-hint {
+    margin: 4px 0 !important;
+  }
+
+  .user-table {
+    margin-top: 0 !important;
+  }
+
+}
+
+
 </style>
 </head>
 <body>
@@ -683,15 +707,15 @@
     </div>
 </div>
 
-<div class="anbieter-status-section" style="background-color: #eef7ff; border: 1px solid #cce0f4; border-radius: 10px; padding: 25px; margin: 20px 0; box-shadow: 0 3px 8px rgba(0,0,0,0.1);">
-  <h2 class="anfragen-uebersicht-title">Anfragenübersicht</h2>
-
-  <div class="anbieter-requests-section">
-    <h2>Aktive Anfragen</h2>
-    {% if angenommene_anfragen %}
-      <table class="requests-table">
+<div class="anbieter-requests-section">
+  <h2>Aktive Anfragen</h2>
+  {% if angenommene_anfragen %}
+    <div style="overflow-x: auto; max-width: 100%;">
+      <div class="scroll-hint">👉 Wische nach rechts, um mehr Spalten zu sehen</div>
+      <table class="requests-table" style="min-width: 700px;">
         <thead>
           <tr>
+            <th>Name</th>
             <th>Fach</th>
             <th>Erstellt am</th>
             <th>Stunden</th>
@@ -704,6 +728,7 @@
         <tbody>
           {% for anfrage in angenommene_anfragen %}
             <tr>
+              <td>{{ anfrage.name }}</td>
               <td>{{ anfrage.fach }}</td>
               <td>{{ anfrage.created_at | datetimeformat }}</td>
               <td>{{ anfrage.stunden }}</td>
@@ -713,24 +738,28 @@
               <td>
                 <form action="{{ url_for('anfrage_erledigen') }}" method="POST">
                   <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-                  <button type="submit" class="btn-action btn-decline">Als erledigt markieren</button>
+                  <button type="submit" class="btn-action btn-decline">Erledigt</button>
                 </form>
               </td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
-    {% else %}
-      <p>Keine aktiven Anfragen vorhanden.</p>
-    {% endif %}
-  </div>
+    </div>
+  {% else %}
+    <p>Keine aktiven Anfragen vorhanden.</p>
+  {% endif %}
+</div>
 
-  <div class="anbieter-requests-section erledigte-anfragen-section">
-    <h2>Erledigte Anfragen</h2>
-    {% if erledigte_anfragen %}
-      <table class="requests-table">
+<div class="anbieter-requests-section erledigte-anfragen-section">
+  <h2>Erledigte Anfragen</h2>
+  {% if erledigte_anfragen %}
+  <div class="scroll-hint">👉 Wische nach rechts, um mehr Spalten zu sehen</div>
+    <div style="overflow-x: auto; max-width: 100%;">
+      <table class="requests-table" style="min-width: 700px;">
         <thead>
           <tr>
+            <th>Name</th>
             <th>Fach</th>
             <th>Erstellt am</th>
             <th>Stunden</th>
@@ -743,6 +772,7 @@
         <tbody>
           {% for anfrage in erledigte_anfragen %}
             <tr>
+              <td>{{ anfrage.name }}</td>
               <td>{{ anfrage.fach }}</td>
               <td>{{ anfrage.created_at | datetimeformat }}</td>
               <td>{{ anfrage.stunden }}</td>
@@ -759,11 +789,12 @@
           {% endfor %}
         </tbody>
       </table>
-    {% else %}
-      <p>Keine erledigten Anfragen vorhanden.</p>
-    {% endif %}
-  </div>
+    </div>
+  {% else %}
+    <p>Keine erledigten Anfragen vorhanden.</p>
+  {% endif %}
 </div>
+
 
 <hr class="custom-hr">
 

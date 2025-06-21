@@ -1,30 +1,44 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anmeldeseite</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='login/style.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anmeldung</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Anmeldung</h1>
-        {% if message %}
-            <div class="message">{{ message }}</div>
-        {% endif %}
-        <form id="loginForm" action="{{ url_for('login') }}" method="post">
-            <div class="input-group">
-                <label for="username">Benutzername:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Passwort:</label>
-                <input type="password" id="password" name="password" required>
-            </div>    
-            <button type="submit">Anmelden</button>
-        </form>
-        <p id="message"></p>
-        <center><a href="{{ url_for('home') }}">Zurück</a></center>
+  <div class="container">
+    <a href="{{ url_for('home') }}"> <img src="{{ url_for('static', filename='images/logoFinish.svg') }}" alt="Logo" class="logo" /></a>
+    
+    <h1>Anmeldung</h1>
+    <p class="subtitle">Login für Nachhilfeanbietende und Admins</p>
+    
+    {% if message %}
+      <div class="message">{{ message }}</div>
+    {% endif %}
+    
+    <form id="loginForm" action="{{ url_for('login') }}" method="post">
+      <div class="input-group">
+        <label for="username">Benutzername:</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+      <div class="input-group">
+        <label for="password">Passwort:</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <button type="submit">Anmelden</button>
+    </form>
+
+
+
+    <hr class="custom-hr">
+
+    <div class="agb-box">
+        <a href="{{ url_for('home') }}">Zurück zur Startseite</a>
+        <a href="{{ url_for('agb') }}" target="_blank">Allgemeine Geschäftsbedingungen (AGB)</a>
+        <a href="{{ url_for('impressum') }}" target="_blank">
+            Impressum</a>
     </div>
+  </div>
 </body>
 </html>

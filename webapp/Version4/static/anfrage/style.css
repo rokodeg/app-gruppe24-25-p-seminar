@@ -1,196 +1,171 @@
-/* Grundstil */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  padding: 20px;
+  /* height: 100vh;  <-- das entfernen wir, damit scrollen möglich ist */
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+  align-items: flex-start; /* statt center, damit es oben startet */
+  position: relative;
+  overflow-y: auto; /* scrollen erlauben */
+  background-color: #f4f4f4;
+  padding: 40px 0; /* bisschen oben und unten padding für Luft */
 }
 
-/* Container des Formulars */
-.form-container {
-  background-color: white;
-  padding: 30px 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 600px;
-  box-sizing: border-box;
-  text-align: left;
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: url('../images/background.jpg') no-repeat center center/cover;
+  filter: blur(8px);
+  z-index: -1;
 }
 
-.form-container h1 {
+.container {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  max-width: 700px;  /* hier habe ich es breiter gemacht */
+  width: 90%;
   text-align: center;
+  margin-bottom: 40px; /* unten etwas Luft */
+}
+
+.logo {
+  max-width: 150px;
+  margin-bottom: 8px; /* kleiner, aber sicher */
+}
+
+h1 {
+  margin-top: 0;
+  font-size: clamp(1.5rem, 4vw, 2rem); /* optional: responsiv skalieren */
   color: #004F7C;
-  margin-bottom: 30px;
 }
 
-/* Labels */
-.form-container label {
+.subtitle {
+  color: #555;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  margin-bottom: 20px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 0.95rem;
+  margin-bottom: 5px;
   display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  color: #333;
+  color: #444;
 }
 
-/* Eingabefelder und Selects alle gleich breit */
-.form-container input[type="text"],
-.form-container input[type="number"],
-.form-container select {
+input, select, textarea {
   width: 100%;
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
   box-sizing: border-box;
-  transition: border-color 0.3s;
+  font-size: 1rem;
+  resize: vertical; /* bei textarea */
 }
 
-.form-container input[type="text"]:focus,
-.form-container input[type="number"]:focus,
-.form-container select:focus {
-  border-color: #004F7C;
-  outline: none;
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #ec6421;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* AGB Checkbox und Label nebeneinander */
-.agb-container {
+button:hover {
+  background-color: #d8561a;
+  transform: translateY(-1px);
+}
+
+.message {
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid #FF4D4D;
+  background-color: #FFDDDD;
+  color: #FF4D4D;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+}
+
+.custom-hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 24px 0 12px 0;
+  width: 100%;
+}
+
+
+
+.agb-link {
   display: flex;
   align-items: center;
-  margin-bottom: 25px;
+  justify-content: flex-start; /* linksbündig */
+  gap: 8px;
   font-size: 0.9rem;
   color: #555;
+  margin-bottom: 25px;
 }
 
-.agb-container input[type="checkbox"] {
-  margin-right: 10px;
+.agb-link input[type="checkbox"] {
   width: auto;
   height: auto;
 }
 
-.agb-container a {
-  color: #004F7C;
-  text-decoration: none;
-  font-weight: 600;
+/* Link ganz normal, ohne Styling */
+.agb-link a {
+  all: unset; /* entfernt alle Styles */
+  cursor: pointer;
+  color: inherit; /* übernimmt Textfarbe */
+  text-decoration: underline; /* klassischer Link */
 }
 
-.agb-container a:hover {
+.agb-link a:hover {
+  /* kein Hover-Effekt */
   text-decoration: underline;
 }
 
-/* Submit-Button (Anfrage absenden) */
-.form-container button[type="submit"] {
-  width: 100%;
-  background-color: #004F7C;
-  color: white;
-  padding: 12px 0;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.form-container button[type="submit"]:hover {
-  background-color: #007B9A;
-}
-
-/* Container für die Buttons "Zurück" und "Impressum" */
-.button-group {
-  margin: 20px auto 0 auto;      /* Abstand oben, zentriert */
-  max-width: 600px;              /* gleiche max-Breite wie Formular */
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 20px;                    /* Abstand zwischen den beiden Buttons */
-  box-sizing: border-box;
-}
-
-/* Buttons teilen sich die volle Breite vom Container */
-.button-group .button {
-  flex: 1;                      /* Jeder Button nimmt gleich viel Platz ein */
-  padding: 12px 0;
-  background-color: #004F7C;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s;
-  text-align: center;
-  box-sizing: border-box;
-  min-width: 0;                 /* Verhindert, dass min-width Probleme macht */
-}
-
-.button-group .button:hover {
-  background-color: #007B9A;
-}
-
-/* Submit-Button volle Breite */
-.form-container button[type="submit"] {
-  width: 100%;                 /* volle Breite */
-  background-color: #004F7C;
-  color: white;
-  padding: 12px 0;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-bottom: 10px;         /* Abstand unter Absende-Button */
-}
-
-.form-container button[type="submit"]:hover {
-  background-color: #007B9A;
-}
-
-.form-container textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  font-size: 1rem;
-  box-sizing: border-box;
-  transition: border-color 0.3s;
-  resize: vertical; /* erlaubt Größenänderung nur vertikal */
-}
-.form-container textarea:focus {
-  border-color: #004F7C;
-  outline: none;
-}
-
-
-/* Globale Touch-/Font-Optimierung */
-input, select, textarea, button {
-  font-family: inherit;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.char-counter {
-  text-align: right;
-  font-size: 0.85rem;
-  color: #555;
-  margin-top: -15px;
-  margin-bottom: 20px;
-}
 
 /* Responsive */
 @media (max-width: 640px) {
-  .button-group {
-    flex-direction: column;
-    gap: 10px;
+  .container {
     max-width: 100%;
-    width: 100%;
+    padding: 30px 20px;
   }
+}
 
-  .button-group .button {
-    width: 100%;
-    flex: none;
-  }
+
+.agb-box {
+  display: flex;
+  justify-content: center;
+}
+
+.agb-box a {
+  font-size: 12px;
+  color: #888;
+  padding: 6px 12px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #fafafa;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.agb-box a:hover {
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transform: translateY(-1px);
 }

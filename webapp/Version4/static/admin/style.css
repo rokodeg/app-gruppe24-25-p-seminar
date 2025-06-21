@@ -550,4 +550,93 @@ form[data-confirm] {
   }
 }
 
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* falls du Spalten immer sichtbar halten willst */
+}
 
+@media (max-width: 600px) {
+  .user-table {
+    font-size: 14px;
+  }
+}
+
+.scroll-hint {
+  font-size: 14px;
+  color: #888;
+  margin: 4px 0 4px 0;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .scroll-hint {
+    display: block;
+  }
+}
+@media (max-width: 768px) {
+  .scroll-hint {
+    margin: 4px 0 !important;
+  }
+
+  .user-table {
+    margin-top: 0 !important;
+  }
+
+}
+
+.no-user-cell {
+  font-style: italic;
+  color: #888;
+  padding: 8px;
+  text-align: left; /* default links */
+}
+
+@media (min-width: 768px) {
+  .no-user-cell {
+    text-align: center !important; /* testweise mit !important */
+  }
+}
+
+
+/* Grundabstand */
+.user-table input[type="radio"] {
+  margin-right: 8px; /* Abstand zwischen Haken und Text */
+  vertical-align: middle; /* Vertikal ausrichten */
+}
+
+/* Für kleinere Bildschirme etwas enger */
+@media (max-width: 600px) {
+  .user-table input[type="radio"] {
+    margin-right: 4px;
+  }
+}
+
+/* Für ganz große Bildschirme evtl. mehr Abstand */
+@media (min-width: 1200px) {
+  .user-table input[type="radio"] {
+    margin-right: 12px;
+  }
+}
+
+
+.user-table th:first-child,
+.user-table td:first-child {
+  max-width: 300px;
+  white-space: normal;        /* Zeilenumbruch erlauben */
+  word-break: break-word;     /* Bei langen Wörtern umbrechen */
+  vertical-align: middle;
+}
+
+.user-table td:first-child label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .user-table th:first-child,
+  .user-table td:first-child {
+    max-width: 150px;
+  }
+}
