@@ -473,6 +473,8 @@
       <p><strong>Stunden:</strong> {{ zugewiesene_anfrage['stunden'] }}</p>
       <p><strong>Klassenstufe:</strong> {{ zugewiesene_anfrage['klassenstufe'] }}</p>
       <p><strong>Kontakt:</strong> {{ zugewiesene_anfrage['kontakt'] }}</p>
+
+      
     
       <!-- BUTTON-REIHE -->
 <div class="button-row" style="display: flex; gap: 10px;">
@@ -582,11 +584,12 @@
           <div class="anfrage">
             <h3>{{ anfrage.name }}</h3>
             <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
+            <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
             <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-            <p><strong>Stundenanzahl:</strong> {{ anfrage.stunden }}</p>
+            <p><strong>Stundenanzahl pro Woche:</strong> {{ anfrage.stunden }}</p>
             <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
             <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
-            <p><strong>Anmerk:</strong> {{ anfrage.anmerkungen }}</p>
+            <p><strong>Anmerk:</strong> {{ anfrage.anmerkungen  or "Kein Kommentar"}}</p>
             <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
             <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
             <form action="{{ url_for('anfrage_annehmen') }}" method="POST">
