@@ -331,12 +331,13 @@
     {% for anfrage in neue_anfragen %}
       <div class="request-card" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
         <p><strong>Name:</strong> {{ anfrage.name }}</p>
+        <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
         <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-        <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
-        <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen }}</p>
-
-        <!-- Neu: Klassenstufe und Erstellungsdatum anzeigen -->
+        <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
+        <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
         <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+        <p><strong>Kontaktdaten:</strong> {{ anfrage.kontaktdaten }}</p>
+        <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
         <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
 
@@ -475,12 +476,14 @@
       {% for anfrage in abgelehnte_von_user %}
         <div class="request-card" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
           <p><strong>Name:</strong> {{ anfrage.name }}</p>
+          <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-          <p><strong>Stunden:</strong> {{ anfrage.stunden }}</p>
-          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username }}</p>
-          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.user_comment or "Kein Kommentar" }}</p>
+          <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
+          <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+          <p><strong>Kontaktdaten:</strong> {{ anfrage.kontaktdaten }}</p>
+          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
           <!-- Auswahlmenü wie bei neue Anfragen -->
@@ -618,9 +621,15 @@
       {% for anfrage in bestaetigte_anfragen %}
         <div class="anfrage-box">
           <h4>{{ anfrage.name }}</h4>
+          <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
+          <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
+          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+          <p><strong>Kontaktdaten:</strong> {{ anfrage.kontaktdaten }}</p>
+          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
             <button class="toggle-btn-del" type="submit">Löschen</button>
@@ -650,10 +659,16 @@
       {% for anfrage in zugewiesene_anfragen %}
         <div class="anfrage-box">
           <h4>{{ anfrage.name }}</h4>
+          <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username }}</p>
+          <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
+          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+          <p><strong>Kontaktdaten:</strong> {{ anfrage.kontaktdaten }}</p>
+          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
+
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
             <button class="toggle-btn-del" type="submit">Löschen</button>
@@ -683,11 +698,16 @@
       {% for anfrage in aktive_anfragen %}
         <div class="anfrage-box">
           <h4>{{ anfrage.name }}</h4>
+          <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
-          <p><strong>Status:</strong> {{ anfrage.status }}</p>
+          <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
+          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+          <p><strong>Kontaktdaten:</strong> {{ anfrage.kontaktdaten }}</p>
+          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
+
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
             <button class="toggle-btn-del" type="submit">Löschen</button>
@@ -714,10 +734,16 @@
     {% for anfrage in erledigte_anfragen %}
       <div class="anfrage-box">
         <h4>{{ anfrage.name }}</h4>
-        <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-        <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
-        <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
-        <p><strong>Erledigt von:</strong> {{ anfrage.username }}</p>
+          <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
+          <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
+          <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
+          <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
+          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+          <p><strong>Kontaktdaten:</strong> {{ anfrage.kontaktdaten }}</p>
+          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
+
         <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
           <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
           <button class="toggle-btn-del" type="submit">Löschen</button>
