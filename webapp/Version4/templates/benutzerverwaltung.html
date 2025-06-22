@@ -51,9 +51,12 @@
                 </label>
             </div>
 
-            <div class="input-group">
-                <label for="password">Passwort</label>
-                <input id="password" name="password" type="password" placeholder="Passwort" value="Pa$$w0rd" required>
+            <div class="input-group password-group">
+            <label for="password" class="password-label">
+                Passwort
+                <button type="button" id="togglePassword" class="toggle-pw" aria-label="Passwort anzeigen">👁️</button>
+            </label>
+            <input id="password" name="password" type="password" placeholder="Passwort" required>
             </div>
 
             <button type="submit">Benutzer hinzufügen</button>
@@ -188,6 +191,28 @@ document.addEventListener('DOMContentLoaded', () => {
     targetForm = null;
   });
 });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const pwInput   = document.getElementById('password');
+  const toggleBtn = document.getElementById('togglePassword');
+  const checkbox  = document.getElementById('use_default_password');
+
+  // 1) Eye-Icon nur zeigen, wenn Default-PW nicht aktiv
+  function updateEyeVisibility() {
+    toggleBtn.style.display = checkbox.checked ? 'none' : 'inline';
+  }
+  updateEyeVisibility();
+  checkbox.addEventListener('change', updateEyeVisibility);
+
+  // 2) Klick aufs Auge → Passwort ein/ausblenden
+  toggleBtn.addEventListener('click', () => {
+    const isPwd = pwInput.type === 'password';
+    pwInput.type = isPwd ? 'text' : 'password';
+    toggleBtn.textContent = isPwd ? '🙈' : '👁️';
+  });
+});
+
 </script>
 <!-- Bestätigungs-Popup -->
         <div id="confirm-modal" class="modal hidden">

@@ -69,6 +69,7 @@
     align-items: center;
     padding: 2vw 1vw 5vw;
     gap: 1vw;
+    column-gap: 0.5rem;
     box-sizing: border-box;
   }
 
@@ -81,12 +82,21 @@
     grid-row:    2;   /* Zeile 2: Titel über die ganze Breite */
     justify-self: start;
     text-align:   left;
+    padding-inline-end: 0;
+    margin-right: 0;
   }
   .header-row > .right-side {
     grid-column: 1 / -1;
     grid-row:    3;   /* Zeile 3: Buttons über die ganze Breite */
     justify-self: end;
   } 
+
+  .left-side img.logo,
+  .logo {               /* auch für Benutzerverwaltung, falls nötig */
+    width: auto ;
+    max-width: 150px !important;
+    height: auto ;
+  }
 
   /* Kleiner als 768px: Überschrift in voller Breite, Buttons in neuer Zeile */
   @media (max-width: 768px) {

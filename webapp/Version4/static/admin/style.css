@@ -627,9 +627,10 @@ form[data-confirm] {
 }
 
 .left-side img.logo {
+  /*max-width: 120vh;*/
   height: auto;
-  width: auto;
-  max-height: 12vh; /* Dynamisch skalierend */
+  width: clamp(80px, 15vw, 150px);
+  /*max-height: 12vh; /* Dynamisch skalierend */
   object-fit: contain;
   display: block;
 }

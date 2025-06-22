@@ -28,6 +28,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    gap: 1rem;
   }
   .filter-header h2 {
     color: #004F7C;
@@ -262,10 +263,14 @@
     box-sizing: border-box;
     width: 100%;
   }
-  .left-side img.logo {
-    max-height: 6rem;
-    width: clamp(8rem, 15vw, 12rem);
+  .left-side img.logo,
+  .logo {               /* auch für Benutzerverwaltung, falls nötig */
+    width: auto ;
+    max-width: 150px !important;
+    height: auto ;
   }
+
+
   
   .logo-wrapper {
     max-width: 15vw;
