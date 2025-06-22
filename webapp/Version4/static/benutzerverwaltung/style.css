@@ -155,14 +155,21 @@ button:hover {
 }
 
 /* ========== Flash Messages ========== */
-.flash-messages {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 12px 20px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-size: 0.95rem;
+#flash-message {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 79, 124, 0.85);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
 }
+.flash-success { background: rgba(46,125,50,0.85); }
+.flash-warning { background: rgba(255,152,0,0.85); }
+.flash-danger  { background: rgba(211,47,47,0.85); }
 
 /* ========== Suchfeld ========== */
 #userSearchInput {

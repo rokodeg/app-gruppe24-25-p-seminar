@@ -18,13 +18,23 @@
     <i class="fas fa-home"></i> <span class="home-text">Home</span>
   </a>
 </div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="flash-messages">
-                    <ul>
-                    {% for category, message in messages %}
-                        <li><strong>{{ category.title() }}:</strong> {{ message }}</li>
-                    {% endfor %}
+{%- with messages = get_flashed_messages(with_categories=true) -%}
+{%- if messages -%}
+  {% for category, msg in messages %}
+    <div id="flash-message" class="flash-{{ category }}">{{ msg }}</div>
+  {% endfor %}
+                     <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const flash = document.getElementById("flash-message");
+      if (flash) {
+        setTimeout(() => {
+          flash.style.transition = "opacity 0.5s";
+          flash.style.opacity = "0";
+          setTimeout(() => flash.remove(), 500);
+        }, 3000);
+      }
+    });
+  </script>
                     </ul>
                 </div>
             {% endif %}

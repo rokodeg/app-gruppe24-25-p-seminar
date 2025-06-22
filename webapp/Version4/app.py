@@ -376,7 +376,7 @@ def add_user():
     conn.commit()
     conn.close()
 
-    flash("Benutzer erfolgreich hinzugefügt.", "success")
+    flash(f"Benutzer {username} erfolgreich hinzugefügt.", "success")
     return redirect(url_for('benutzerverwaltung'))
 
 
