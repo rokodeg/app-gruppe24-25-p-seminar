@@ -3,7 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <title>Benutzerverwaltung</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 0;
+            margin: 0;
+        }
 
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 900px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #004F7C;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 12px;
+            background-color: #004F7C;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #007B9A;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .aktionen {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .aktionen form {
+            margin: 0;
+        }
+
+        .flash-messages {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff3cd;
+            color: #856404;
+            border-radius: 5px;
+        }
+
+        .checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 12px;
+            background-color: #6c757d;  /* Graue Hintergrundfarbe */
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;  /* Dunkleres Grau beim Hover */
+        }
+
+    </style>
 </head>
 <body>
     <div class="container">

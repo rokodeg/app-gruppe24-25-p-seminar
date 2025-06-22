@@ -11,433 +11,290 @@
 />
 <style>
   /* Hauptcontainer */
-#neueAnfragenKasten {
-  background-color: #eef7ff;
-  border: 1px solid #cce0f4;
-  border-radius: 10px;
-  padding: 25px;
-  margin: 20px 0;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  font-family: Arial, sans-serif;
-}
+  #neueAnfragenKasten {
+    background-color: #eef7ff;
+    border: 1px solid #cce0f4;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
 
-/* Header mit Titel + Button */
-.filter-header {
-  display: flex;
-   border-bottom: 2px solid #004F7C;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.filter-header h2 {
-  color: #004F7C;
-  padding-bottom: 8px;
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.btn-toggle-filter {
-  background-color: #004F7C;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-/* Gesamt-Kasten für Filter */
-#filterBereich {
-  background-color: #eef7ff;
-  border: 1px solid #cce0f4;
-  border-radius: 10px;
-  padding: 20px 25px;
-  margin-top: 15px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  font-family: Arial, sans-serif;
-}
-
-/* Filterzeile */
-.filter-main {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 40px;
-}
-
-/* Linker Bereich */
-.filter-left {
-  display: flex;
-  flex-direction: column;
-  gap: 16px; /* Weniger Abstand */
-  flex: 1;
-  min-width: 300px;
-  align-items: flex-start;
-}
-
-/* Rechter Bereich */
-.filter-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* wichtig */
-  height: 100%; /* falls nötig */
-  min-height: 200px; /* oder eine feste Höhe wenn nötig */
-  align-items: flex-end;
-}
-
-/* Sortierung oben rechts */
-.filter-right .filter-section.sortierung {
-  align-self: flex-end;
-  margin-bottom: auto;
-}
-
-#sortierung {
-  padding: 8px 12px;
-  border: 1px solid #cce0f4;
-  border-radius: 8px;
-  background-color: white;
-  color: #004F7C;
-  font-size: 15px;
-  font-family: inherit;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-#sortierung:hover {
-  border-color: #99c9f3;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-#sortierung:focus {
-  outline: none;
-  border-color: #004F7C;
-  box-shadow: 0 0 0 3px rgba(0, 79, 124, 0.2);
-}
-
-
-.filter-right .filter-section.sortierung select {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #004F7C;
-  background-color: white;
-  color: #004F7C;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: all 0.2s ease;
-}
-
-.filter-right .filter-section.sortierung select:hover {
-  background-color: #e6f2ff;
-}
-
-/* Klassenstufe unten rechts */
-.filter-right .filter-section.klassenstufe {
-  align-self: flex-end;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.filter-right .filter-section.klassenstufe label {
-  font-weight: bold;
-  margin-bottom: 6px;
-  align-self: flex-start;
-}
-
-.klassenstufe-inputs {
-  display: flex;
-  gap: 10px;
-}
-
-.klassenstufe-inputs input {
-  padding: 8px;
-  width: 90px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-/* Tags (Fach + Geschlecht) */
-#filterFaecherTags,
-#filterGeschlechtTags {
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.fach-tag {
-  background-color: #cce0f4;
-  border-radius: 6px;
-  padding: 4px 8px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.remove-fach {
-  cursor: pointer;
-  font-weight: bold;
-  color: #004F7C;
-}
-
-/* Plus-Button */
-.filter-left button {
-  margin-top: 8px;
-  background-color: #004F7C;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  width: fit-content;
-}
-
-/* Dropdowns */
-.filter-section {
-  position: relative;
-  margin-bottom: 0.5rem;
-}
-
-.button-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-top: 6px;
-}
-
-.dropdown-wrapper {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  display: none;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  z-index: 1000;
-  padding: 4px;
-  min-width: 220px;
-  border-radius: 8px;
-}
-
-.dropdown-wrapper select {
-  width: 100%;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  background: transparent;
-  font-family: inherit;
-  max-height: 200px;
-  overflow-y: auto;
-  padding: 6px 0;
-  cursor: pointer;
-}
-
-.dropdown-wrapper select option:hover {
-  background-color: #eef7ff;
-}
-
-/* Tabellen für Anfragen */
-.anbieter-requests-section {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 30px;
-  font-family: 'Arial', sans-serif;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.anbieter-requests-section h2 {
-  color: #004F7C;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #004F7C;
-  padding-bottom: 5px;
-}
-
-.requests-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.requests-table th,
-.requests-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid #ccc;
-  text-align: left;
-  font-size: 15px;
-}
-
-.requests-table th {
-  background-color: #e0f0ff;
-  color: #004F7C;
-}
-
-.requests-table tr:hover {
-  background-color: #d0e7ff;
-}
-
-.status-active {
-  color: #2e7d32;
-  font-weight: 600;
-}
-
-.status-completed {
-  color: #757575;
-  font-style: italic;
-}
-
-.btn-action {
-  font-size: 14px;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-decline {
-  background-color: #ff7043;
-  color: white;
-}
-
-.btn-delete {
-  background-color: #e53935;
-  color: white;
-}
-
-.btn-action:hover {
-  opacity: 0.85;
-}
-
-
-
-
-
-
-.anfragen-uebersicht-title {
-  color: #004F7C;
-  font-size: 1.4rem;
-  font-weight: bold;
-  border-bottom: 2px solid #004F7C;
-  padding-bottom: 6px;
-  margin-bottom: 20px;
-}
-
-.anbieter-requests-section {
-  margin-top: 15px;
-}
-
-.erledigte-anfragen-section {
-  margin-top: 30px;
-}
-
-
-
-
-.custom-hr {
-  border: none;
-  border-top: 1px solid #ddd;  /* Hellgrau, dezenter als #888 */
-  margin: 24px 0 12px 0;       /* Weniger Abstand, wirkt zurückhaltender */
-  width: 100%;
-}
-
-.agb-box {
-  display: flex;
-  justify-content: center;
-}
-
-.agb-box a {
-  font-size: 12px;
-  color: #888;
-  padding: 6px 12px;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  background-color: #fafafa;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-}
-
-.agb-box a:hover {
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  transform: translateY(-1px);
-}
-
-  .logout-wrapper {
+  /* Header mit Titel + Button */
+  .filter-header {
     display: flex;
-    flex-direction: row;
+    border-bottom: 2px solid #004F7C;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .filter-header h2 {
+    color: #004F7C;
+    padding-bottom: 8px;
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  .btn-toggle-filter {
+    background-color: #004F7C;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  /* Gesamt-Kasten für Filter */
+  #filterBereich {
+    background-color: #eef7ff;
+    border: 1px solid #cce0f4;
+    border-radius: 10px;
+    padding: 20px 25px;
+    margin-top: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  /* Filterzeile */
+  .filter-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
+  /* Linker Bereich */
+  .filter-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-width: 300px;
+    align-items: flex-start;
+  }
+
+  /* Rechter Bereich */
+  .filter-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
     align-items: flex-end;
-    gap: 0.5rem;
-    margin-left: 40px;
-    flex-shrink: 0;
+  }
+  .filter-right .filter-section.sortierung {
+    align-self: flex-end;
+    margin-bottom: auto;
   }
 
-  .logout-wrapper .settings-button {
-  order: 1;
+  /* Sortierung */
+  #sortierung {
+    padding: 8px 12px;
+    border: 1px solid #cce0f4;
+    border-radius: 8px;
+    background-color: white;
+    color: #004F7C;
+    font-size: 15px;
+    font-family: inherit;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  .logout-wrapper form.logout-button {
-    order: 2;
+  #sortierung:hover {
+    border-color: #99c9f3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  #sortierung:focus {
+    outline: none;
+    border-color: #004F7C;
+    box-shadow: 0 0 0 3px rgba(0,79,124,0.2);
   }
 
-  /* Das manuelle Umordnen per „order“ ist nicht mehr nötig */
-  .logout-wrapper form {
-    order: -1;
+  /* Klassenstufe */
+  .filter-right .filter-section.klassenstufe {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .filter-right .filter-section.klassenstufe label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    align-self: flex-start;
+  }
+  .klassenstufe-inputs {
+    display: flex;
+    gap: 10px;
+  }
+  .klassenstufe-inputs input {
+    padding: 8px;
+    width: 90px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
   }
 
-  /* Logo – größere Mindest­größe, bleibt responsiv */
-  .logo-wrapper .logo {
-    width: clamp(8rem, 16vw, 12.8rem);
-    /* ↑ Min von 6.4rem → 8rem, Max bleibt 12.8rem */
-    height: auto;
-    object-fit: contain;
-    margin-right: 1.333rem;
+  /* Tags */
+  #filterFaecherTags,
+  #filterGeschlechtTags {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .fach-tag {
+    background-color: #cce0f4;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .remove-fach {
+    cursor: pointer;
+    font-weight: bold;
+    color: #004F7C;
   }
 
-  /* Header-Bar (Grid) */
+  /* Plus-Button */
+  .filter-left button {
+    margin-top: 8px;
+    background-color: #004F7C;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  /* Tabellen für Anfragen */
+  .anbieter-requests-section {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .anbieter-requests-section h2 {
+    color: #004F7C;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #004F7C;
+    padding-bottom: 5px;
+  }
+  .requests-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .requests-table th,
+  .requests-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #ccc;
+    font-size: 15px;
+    text-align: left;
+  }
+  .requests-table th {
+    background-color: #e0f0ff;
+    color: #004F7C;
+  }
+  .requests-table tr:hover {
+    background-color: #d0e7ff;
+  }
+
+  .status-active { color: #2e7d32; font-weight: 600; }
+  .status-completed { color: #757575; font-style: italic; }
+
+  .btn-action {
+    font-size: 14px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn-decline { background-color: #ff7043; color: white; }
+  .btn-delete  { background-color: #e53935; color: white; }
+  .btn-action:hover { opacity: 0.85; }
+
+  .anfragen-uebersicht-title {
+    color: #004F7C;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-bottom: 2px solid #004F7C;
+    padding-bottom: 6px;
+    margin-bottom: 20px;
+  }
+
+  .custom-hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 24px 0 12px 0;
+    width: 100%;
+  }
+
+  .agb-box {
+    display: flex;
+    justify-content: center;
+  }
+  .agb-box a {
+    font-size: 12px;
+    color: #888;
+    padding: 6px 12px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background-color: #fafafa;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+  }
+  .agb-box a:hover {
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+  }
+
+  /* Header-Bar & Logo & Buttons */
   .header-bar {
     display: grid;
-    grid-template-columns: auto 1fr auto; /* Logo | Titel | Buttons */
+    grid-template-columns: auto 1fr auto;
     align-items: start;
     column-gap: 2vw;
     padding: 2vw;
     box-sizing: border-box;
     width: 100%;
   }
-
-  /* Logo */
   .logo-wrapper {
     max-width: 15vw;
-    /* Zusätzlicher Puffer nach rechts: verhindert Textnähe */
-    margin-right: 2rem;
+    margin-right: 0.1rem;
   }
-
-  /* Titel */
+  .logo-wrapper .logo {
+    width: clamp(8rem, 16vw, 12.8rem);
+    height: auto;
+    object-fit: contain;
+    margin-right: 1.333rem;
+  }
   .dashboard-title {
     white-space: normal;
     overflow-wrap: break-word;
     word-break: break-word;
     text-align: right;
     color: #004F7C;
-
-    /* Schriftgröße: zwischen 0.9rem und 1.2rem, ideal bei ~1.5vw */
     font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-
     line-height: 1.3;
     padding-inline-start: 1.333rem;
   }
+  .user-name { color: #EC6521; }
 
-  .user-name {
-    color: #EC6521;
+  .logout-wrapper {
+    display: flex;
+    flex-direction: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 40px;
+    flex-shrink: 0;
   }
-
-  .logo-wrapper {
-    max-width: 15vw;
-    margin-right: 0.1rem;    /* 2rem × ⅔ */
-  }
+  .logout-wrapper .settings-button { order: 1; }
+  .logout-wrapper form.logout-button { order: 2; }
+  .logout-wrapper form { order: initial; }
 
   .logout-wrapper .btn-link {
     padding: 0.5rem 1rem;
@@ -446,105 +303,64 @@
     border-radius: 0.3rem;
   }
 
-  @media (max-width: 1000px) {
-    .dashboard-title {
-      font-size: 1rem; /* leicht kleinerer Text */
-    }
-    .logout-wrapper .btn-link {
-      padding: 0.3rem 0.8rem;
-      font-size: 0.9rem;
-    }
-  }
-
-  @media (max-width: 800px) {
-    /* 1) Header für absolutes Positionieren vorbereiten */
+  /* Ein einziger Breakpoint für kleine Buttons */
+  @media (max-width: 650px) {
     .header-bar {
       position: relative;
-      padding-top: 4rem;       /* Platz oben für Buttons */
+      padding-top: 4rem;
     }
-
-    /* 2) Logo stets oben‑links */
     .logo-wrapper {
       position: absolute;
       top: 1rem;
       left: 1rem;
-      margin: 0;               /* zentrierte Margins entfernen */
+      margin: 0;
     }
     .logo-wrapper .logo {
-      /* Min von 8rem → 10rem, bleibt responsiv bis max 12.8rem */
       width: clamp(8rem, 16vw, 12.8rem);
-      height: auto;
     }
 
-    /* 3) Buttons untereinander in Ecke oben‑rechts */
     .logout-wrapper {
       position: absolute;
       top: 1rem;
       right: 1rem;
       display: flex;
-      flex-direction: column;  /* vertikale Stapelung */
-      gap: 0.5rem;             /* engerer Abstand */
+      flex-direction: row;
+      gap: 0.5rem;
+      align-items: center;
     }
-    .logout-wrapper form.logout-button { order: 1; }
-    .logout-wrapper .settings-button   { order: 2; }
-    .logout-wrapper .btn-link {
-      /* Buttons von 3rem → 4rem vergrößert */
-      width: 4rem;
-      height: 4rem;
+    .logout-wrapper .settings-button { order: 1; }
+    .logout-wrapper form.logout-button { order: 2; }
 
+    .logout-wrapper .btn-link {
+      width: 2.5rem;
+      height: 2.5rem;
       padding: 0;
       font-size: 0;
-
-      position: relative;      /* für das Icon absolut relativieren */
-      display: block;          /* kein Flex mehr nötig */
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-      .logout-wrapper .btn-link i {
-      font-size: 1.75rem;
-
-      /* 2) Absolute Zentrierung */
+    .logout-wrapper .btn-link i {
+      font-size: 1.2rem;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-
     }
 
-    /* 4) Willkommenstext linksbündig ganz unten im Header */
     .dashboard-title {
       position: relative;
       order: 3;
-      margin: 0;               /* Abstand zu Logo/Buttons regelt header padding */
-      padding-top: 2rem;       /* genügend Freiraum über dem Text */
-      text-align: left;        /* linksbündig */
-      width: 100%;
       margin: 0;
+      padding-top: 2rem;
+      text-align: left;
+      width: 100%;
       padding-inline-start: 0;
-      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-      line-height: 1.3;
-      overflow-wrap: break-word;
-      word-break: break-word;
     }
   }
-
-  @media (max-width: 600px) {
-    .logout-wrapper .btn-link {
-      width: 2.5rem;
-      height: 2.5rem;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 0;
-      font-size: 0;
-    }
-    .logout-wrapper .btn-link i {
-      font-size: 1.2rem;
-    }
-  }
-
-
 </style>
+
 </head>
 <body>
 
