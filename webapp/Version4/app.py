@@ -263,7 +263,7 @@ def admin_dashboard():
             SELECT offers.*, offers.created_at, users.username AS assigned_user
             FROM offers
             LEFT JOIN users ON offers.assigned_user_id = users.id
-            WHERE offers.status IN ('offen', 'zugewiesen', 'angenommen')
+            WHERE offers.status IN ('angenommen')
             ORDER BY offers.created_at DESC
         ''').fetchall()
 
@@ -502,7 +502,7 @@ def benutzerverwaltung():
         active_requests = conn.execute('''
             SELECT name AS request_name, fach
             FROM offers
-            WHERE assigned_user_id = ? AND status IN ('offen', 'zugewiesen', 'angenommen')
+            WHERE assigned_user_id = ? AND status IN ('angenommen')
         ''', (user['id'],)).fetchall()
 
         user_dict = dict(user)
