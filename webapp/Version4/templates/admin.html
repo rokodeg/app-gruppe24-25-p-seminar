@@ -512,6 +512,7 @@
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Grund für Ablehnen:</strong> {{ anfrage.user_comment if anfrage.user_comment else 'Kein Grund genannt' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
           <!-- Auswahlmenü wie bei neue Anfragen -->

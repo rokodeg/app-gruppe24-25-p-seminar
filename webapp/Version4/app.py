@@ -413,6 +413,7 @@ def anfrage_annehmen():
     conn.execute('UPDATE offers SET status = ?, assigned_user_id = ? WHERE id = ?', ('angenommen', session['user_id'], anfrage_id))
     conn.commit()
     conn.close()
+    flash('Anfrage erfolgreich angenommen.', 'success')
     return redirect(url_for('anbieter'))
 
 
@@ -461,7 +462,7 @@ def anfrage_ablehnen_user():
     ''', ('abgelehnt_von_user', kommentar, anfrage_id, session['user_id']))
     conn.commit()
     conn.close()
-
+    flash('Anfrage erfolgreich abgelehnt.', 'success')
     return redirect(url_for('anbieter'))
 
 @app.route('/anfrage_erledigen', methods=['POST'])
@@ -569,6 +570,7 @@ def update_status():
     conn.execute('UPDATE users SET status = ? WHERE id = ?', (neuer_status, session['user_id']))
     conn.commit()
     conn.close()
+    flash('Status gespeichert.', 'success')
     return redirect(url_for('anbieter'))
 
 @app.route('/update_faecher', methods=['POST'])
@@ -582,6 +584,7 @@ def update_faecher():
     conn.execute('UPDATE users SET faecher = ? WHERE id = ?', (faecher_str, session['user_id']))
     conn.commit()
     conn.close()
+    flash('Fächer gespeichert.', 'success')
     return redirect(url_for('anbieter'))
 
 
