@@ -732,7 +732,7 @@
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.assigned_user if anfrage.assigned_user else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
@@ -777,7 +777,7 @@
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.assigned_user if anfrage.assigned_user else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
@@ -819,7 +819,7 @@
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.assigned_user if anfrage.assigned_user else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
         <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
