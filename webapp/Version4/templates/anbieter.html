@@ -367,103 +367,181 @@
   transform: translateY(-1px);
 }
 
-.header-bar {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.5rem 1rem;
-  position: relative;
-}
-
-/* Logo links */
-.logo-wrapper .logo {
-  height: auto;
-  max-height: 10vh;
-  width: auto;
-  object-fit: contain;
-  display: block;
-}
-
-/* Titel zentriert, unabhängig von links/rechts */
-.dashboard-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  pointer-events: none; /* Klicks durchlassen */
-   margin-top: 1rem;
-}
-
-.dashboard-title h1 {
-  margin: 0;
-  color: #004F7C;
-  font-size: 2rem;
-}
-
-/* Logout rechts */
-.logout-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: flex-end;
-}
-
-/* Responsive Verhalten */
-@media (max-width: 768px) {
-  .header-bar {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .logo-wrapper,
   .logout-wrapper {
-    justify-self: center;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 0.5rem;
+    margin-left: 40px;
+    flex-shrink: 0;
   }
 
-  .dashboard-title {
-    position: static;
-    transform: none;
-    margin-top: 1rem;
-    pointer-events: auto;
+  .logout-wrapper .settings-button {
+  order: 1;
+  }
+  .logout-wrapper form.logout-button {
+    order: 2;
   }
 
-  .dashboard-title h1 {
-    font-size: 1.5rem;
+  /* Das manuelle Umordnen per „order“ ist nicht mehr nötig */
+  .logout-wrapper form {
+    order: -1;
   }
 
+  /* Logo – größere Mindest­größe, bleibt responsiv */
   .logo-wrapper .logo {
-    max-height: 6vh;
+    width: clamp(8rem, 16vw, 12.8rem);
+    /* ↑ Min von 6.4rem → 8rem, Max bleibt 12.8rem */
+    height: auto;
+    object-fit: contain;
+    margin-right: 1.333rem;
   }
 
-  .logout-wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-.scroll-hint {
-  font-size: 14px;
-  color: #888;
-  margin: 4px 0 4px 0;
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .scroll-hint {
-    display: block;
-  }
-}
-@media (max-width: 768px) {
-  .scroll-hint {
-    margin: 4px 0 !important;
+  /* Header-Bar (Grid) */
+  .header-bar {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Logo | Titel | Buttons */
+    align-items: start;
+    column-gap: 2vw;
+    padding: 2vw;
+    box-sizing: border-box;
+    width: 100%;
   }
 
-  .user-table {
-    margin-top: 0 !important;
+  /* Logo */
+  .logo-wrapper {
+    max-width: 15vw;
+    /* Zusätzlicher Puffer nach rechts: verhindert Textnähe */
+    margin-right: 2rem;
   }
 
-}
+  /* Titel */
+  .dashboard-title {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    text-align: right;
+    color: #004F7C;
+
+    /* Schriftgröße: zwischen 0.9rem und 1.2rem, ideal bei ~1.5vw */
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+
+    line-height: 1.3;
+    padding-inline-start: 1.333rem;
+  }
+
+  .user-name {
+    color: #EC6521;
+  }
+
+  .logo-wrapper {
+    max-width: 15vw;
+    margin-right: 0.1rem;    /* 2rem × ⅔ */
+  }
+
+  .logout-wrapper .btn-link {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    white-space: nowrap;
+    border-radius: 0.3rem;
+  }
+
+  @media (max-width: 1000px) {
+    .dashboard-title {
+      font-size: 1rem; /* leicht kleinerer Text */
+    }
+    .logout-wrapper .btn-link {
+      padding: 0.3rem 0.8rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 800px) {
+    /* 1) Header für absolutes Positionieren vorbereiten */
+    .header-bar {
+      position: relative;
+      padding-top: 4rem;       /* Platz oben für Buttons */
+    }
+
+    /* 2) Logo stets oben‑links */
+    .logo-wrapper {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      margin: 0;               /* zentrierte Margins entfernen */
+    }
+    .logo-wrapper .logo {
+      /* Min von 8rem → 10rem, bleibt responsiv bis max 12.8rem */
+      width: clamp(8rem, 16vw, 12.8rem);
+      height: auto;
+    }
+
+    /* 3) Buttons untereinander in Ecke oben‑rechts */
+    .logout-wrapper {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      flex-direction: column;  /* vertikale Stapelung */
+      gap: 0.5rem;             /* engerer Abstand */
+    }
+    .logout-wrapper form.logout-button { order: 1; }
+    .logout-wrapper .settings-button   { order: 2; }
+    .logout-wrapper .btn-link {
+      /* Buttons von 3rem → 4rem vergrößert */
+      width: 4rem;
+      height: 4rem;
+
+      padding: 0;
+      font-size: 0;
+
+      position: relative;      /* für das Icon absolut relativieren */
+      display: block;          /* kein Flex mehr nötig */
+    }
+      .logout-wrapper .btn-link i {
+      font-size: 1.75rem;
+
+      /* 2) Absolute Zentrierung */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+    }
+
+    /* 4) Willkommenstext linksbündig ganz unten im Header */
+    .dashboard-title {
+      position: relative;
+      order: 3;
+      margin: 0;               /* Abstand zu Logo/Buttons regelt header padding */
+      padding-top: 2rem;       /* genügend Freiraum über dem Text */
+      text-align: left;        /* linksbündig */
+      width: 100%;
+      margin: 0;
+      padding-inline-start: 0;
+      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+      line-height: 1.3;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .logout-wrapper .btn-link {
+      width: 2.5rem;
+      height: 2.5rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0;
+      font-size: 0;
+    }
+    .logout-wrapper .btn-link i {
+      font-size: 1.2rem;
+    }
+  }
 
 
 </style>
@@ -474,13 +552,14 @@
 
 <div class="header-bar">
   <div class="logo-wrapper">
-    <a href="{{ url_for('login') }}">
+    <a>
       <img src="{{ url_for('static', filename='images/logoFinish.svg') }}" alt="Logo" class="logo">
     </a>
   </div>
 
   <div class="dashboard-title">
-    <h1>Willkommen zurück, {{ session['username'] }}!</h1>
+    <h1>Willkommen zurück, 
+      <span class="user-name">{{ session['username'] }}</span>!
   </div>
 
   <div class="logout-wrapper">
