@@ -214,7 +214,7 @@ def admin_dashboard():
             SELECT offers.*, offers.created_at, users.username AS assigned_user
             FROM offers
             LEFT JOIN users ON offers.assigned_user_id = users.id
-            WHERE offers.status = 'neu'
+            WHERE offers.status = 'neu' OR offers.status = 'zurückgezogen'
             ORDER BY offers.created_at DESC
         ''').fetchall()
 
@@ -600,6 +600,34 @@ def update_jahrgang():
 
     flash('Jahrgangsstufe gespeichert.', 'success')
     return redirect(url_for('anbieter'))  # oder eine andere gewünschte Seite
+
+
+@app.route("/zurueckziehen", methods=["POST"])
+def zurueckziehen_anfrage():
+    if 'username' not in session or session['username'] != 'admin':
+        return redirect(url_for("login"))
+
+    anfrage_id = request.form.get("anfrage_id")
+
+    if not anfrage_id:
+        flash("Keine Anfrage-ID angegeben.", "error")
+        return redirect(url_for("admin_dashboard"))
+
+    conn = get_db_connection()
+    anfrage = conn.execute("SELECT * FROM offers WHERE id = ?", (anfrage_id,)).fetchone()
+
+    if not anfrage:
+        flash("Anfrage nicht gefunden.", "error")
+        conn.close()
+        return redirect(url_for("admin_dashboard"))
+
+    conn.execute("UPDATE offers SET status = 'zurückgezogen' WHERE id = ?", (anfrage_id,))
+    conn.commit()
+    conn.close()
+
+    flash("Anfrage wurde erfolgreich zurückgezogen.", "success")
+    return redirect(url_for("admin_dashboard"))
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

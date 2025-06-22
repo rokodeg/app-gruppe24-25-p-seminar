@@ -497,7 +497,7 @@
     <div id="confirmedSection" style="display: none;">
       <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
         <input type="hidden" name="status" value="offen">
-        <button type="submit">Alle löschen</button>
+        <button class="toggle-btn-del" type="submit">Alle löschen</button>
       </form>
       {% for anfrage in bestaetigte_anfragen %}
         <div class="anfrage-box">
@@ -507,7 +507,11 @@
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-            <button type="submit">Löschen</button>
+            <button class="toggle-btn-del" type="submit">Löschen</button>
+          </form>
+          <form method="post" action="{{ url_for('zurueckziehen_anfrage') }}">
+          <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+          <button type="submit" class="btn-zurueck">Zurückziehen</button>
           </form>
         </div>
       {% else %}
@@ -525,7 +529,7 @@
     <div id="assignedSection" style="display: none;">
       <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
         <input type="hidden" name="status" value="zugewiesen">
-        <button type="submit">Alle löschen</button>
+        <button class="toggle-btn-del" type="submit">Alle löschen</button>
       </form>
       {% for anfrage in zugewiesene_anfragen %}
         <div class="anfrage-box">
@@ -536,7 +540,11 @@
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username }}</p>
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-            <button type="submit">Löschen</button>
+            <button class="toggle-btn-del" type="submit">Löschen</button>
+          </form>
+                    <form method="post" action="{{ url_for('zurueckziehen_anfrage') }}">
+          <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+          <button type="submit" class="btn-zurueck">Zurückziehen</button>
           </form>
         </div>
       {% else %}
@@ -553,7 +561,7 @@
   <div id="activeSection" style="display: none;">
     <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
       <input type="hidden" name="status" value="aktiv">
-      <button type="submit">Alle löschen</button>
+      <button class="toggle-btn-del" type="submit">Alle löschen</button>
     </form>
     {% if aktive_anfragen %}
       {% for anfrage in aktive_anfragen %}
@@ -566,7 +574,7 @@
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-            <button type="submit">Löschen</button>
+            <button class="toggle-btn-del" type="submit">Löschen</button>
           </form>
         </div>
       {% endfor %}
@@ -585,7 +593,7 @@
   <div id="completedSection" style="display: none;">
     <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
       <input type="hidden" name="status" value="erledigt">
-      <button type="submit">Alle löschen</button>
+      <button class="toggle-btn-del" type="submit">Alle löschen</button>
     </form>
     {% for anfrage in erledigte_anfragen %}
       <div class="anfrage-box">
@@ -596,7 +604,7 @@
         <p><strong>Erledigt von:</strong> {{ anfrage.username }}</p>
         <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
           <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-          <button type="submit">Löschen</button>
+          <button class="toggle-btn-del" type="submit">Löschen</button>
         </form>
       </div>
     {% else %}
@@ -615,7 +623,7 @@
     <div id="rejectedSection" style="display: none;">
       <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
         <input type="hidden" name="status" value="abgelehnt">
-        <button type="submit">Alle löschen</button>
+        <button class="toggle-btn-del" type="submit">Alle löschen</button>
       </form>
       {% for anfrage in abgelehnte_anfragen %}
         <div class="anfrage-box">
@@ -625,7 +633,11 @@
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-            <button type="submit">Löschen</button>
+            <button class="toggle-btn-del" type="submit">Löschen</button>
+          </form>
+                    <form method="post" action="{{ url_for('zurueckziehen_anfrage') }}">
+          <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+          <button type="submit" class="btn-zurueck">Zurückziehen</button>
           </form>
         </div>
       {% else %}
