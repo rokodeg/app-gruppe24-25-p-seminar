@@ -19,24 +19,22 @@
   </a>
 </div>
 {%- with messages = get_flashed_messages(with_categories=true) -%}
-{%- if messages -%}
-  {% for category, msg in messages %}
-    <div id="flash-message" class="flash-{{ category }}">{{ msg }}</div>
-  {% endfor %}
-                     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const flash = document.getElementById("flash-message");
-      if (flash) {
-        setTimeout(() => {
-          flash.style.transition = "opacity 0.5s";
-          flash.style.opacity = "0";
-          setTimeout(() => flash.remove(), 500);
-        }, 3000);
-      }
-    });
-  </script>
-                    </ul>
-                </div>
+  {%- if messages -%}
+    {% for category, msg in messages %}
+      <div id="flash-message" class="flash-{{ category }}">{{ msg }}</div>
+    {% endfor %}
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const flash = document.getElementById("flash-message");
+        if (flash) {
+          setTimeout(() => {
+            flash.style.transition = "opacity 0.5s";
+            flash.style.opacity = "0";
+            setTimeout(() => flash.remove(), 500);
+          }, 3000);
+        }
+      });
+    </script>
             {% endif %}
         {% endwith %}
         <h2>Neuen Benutzer hinzufügen</h2>
@@ -93,12 +91,18 @@
                     </td>
                     <td>
                         <div class="aktionen">
-                            <form method="POST" action="{{ url_for('benutzer_loeschen', user_id=user.id) }}">
+                            <form method="POST" 
+                                action="{{ url_for('benutzer_loeschen', user_id=user.id) }}" 
+                                data-confirm
+                                data-confirm-message="Möchten Sie diesen Benutzer wirklich löschen?">
                                 <button type="submit">Löschen</button>
                             </form>
-                            <form method="POST" action="{{ url_for('passwort_zuruecksetzen', user_id=user.id) }}">
-    <button type="submit" class="reset-password-button">Passwort zurücksetzen</button>
-</form>
+                            <form method="POST" 
+                                action="{{ url_for('passwort_zuruecksetzen', user_id=user.id)}}""
+                                data-confirm 
+                                data-confirm-message="Möchten Sie wirklich das Passwort des Benutzers zurücksetzen?">
+                                <button type="submit" class="reset-password-button">Passwort zurücksetzen</button>
+                            </form>
                         </div>
                     </td>
                 </tr>
@@ -148,6 +152,52 @@
             }
         }
     }
-    </script>
-</body>
+</script>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Referenzen
+    const modal      = document.getElementById('confirm-modal');
+    const btnYes     = document.getElementById('confirm-yes');
+    const btnNo      = document.getElementById('confirm-no');
+    const msgElem    = document.getElementById('confirm-message');
+    let   targetForm; // das Formular, das bestätigt werden soll
+
+    // alle Formulare mit data-confirm
+    document.querySelectorAll('form[data-confirm]').forEach(form => {
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        targetForm = form;
+        // Hier den individuellen Text setzen:
+        msgElem.textContent = form.dataset.confirmMessage || 'Sind Sie sicher?';
+        modal.classList.remove('hidden');
+    });
+    });
+
+  // "Ja" → Formular absenden
+  btnYes.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    if (targetForm) targetForm.submit();
+  });
+
+  // "Nein" → Abbrechen
+  btnNo.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    targetForm = null;
+  });
+});
+</script>
+<!-- Bestätigungs-Popup -->
+        <div id="confirm-modal" class="modal hidden">
+        <div class="modal-content">
+            <p id="confirm-message">Möchten Sie wirklich diesen Benutzer löschen?</p>
+            <div class="modal-buttons">
+            <button id="confirm-yes">Ja</button>
+            <button id="confirm-no">Abbrechen</button>
+            </div>
+        </div>
+    </div>
+    </body>
 </html>
