@@ -191,6 +191,7 @@ def anbieter():
         }
         erledigte_anfragen.append(anfrage)
 
+
     return render_template(
         'anbieter.html',
         anfragen=anfrage_liste,
@@ -243,9 +244,9 @@ def admin_dashboard():
         ''').fetchall()
 
         zugewiesene_anfragen = conn.execute('''
-            SELECT offers.*, offers.created_at, users.username AS assigned_user
+            SELECT offers.*, users.username AS assigned_user
             FROM offers
-            JOIN users ON offers.assigned_user_id = users.id
+            LEFT JOIN users ON offers.assigned_user_id = users.id
             WHERE offers.status = 'zugewiesen'
             ORDER BY offers.created_at DESC
         ''').fetchall()
@@ -272,6 +273,7 @@ def admin_dashboard():
 
         conn.close()
 
+            
         return render_template(
             'admin.html',
             neue_anfragen=neue_anfragen,

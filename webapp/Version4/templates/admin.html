@@ -536,7 +536,7 @@
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.assigned_username if anfrage.assigned_username else 'Kein Bearbeiter' }}</p>
           <p><strong>Grund für Ablehnen:</strong> {{ anfrage.user_comment if anfrage.user_comment else 'Kein Grund genannt' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
@@ -731,8 +731,8 @@
           <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
-          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Anmerkung des Erstellers</strong> {{ anfrage.anmerkungen or "Keine Anmerkung" }}</p>
+          <p><strong>Zugewiesen an:</strong> {{ anfrage.assigned_user if anfrage.assigned_user else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
@@ -777,7 +777,7 @@
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Aktiver Anbieter:</strong> {{ anfrage.assigned_user if anfrage.assigned_user else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
@@ -819,7 +819,7 @@
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>Erledigt von:</strong> {{ anfrage.assigned_user if anfrage.assigned_user else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
         <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
