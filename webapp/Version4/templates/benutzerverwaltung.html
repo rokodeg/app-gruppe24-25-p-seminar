@@ -2,12 +2,21 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Benutzerverwaltung</title>
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='benutzerverwaltung/style.css') }}" />
 </head>
 <body>
-    <div class="container">
-        <h1>Benutzerverwaltung</h1>
+<div class="container">
+<div class="header-container">
+  <img src="{{ url_for('static', filename='images/logoFinish.svg') }}" alt="Logo" class="logo">
+  
+  <h1 class="page-title">Benutzerverwaltung</h1>
+
+  <a href="{{ url_for('admin_dashboard') }}" class="btn-link home-button" title="Zur Startseite">
+    <i class="fas fa-home"></i> <span class="home-text">Home</span>
+  </a>
+</div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages">
@@ -43,8 +52,8 @@
 
         <h2>Bestehende Benutzer</h2>
 
-        <input type="text" id="userSearchInput" placeholder="Benutzer suchen..." oninput="filterUserTable()" style="width:100%; padding:8px; margin-bottom:10px; box-sizing:border-box; border-radius:4px; border:1px solid #ccc;">
-
+        <input type="text" id="userSearchInput" placeholder="Benutzer suchen..." oninput="filterUserTable()">
+        <div class="table-wrapper">
         <table id="userTable">
             <thead>
                 <tr>
@@ -62,7 +71,7 @@
                     <td>{{ user.username }}</td>
                     <td>
                         {% if user.active_requests %}
-                            <ul style="padding-left: 18px; margin: 0;">
+                            <ul>
                             {% for req in user.active_requests %}
                                 <li>{{ req.request_name }} ({{ req.fach }})</li>
                             {% endfor %}
@@ -86,9 +95,14 @@
             {% endfor %}
             </tbody>
         </table>
+        </div>
 
-        <!-- Zurück-Button -->
-        <a href="{{ url_for('admin_dashboard') }}" class="back-button">Zurück zur Admin-Seite</a>
+           <div class="agb-box">
+        <a href="{{ url_for('admin_dashboard') }}">Zurück</a>
+        <a href="{{ url_for('agb') }}" target="_blank">Allgemeine Geschäftsbedingungen (AGB)</a>
+        <a href="{{ url_for('impressum') }}" target="_blank">
+            Impressum</a>
+    </div>
     </div>
 
     <script>
