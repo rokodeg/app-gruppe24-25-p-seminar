@@ -339,12 +339,18 @@
 
 
 <!-- Neue Anfragen -->
-<div class="section">
+<div id="neueAnfragenListe" class="section">
   <h2 class="section-title">Neue Anfragen</h2>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+    <label for="sort-neue" style="margin-right: 0.5rem;">Sortieren:</label>
+    <select id="sort-neue" onchange="sortSection('neueAnfragenListe', this.value)">
+      <option value="desc">Neueste zuerst</option>
+      <option value="asc">Älteste zuerst</option>
+    </select>
+  </div>
   {% if neue_anfragen %}
     {% for anfrage in neue_anfragen %}
-      <div class="request-card" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
-        <p><strong>Name:</strong> {{ anfrage.name }}</p>
+      <div class="request-card" data-created="{{ anfrage.created_at }}" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">        <p><strong>Name:</strong> {{ anfrage.name }}</p>
         <p><strong>Geschlecht:</strong>  {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
         <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
         <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -484,8 +490,16 @@
 </div>
 
 
-  <div class="section">
-    <h2 class="section-title">Vom Benutzer abgelehnte Anfragen</h2>
+<div id="rejectedByUserSection" class="section">
+   <h2 class="section-title">Vom Benutzer abgelehnte Anfragen</h2>
+   <!-- Sort-Dropdown einfügen -->
+   <div style="display:flex; justify-content:flex-end; margin-bottom:0.5rem;">
+     <label for="sort-rejectedByUser" style="margin-right:0.5rem;">Sortieren:</label>
+     <select id="sort-rejectedByUser" onchange="sortSection('rejectedByUserSection', this.value)">
+       <option value="desc">Neueste zuerst</option>
+       <option value="asc">Älteste zuerst</option>
+     </select>
+   </div>
     {% if abgelehnte_von_user %}
       {% for anfrage in abgelehnte_von_user %}
         <div class="request-card" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
@@ -628,12 +642,19 @@
       <i class="fas fa-chevron-down arrow-icon"></i>
     </button>
     <div id="confirmedSection" style="display: none;">
+       <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+      <label for="sort-confirmed" style="margin-right: 0.5rem;">Sortieren:</label>
+      <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
+        <option value="desc">Neueste zuerst</option>
+        <option value="asc">Älteste zuerst</option>
+      </select>
+    </div>
       <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
         <input type="hidden" name="status" value="offen">
         <button class="toggle-btn-del" type="submit">Alle löschen</button>
       </form>
       {% for anfrage in bestaetigte_anfragen %}
-        <div class="anfrage-box">
+        <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
           <h4>{{ anfrage.name }}</h4>
           <p><strong>Geschlecht:</strong>  {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
@@ -666,12 +687,19 @@
       <i class="fas fa-chevron-down arrow-icon"></i>
     </button>
     <div id="assignedSection" style="display: none;">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+    <label for="sort-assigned" style="margin-right: 0.5rem;">Sortieren:</label>
+    <select id="sort-assigned" onchange="sortSection('assignedSection', this.value)">
+      <option value="desc">Neueste zuerst</option>
+      <option value="asc">Älteste zuerst</option>
+    </select>
+  </div>
       <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
         <input type="hidden" name="status" value="zugewiesen">
         <button class="toggle-btn-del" type="submit">Alle löschen</button>
       </form>
       {% for anfrage in zugewiesene_anfragen %}
-        <div class="anfrage-box">
+        <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
           <h4>{{ anfrage.name }}</h4>
           <p><strong>Geschlecht:</strong>  {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
@@ -704,13 +732,20 @@
     <span class="btn-text">Alle aktiven Anfragen</span>
     <i class="fas fa-chevron-down arrow-icon"></i></button>
   <div id="activeSection" style="display: none;">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+      <label for="sort-active" style="margin-right: 0.5rem;">Sortieren:</label>
+      <select id="sort-active" onchange="sortSection('activeSection', this.value)">
+        <option value="desc">Neueste zuerst</option>
+        <option value="asc">Älteste zuerst</option>
+      </select>
+    </div>
     <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
       <input type="hidden" name="status" value="aktiv">
       <button class="toggle-btn-del" type="submit">Alle löschen</button>
     </form>
     {% if aktive_anfragen %}
       {% for anfrage in aktive_anfragen %}
-        <div class="anfrage-box">
+        <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
           <h4>{{ anfrage.name }}</h4>
           <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
@@ -741,13 +776,20 @@
     <i class="fas fa-chevron-down arrow-icon"></i>
   </button>
   <div id="completedSection" style="display: none;">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+    <label for="sort-assigned" style="margin-right: 0.5rem;">Sortieren:</label>
+    <select id="sort-assigned" onchange="sortSection('assignedSection', this.value)">
+      <option value="desc">Neueste zuerst</option>
+      <option value="asc">Älteste zuerst</option>
+    </select>
+  </div>
     <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
       <input type="hidden" name="status" value="erledigt">
       <button class="toggle-btn-del" type="submit">Alle löschen</button>
     </form>
     {% for anfrage in erledigte_anfragen %}
-      <div class="anfrage-box">
-        <h4>{{ anfrage.name }}</h4>
+      <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
+          <h4>{{ anfrage.name }}</h4>
           <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe" }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -777,13 +819,20 @@
       <i class="fas fa-chevron-down arrow-icon"></i>
     </button>
     <div id="rejectedSection" style="display: none;">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+    <label for="sort-assigned" style="margin-right: 0.5rem;">Sortieren:</label>
+    <select id="sort-assigned" onchange="sortSection('assignedSection', this.value)">
+      <option value="desc">Neueste zuerst</option>
+      <option value="asc">Älteste zuerst</option>
+    </select>
+  </div>
       <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
         <input type="hidden" name="status" value="abgelehnt">
         <button class="toggle-btn-del" type="submit">Alle löschen</button>
       </form>
       {% for anfrage in abgelehnte_anfragen %}
-        <div class="anfrage-box">
-          <h4>{{ anfrage.name }}</h4>
+        <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
+            <h4>{{ anfrage.name }}</h4>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -1029,6 +1078,35 @@ document.addEventListener('click', function(e) {
   }
 
 </script>
+<script>
+  function sortAnfragenByDate(sectionId, order = 'desc') {
+    const section = document.getElementById(sectionId);
+    const boxes = Array.from(section.querySelectorAll('.anfrage-box'));
+
+    boxes.sort((a, b) => {
+      const dateA = new Date(a.querySelector('p strong:contains("Erstellt am")').parentNode.textContent.trim().split(": ")[1]);
+      const dateB = new Date(b.querySelector('p strong:contains("Erstellt am")').parentNode.textContent.trim().split(": ")[1]);
+      return order === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+
+    boxes.forEach(box => section.appendChild(box));
+  }
+</script>
+<script>
+function sortSection(sectionId, order) {
+  const container = document.getElementById(sectionId);
+  const boxes = Array.from(container.querySelectorAll('.anfrage-box'));
+
+  boxes.sort((a, b) => {
+    const dateA = new Date(a.getAttribute('data-created'));
+    const dateB = new Date(b.getAttribute('data-created'));
+    return order === 'asc' ? dateA - dateB : dateB - dateA;
+  });
+
+  boxes.forEach(box => container.appendChild(box));
+}
+</script>
+
 
 <div id="confirm-modal" class="modal hidden">
   <div class="modal-content">
