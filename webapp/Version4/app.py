@@ -298,6 +298,7 @@ def delete_anfrage():
         conn.execute('DELETE FROM offers WHERE id = ?', (anfrage_id,))
         conn.commit()
         conn.close()
+        flash('Anfrage erfolgreich gelöscht.', 'success')
 
     return redirect(url_for('admin_dashboard'))
 
@@ -312,6 +313,7 @@ def delete_all_by_status():
         conn.execute('DELETE FROM offers WHERE status = ?', (status,))
         conn.commit()
         conn.close()
+        flash(f'Alle Anfragen mit Status "{status}" wurden gelöscht.', 'success')
 
     return redirect(url_for('admin_dashboard'))
    
@@ -328,6 +330,11 @@ def update_anfrage_status():
         conn.execute('UPDATE offers SET status = ? WHERE id = ?', (neuer_status, anfrage_id))
         conn.commit()
         conn.close()
+        # Flash-Nachricht je nach Status
+        if neuer_status == 'offen':
+          flash('Anfrage wurde angenommen.', 'success')
+        else:
+           flash('Anfrage wurde abgelehnt.', 'warning')
 
     return redirect(url_for('admin_dashboard'))
 
@@ -462,7 +469,7 @@ def anfrage_ablehnen_user():
     ''', ('abgelehnt_von_user', kommentar, anfrage_id, session['user_id']))
     conn.commit()
     conn.close()
-    flash('Anfrage erfolgreich abgelehnt.', 'success')
+    flash('Anfrage erfolgreich abgelehnt.', 'danger')
     return redirect(url_for('anbieter'))
 
 @app.route('/anfrage_erledigen', methods=['POST'])

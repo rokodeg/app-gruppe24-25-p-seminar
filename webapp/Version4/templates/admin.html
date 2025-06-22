@@ -298,12 +298,33 @@
       transform: translate(-50%, -50%);
     }
   }
+
+  #flash-message {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #004F7C;
+    background: rgba(0, 79, 124, 0.85);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
+  }
+ .flash-success { /* grün für Erfolg */ background: rgba(46,125,50,0.85); }
+ .flash-warning { /* orange für Warnung */ background: rgba(255,152,0,0.85); }
+ .flash-danger  { /* rot für Fehler  */ background: rgba(211,47,47,0.85); }
 </style>
 
 
 </head>
 <body>
-
+  {%- with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, msg in messages %}
+      <div id="flash-message" class="flash-{{ category }}">{{ msg }}</div>
+    {% endfor %}
+  {%- endwith %}
 <div class="content-box">
 
 <div class="header-row">
@@ -1106,6 +1127,19 @@ function sortSection(sectionId, order) {
 }
 </script>
 
+<!-- JS: Flash-Message automatisch nach 3s ausblenden -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const flash = document.getElementById("flash-message");
+      if (flash) {
+        setTimeout(() => {
+          flash.style.transition = "opacity 0.5s";
+          flash.style.opacity = "0";
+          setTimeout(() => flash.remove(), 500);
+        }, 3000);
+      }
+    });
+  </script>
 
 <div id="confirm-modal" class="modal hidden">
   <div class="modal-content">
