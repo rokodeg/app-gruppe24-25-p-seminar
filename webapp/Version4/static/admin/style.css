@@ -267,7 +267,7 @@ form[data-confirm] {
 
 /* Link Buttons */
 .btn-link {
-  background-color: #005f73;
+  background-color: #004F7C;
   color: white;
   border: none;
   padding: 8px 14px;
@@ -284,7 +284,7 @@ form[data-confirm] {
 
 .btn-link:hover,
 .btn-link:focus {
-  background-color: #0a9396;
+  background-color: #007B9A;
   outline: none;
 }
 
