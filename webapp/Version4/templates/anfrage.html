@@ -7,6 +7,15 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='anfrage/style.css') }}" />
 </head>
 <body>
+  <style>
+    label.required::after { content: " *"; color: #e53935; margin-left: 0.2em; }
+    .required-note {
+      color: #e53935;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      text-align: left;
+    }
+  </style>
 
   <div class="container">
      <a href="{{ url_for('home') }}"> <img src="{{ url_for('static', filename='images/logoFinish.svg') }}" alt="Logo" class="logo" /></a>
@@ -15,12 +24,12 @@
     <form method="post" action="{{ url_for('create_offer') }}">
       
       <div class="input-group">
-        <label for="name">Vor- und Nachname:</label>
+        <label for="name" class="required">Vor- und Nachname:</label>
         <input type="text" id="name" name="name" required />
       </div>
 
       <div class="input-group">
-        <label for="geschlecht">Geschlecht (nicht verpflichetend):</label>
+        <label for="geschlecht">Geschlecht:</label>
         <select id="geschlecht" name="geschlecht">
           <option value="">Bitte wählen...</option>
           <option value="männlich">Männlich</option>
@@ -30,7 +39,7 @@
       </div>
 
       <div class="input-group">
-        <label for="fach">Fach für Nachhilfe:</label>
+        <label for="fach" class="required">Fach für Nachhilfe:</label>
         <select id="fach" name="fach" required>
           <option value="">Bitte wählen...</option>
           <option value="Deutsch">Deutsch</option>
@@ -52,37 +61,40 @@
       </div>
 
       <div class="input-group">
-        <label for="wohnort">Wohnort (z.B. Deggendorf, Passau, etc.):</label>
-        <input type="text" id="wohnort" name="wohnort" required />
+        <label for="wohnort" >Wohnort (z.B. Deggendorf, Passau, etc.):</label>
+        <input type="text" id="wohnort" name="wohnort"/>
       </div>
 
       <div class="input-group">
-        <label for="stunden">Stundenanzahl pro Woche:</label>
+        <label for="stunden" class="required">Stundenanzahl pro Woche:</label>
         <input type="number" id="stunden" name="stunden" required min="1" max="20" />
       </div>
 
       <div class="input-group">
-        <label for="klassenstufe">Klassenstufe (5-13):</label>
+        <label for="klassenstufe" class="required">Klassenstufe (5-13):</label>
         <input type="number" id="klassenstufe" name="klassenstufe" required min="5" max="13" />
       </div>
 
-      <div class="input-group">
-        <label for="kontakt">Kontaktdaten (Telefon, E-Mail oder ByCS):</label>
+      <div class="input-group" class="required">
+        <label for="kontakt" class="required">Kontaktdaten (Telefon, E-Mail oder ByCS):</label>
         <input type="text" id="kontakt" name="kontakt" required />
       </div>
 
       <div class="input-group">
-        <label for="anmerkungen">Weitere Anmerkungen falls nötig (nicht verpflichtend):</label>
+        <label for="anmerkungen" >Weitere Anmerkungen (falls nötig):</label>
         <textarea id="anmerkungen" name="anmerkungen" rows="4" maxlength="100"></textarea>
         <div id="char-counter" class="char-counter">0 / 100 Zeichen</div>
       </div>
 
-<div class="agb-link">
+<div class="agb-link" >
   <input type="checkbox" id="agb" name="agb" required />
-  <label for="agb">
+  <label for="agb" class="required">
     Ich habe die <a href="{{ url_for('agb') }}" target="_blank">AGB</a> gelesen und akzeptiere sie.
   </label>
 </div>
+
+<p class="required-note">* verpflichtendes Feld</p>
+
 
       <button type="submit">Anfrage Absenden</button>
     </form>
@@ -96,6 +108,7 @@
             Impressum</a>
     </div>
   </div>
+  
 
   <script src="{{ url_for('static', filename='anfrage/script.js') }}"></script>
   <script>

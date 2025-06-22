@@ -379,7 +379,7 @@
         <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
         <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
         <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
-        <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+        <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
         <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
 
@@ -535,9 +535,9 @@
           <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
-          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
-          <p><strong>Grund für Ablehnen:</strong> {{ anfrage.user_comment if anfrage.user_comment else 'Kein Grund genannt' }}</p>
+          <p><strong>Begründung für Ablehnen:</strong> {{ anfrage.user_comment if anfrage.user_comment else 'Keine Begründung' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
           <!-- Auswahlmenü wie bei neue Anfragen -->
@@ -687,7 +687,7 @@
           <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
-          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
@@ -731,7 +731,7 @@
           <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
-          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
@@ -776,7 +776,7 @@
           <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
-          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
@@ -818,7 +818,7 @@
           <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
-          <p><strong>Kommentar des Benutzers:</strong> {{ anfrage.anmerkungen or "Kein Kommentar" }}</p>
+          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
           <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
