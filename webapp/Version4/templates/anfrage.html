@@ -15,13 +15,13 @@
     <form method="post" action="{{ url_for('create_offer') }}">
       
       <div class="input-group">
-        <label for="name">Name:</label>
+        <label for="name">Vor- und Nachname:</label>
         <input type="text" id="name" name="name" required />
       </div>
 
       <div class="input-group">
-        <label for="geschlecht">Geschlecht:</label>
-        <select id="geschlecht" name="geschlecht" required>
+        <label for="geschlecht">Geschlecht (nicht verpflichetend):</label>
+        <select id="geschlecht" name="geschlecht">
           <option value="">Bitte wählen...</option>
           <option value="männlich">Männlich</option>
           <option value="weiblich">Weiblich</option>
@@ -30,7 +30,7 @@
       </div>
 
       <div class="input-group">
-        <label for="fach">Fach:</label>
+        <label for="fach">Fach für Nachhilfe:</label>
         <select id="fach" name="fach" required>
           <option value="">Bitte wählen...</option>
           <option value="Deutsch">Deutsch</option>
@@ -52,7 +52,7 @@
       </div>
 
       <div class="input-group">
-        <label for="wohnort">Wohnort:</label>
+        <label for="wohnort">Wohnort (z.B. Deggendorf, Passau, etc.):</label>
         <input type="text" id="wohnort" name="wohnort" required />
       </div>
 
@@ -62,17 +62,17 @@
       </div>
 
       <div class="input-group">
-        <label for="klassenstufe">Klassenstufe:</label>
+        <label for="klassenstufe">Klassenstufe (5-13):</label>
         <input type="number" id="klassenstufe" name="klassenstufe" required min="5" max="13" />
       </div>
 
       <div class="input-group">
-        <label for="kontakt">Kontaktdaten (Telefon oder E-Mail):</label>
+        <label for="kontakt">Kontaktdaten (Telefon, E-Mail oder ByCS):</label>
         <input type="text" id="kontakt" name="kontakt" required />
       </div>
 
       <div class="input-group">
-        <label for="anmerkungen">Weitere Anmerkungen:</label>
+        <label for="anmerkungen">Weitere Anmerkungen falls nötig (nicht verpflichtend):</label>
         <textarea id="anmerkungen" name="anmerkungen" rows="4" maxlength="100"></textarea>
         <div id="char-counter" class="char-counter">0 / 100 Zeichen</div>
       </div>

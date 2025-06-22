@@ -258,10 +258,15 @@
     grid-template-columns: auto 1fr auto;
     align-items: start;
     column-gap: 2vw;
-    padding: 2vw;
+    padding: 2vw 1vw 5vw;
     box-sizing: border-box;
     width: 100%;
   }
+  .left-side img.logo {
+    max-height: 6rem;
+    width: clamp(8rem, 15vw, 12rem);
+  }
+  
   .logo-wrapper {
     max-width: 15vw;
     margin-right: 0.1rem;
@@ -439,7 +444,7 @@
                    min-width: 220px; background: white; border: 1px solid #ccc;
                    border-radius: 8px; padding: 10px; font-size: 15px;">
       <option value="">Fach wählen</option>
-      {% for fach in ['Deutsch','Englisch','Latein','Französisch','Spanisch','Mathematik','Physik','Chemie','Biologie','Informatik','Geschichte','Geographie','Wirtschaft und Recht','Politik und Gesellschaft','Musik'] %}
+      {% for fach in ['Deutsch','Englisch','Latein','Französisch','Spanisch','Mathematik','Physik','Chemie','Biologie/NuT','Informatik','Geschichte','Geographie','Wirtschaft und Recht','Politik und Gesellschaft','Musik'] %}
         <option value="{{ fach }}">{{ fach }}</option>
       {% endfor %}
     </select>
@@ -584,11 +589,10 @@
           <div class="anfrage">
             <h3>{{ anfrage.name }}</h3>
             <p><strong>Erstellt am:</strong> {{ anfrage.created_at | datetimeformat }}</p>
-            <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
+            <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
             <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
             <p><strong>Stundenanzahl pro Woche:</strong> {{ anfrage.stunden }}</p>
             <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
-            <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht }}</p>
             <p><strong>Anmerk:</strong> {{ anfrage.anmerkungen  or "Kein Kommentar"}}</p>
             <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
             <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
