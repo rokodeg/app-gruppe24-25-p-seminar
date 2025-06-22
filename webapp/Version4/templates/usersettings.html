@@ -2,70 +2,75 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Einstellungen</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='usersettings/style.css') }}"> <!-- Verlinke deine CSS-Datei -->
-  <!-- Bootstrap CSS -->
+
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='usersettings/style.css') }}">
 
 </head>
 <body>
-
-  <div class="settings-container">
-    <h1>Einstellungen</h1>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div>
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %}
+  <div class="container">
+    <div class="header-row">
+      <img src="{{ url_for('static', filename='images/logoFinish.svg') }}" alt="Logo" class="logo">
+      <h1>Einstellungen</h1>
     </div>
-  {% endif %}
-{% endwith %}
-    <form id="settingsForm" method="POST" action="{{ url_for('change_password') }}" >
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('change_password') }}">
       <div class="form-group">
-        <label for="password">Passwort</label>
-        <input type="password" id="password" name="password" placeholder="Passwort eingeben" required>
+        <label for="password">Neues Passwort</label>
+        <input type="password" id="password" name="password" required>
       </div>
+
       <div class="form-group">
         <label for="confirmPassword">Passwort wiederholen</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Passwort wiederholen" required>
-        <p id="passwordMatchMessage" class="success-message" style="display:none; color: green;">
-          ✅ Die Passwörter stimmen überein.
-        </p>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        <div id="passwordMatchMessage" style="display: none;">✅ Die Passwörter stimmen überein.</div>
       </div>
-      <button type="submit" id="saveButton" disabled>Änderungen speichern</button>
+
+      <button type="submit" class="button" id="saveButton" disabled>Änderung speichern</button>
     </form>
+    
+    <hr class="custom-hr"> 
 
-    <div class="back-link">
-      <a href="{{ url_for('anbieter') }}" class="button">Zurück zu den Anfragen</a> 
+        <div class="agb-box">
+        <a href="{{ url_for('anbieter') }}">Zurück</a>
+        <a href="{{ url_for('agb') }}" target="_blank">Allgemeine Geschäftsbedingungen (AGB)</a>
+        <a href="{{ url_for('impressum') }}" target="_blank">
+            Impressum</a>
     </div>
   </div>
 
-
-<!-- Erfolgsmodal -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title" id="successModalLabel">Erfolg</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Schließen"></button>
-      </div>
-      <div class="modal-body">
-        ✅ Dein Passwort wurde erfolgreich geändert!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+  <!-- Modal bei Erfolg -->
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="successModalLabel">Erfolg</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Schließen"></button>
+        </div>
+        <div class="modal-body">
+          ✅ Dein Passwort wurde erfolgreich geändert!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<script src="{{ url_for('static', filename='usersettings/script.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+  <!-- Scripte -->
+  <script src="{{ url_for('static', filename='usersettings/script.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
-
 </html>
