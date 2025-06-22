@@ -22,8 +22,12 @@
         <label for="username">Benutzername:</label>
         <input type="text" id="username" name="username" required />
       </div>
-      <div class="input-group">
-        <label for="password">Passwort:</label>
+      <!-- 2) Passwort-Feld mit Augen-Icon -->
+      <div class="input-group password-group">
+        <label for="password" class="password-label">
+          Passwort:
+          <button type="button" id="togglePassword" class="toggle-pw" aria-label="Passwort anzeigen">👁️</button>
+        </label>
         <input type="password" id="password" name="password" required />
       </div>
       <button type="submit">Anmelden</button>

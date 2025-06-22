@@ -120,5 +120,53 @@ button:hover {
       margin-top: 5px;
     }
 
+/* Vorher (entfernen!):
+.password-label {
+  pointer-events: none;
+}
+*/
 
+/* Nachher: */
+/* Label und Button inline anordnen */
+.password-label-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
 
+/* Label selbst darf jetzt wieder Klicks empfangen (z.B. um das Feld zu fokussieren) */
+.password-label {
+  /* pointer-events entfernen, damit das Label nicht mehr Klicks blockiert */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Button soll klar oben liegen und klickbar sein */
+.toggle-pw {
+  position: relative;
+  z-index: 10;          /* über dem Label und Input */
+  pointer-events: auto; /* Klicks hier statt am Label */
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Label + Icon inline, Input direkt darunter */
+.password-label-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;          /* Abstand zwischen Label und Icon */
+  margin-bottom: 4px;/* Abstand zum Input darunter */
+}
+
+.form-group input {
+  display: block;     /* zwingt das Input unter die Wrapper-Zeile */
+  width: 100%;
+  /* (deine bestehenden Input-Regeln bleiben gültig) */
+}

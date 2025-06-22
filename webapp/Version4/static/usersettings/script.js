@@ -1,3 +1,25 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const btnShowPwd  = document.getElementById('togglePassword');
+  const btnShowConf = document.getElementById('toggleConfirm');
+  const pwdInput    = document.getElementById('password');
+  const confInput   = document.getElementById('confirmPassword');
+
+  function toggleBoth() {
+    const showing = pwdInput.type === 'text';
+    pwdInput.type  = showing ? 'password' : 'text';
+    confInput.type = showing ? 'password' : 'text';
+    const icon = showing ? '👁️' : '🙈';
+    btnShowPwd.textContent  = icon;
+    btnShowConf.textContent = icon;
+  }
+
+  btnShowPwd.addEventListener('click', toggleBoth);
+  btnShowConf.addEventListener('click', toggleBoth);
+
+  // ... dein übriger Code (Passwort-Match, Modal-Logik) ...
+});
+
+
 const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
 const saveButton = document.getElementById('saveButton');
