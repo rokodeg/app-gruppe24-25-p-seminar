@@ -622,7 +622,7 @@
             <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
             <p><strong>Stundenanzahl pro Woche:</strong> {{ anfrage.stunden }}</p>
             <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
-            <p><strong>Anmerk:</strong> {{ anfrage.anmerkungen  or "Kein Kommentar"}}</p>
+            <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
             <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
             <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
             <form action="{{ url_for('anfrage_annehmen') }}" method="POST">
