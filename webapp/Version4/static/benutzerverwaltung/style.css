@@ -67,7 +67,8 @@ body {
 
 .home-button:hover {
     background-color: #FF7F50;
-    transform: translateY(-1px);
+    /* transform ergänzen, bestehendes translateY(-50%) beibehalten und leicht nach oben */
+    transform: translateY(calc(-50% - 2px));
 }
 
 .home-button i {
@@ -149,7 +150,7 @@ button {
 }
 
 button:hover {
-    background-color: #FF7F50;
+    background-color: #003366;
     transform: translateY(-2px);
 }
 
@@ -300,6 +301,17 @@ td ul {
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     transform: translateY(-1px);
 }
+
+.aktionen button.reset-password-button {
+    background-color: #004F7C !important;
+    color: white !important;
+}
+
+.aktionen button.reset-password-button:hover {
+    background-color: #003366 !important;
+}
+
+
 
 /* ========== Responsive ========== */
 @media (max-width: 768px) {

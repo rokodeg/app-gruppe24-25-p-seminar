@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Benutzerverwaltung</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='benutzerverwaltung/style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 <div class="container">
@@ -86,8 +87,8 @@
                                 <button type="submit">Löschen</button>
                             </form>
                             <form method="POST" action="{{ url_for('passwort_zuruecksetzen', user_id=user.id) }}">
-                                <button type="submit">Passwort zurücksetzen</button>
-                            </form>
+    <button type="submit" class="reset-password-button">Passwort zurücksetzen</button>
+</form>
                         </div>
                     </td>
                 </tr>
