@@ -372,13 +372,15 @@
 
 <!-- Neue Anfragen -->
 <div id="neueAnfragenListe" class="section">
-  <h2 class="section-title">Neue Anfragen</h2>
-<div class="sortieren-label">
-  <select id="sort-neue" onchange="sortSection('neueAnfragenListe', this.value)">
-    <option value="desc">Neueste zuerst</option>
-    <option value="asc">Älteste zuerst</option>
-  </select>
-</div>
+  <div class="section-header">
+    <div class="filter-header">
+      <h2 class="section-title">Neue Anfragen</h2>
+      <select id="sort-neue" onchange="sortSection('neueAnfragenListe', this.value)">
+        <option value="desc">Neueste zuerst</option>
+        <option value="asc">Älteste zuerst</option>
+      </select>
+    </div>
+  </div>
 
   {% if neue_anfragen %}
     {% for anfrage in neue_anfragen %}
@@ -523,15 +525,15 @@
 
 
 <div id="rejectedByUserSection" class="section">
-   <h2 class="section-title">Vom Benutzer abgelehnte Anfragen</h2>
-   <!-- Sort-Dropdown einfügen -->
-  <div class="sortieren-label">
-
-  <select id="sort-rejectedByUser" onchange="sortSection('rejectedByUserSection', this.value)">
-    <option value="desc">Neueste zuerst</option>
-    <option value="asc">Älteste zuerst</option>
-  </select>
-</div>
+  <div class="section-header">
+    <div class="filter-header">
+      <h2 class="section-title">Vom Benutzer abgelehnte Anfragen</h2>
+      <select id="sort-rejectedByUser" onchange="sortSection('rejectedByUserSection', this.value)">
+        <option value="desc">Neueste zuerst</option>
+        <option value="asc">Älteste zuerst</option>
+      </select>
+    </div>
+  </div>
 
 
   
@@ -546,7 +548,7 @@
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
+          <p><strong>War zugewiesen an:</strong> {{ anfrage.assigned_user if anfrage.assigned_user else 'Kein Bearbeiter' }}</p>
           <p><strong>Begründung für Ablehnen:</strong> {{ anfrage.user_comment if anfrage.user_comment else 'Keine Begründung' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
@@ -677,20 +679,20 @@
       <span class="btn-text">Bisher bestätigte Anfragen</span>
       <i class="fas fa-chevron-down arrow-icon"></i>
     </button>
-    <div id="confirmedSection" style="display: none;">
-        <div class="sortieren-label">
+    <div id="confirmedSection" style="display: none; margin-top: 0%;">
+        <div class="filter-header">
+          <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
+            <input type="hidden" name="status" value="offen">
+            <button class="toggle-btn-del" type="submit">Alle löschen</button>
+          </form>
           <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
             <option value="desc">Neueste zuerst</option>
             <option value="asc">Älteste zuerst</option>
           </select>
         </div>
-      <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
-        <input type="hidden" name="status" value="offen">
-        <button class="toggle-btn-del" type="submit">Alle löschen</button>
-      </form>
       {% for anfrage in bestaetigte_anfragen %}
-        <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
-          <h4>{{ anfrage.name }}</h4>
+        <div class="request-card" data-created="{{ anfrage.created_at }}">
+          <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Geschlecht:</strong>  {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -698,8 +700,9 @@
           <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
           <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
           <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
-          <p><strong>Zugewiesen an:</strong> {{ anfrage.username if anfrage.username else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
+          
+          <div class="anfrage-actions">
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
             <button class="toggle-btn-del" type="submit">Löschen</button>
@@ -708,6 +711,7 @@
           <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
           <button type="submit" class="btn-zurueck">Zurückziehen</button>
           </form>
+          </div>
         </div>
       {% else %}
         <p>Keine bestätigten Anfragen vorhanden.</p>
@@ -721,20 +725,20 @@
       <span class="btn-text">Zugewiesene Anfragen</span>
       <i class="fas fa-chevron-down arrow-icon"></i>
     </button>
-    <div id="assignedSection" style="display: none;">
-      <div class="sortieren-label">
-        <select id="sort-assigned" onchange="sortSection('assignedSection', this.value)">
-          <option value="desc">Neueste zuerst</option>
-          <option value="asc">Älteste zuerst</option>
-        </select>
-      </div>
-      <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
-        <input type="hidden" name="status" value="zugewiesen">
-        <button class="toggle-btn-del" type="submit">Alle löschen</button>
-      </form>
+    <div id="assignedSection" style="display: none; margin-top: 0%;">
+        <div class="filter-header">
+          <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
+            <input type="hidden" name="status" value="offen">
+            <button class="toggle-btn-del" type="submit">Alle löschen</button>
+          </form>
+          <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
+            <option value="desc">Neueste zuerst</option>
+            <option value="asc">Älteste zuerst</option>
+          </select>
+        </div>
       {% for anfrage in zugewiesene_anfragen %}
-        <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
-          <h4>{{ anfrage.name }}</h4>
+        <div class="request-card" data-created="{{ anfrage.created_at }}">
+          <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Geschlecht:</strong>  {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -745,14 +749,17 @@
           <p><strong>Zugewiesen an:</strong> {{ anfrage.assigned_user if anfrage.assigned_user else 'Kein Bearbeiter' }}</p>
           <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
 
+          
+          <div class="anfrage-actions">
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
             <button class="toggle-btn-del" type="submit">Löschen</button>
           </form>
-                    <form method="post" action="{{ url_for('zurueckziehen_anfrage') }}">
+          <form method="post" action="{{ url_for('zurueckziehen_anfrage') }}">
           <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
           <button type="submit" class="btn-zurueck">Zurückziehen</button>
           </form>
+          </div>
         </div>
       {% else %}
         <p>Keine zugewiesenen Anfragen vorhanden.</p>
@@ -765,21 +772,21 @@
   <button class="toggle-btn" onclick="toggleSection('activeSection')">
     <span class="btn-text">Alle aktiven Anfragen</span>
     <i class="fas fa-chevron-down arrow-icon"></i></button>
-  <div id="activeSection" style="display: none;">
-    <div class="sortieren-label" style="margin-bottom: 1rem;">
-      <select id="sort-active" onchange="sortSection('activeSection', this.value)">
-        <option value="desc">Neueste zuerst</option>
-        <option value="asc">Älteste zuerst</option>
-      </select>
-    </div>
-    <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
-      <input type="hidden" name="status" value="aktiv">
-      <button class="toggle-btn-del" type="submit">Alle löschen</button>
-    </form>
+  <div id="activeSection" style="display: none; margin-top: 0%;">
+        <div class="filter-header">
+          <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
+            <input type="hidden" name="status" value="offen">
+            <button class="toggle-btn-del" type="submit">Alle löschen</button>
+          </form>
+          <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
+            <option value="desc">Neueste zuerst</option>
+            <option value="asc">Älteste zuerst</option>
+          </select>
+        </div>
     {% if aktive_anfragen %}
       {% for anfrage in aktive_anfragen %}
-        <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
-          <h4>{{ anfrage.name }}</h4>
+        <div class="request-card" data-created="{{ anfrage.created_at }}">
+          <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -808,20 +815,20 @@
     <span class="btn-text">Alle erledigten Anfragen</span>
     <i class="fas fa-chevron-down arrow-icon"></i>
   </button>
-  <div id="completedSection" style="display: none;">
-    <div class="sortieren-label" style="margin-bottom: 0.5rem;">
-      <select id="sort-assigned" onchange="sortSection('assignedSection', this.value)">
-        <option value="desc">Neueste zuerst</option>
-        <option value="asc">Älteste zuerst</option>
-      </select>
-    </div>
-    <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
-      <input type="hidden" name="status" value="erledigt">
-      <button class="toggle-btn-del" type="submit">Alle löschen</button>
-    </form>
+  <div id="completedSection" style="display: none; margin-top: 0%;">
+      <div class="filter-header">
+        <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
+          <input type="hidden" name="status" value="offen">
+          <button class="toggle-btn-del" type="submit">Alle löschen</button>
+        </form>
+        <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
+          <option value="desc">Neueste zuerst</option>
+          <option value="asc">Älteste zuerst</option>
+        </select>
+      </div>
     {% for anfrage in erledigte_anfragen %}
-      <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
-          <h4>{{ anfrage.name }}</h4>
+      <div class="request-card" data-created="{{ anfrage.created_at }}">
+          <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Geschlecht:</strong> {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe" }}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
@@ -850,31 +857,38 @@
       <span class="btn-text">Bisher abgelehnte Anfragen</span>
       <i class="fas fa-chevron-down arrow-icon"></i>
     </button>
-    <div id="rejectedSection" style="display: none;">
-      <div class="sortieren-label">
-        <select id="sort-assigned" onchange="sortSection('assignedSection', this.value)">
+    <div id="rejectedSection" style="display: none; margin-top: 0%;">
+      <div class="filter-header">
+        <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
+          <input type="hidden" name="status" value="offen">
+          <button class="toggle-btn-del" type="submit">Alle löschen</button>
+        </form>
+        <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
           <option value="desc">Neueste zuerst</option>
           <option value="asc">Älteste zuerst</option>
         </select>
       </div>
-      <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm>
-        <input type="hidden" name="status" value="abgelehnt">
-        <button class="toggle-btn-del" type="submit">Alle löschen</button>
-      </form>
       {% for anfrage in abgelehnte_anfragen %}
-        <div class="anfrage-box" data-created="{{ anfrage.created_at }}">
-            <h4>{{ anfrage.name }}</h4>
+        <div class="request-card" data-created="{{ anfrage.created_at }}">
+          <p><strong>Name:</strong> {{ anfrage.name }}</p>
+          <p><strong>Geschlecht:</strong>  {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
-          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe }}</p>
           <p><strong>Wohnort:</strong> {{ anfrage.wohnort }}</p>
+          <p><strong>Stunden pro Woche:</strong> {{ anfrage.stunden }}</p>
+          <p><strong>Klassenstufe:</strong> {{ anfrage.klassenstufe if anfrage.klassenstufe else "Keine Angabe" }}</p>
+          <p><strong>Kontaktdaten:</strong> {{ anfrage.kontakt }}</p>
+          <p><strong>Anmerkungen:</strong> {{ anfrage.anmerkungen or "Keine Anmerkungen" }}</p>
+          <p><strong>Erstellt am: </strong>{{ anfrage.created_at|datetimeformat }}</p>
+          <div class="anfrage-actions">
           <form method="post" action="{{ url_for('delete_anfrage') }}" data-confirm>
             <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
             <button class="toggle-btn-del" type="submit">Löschen</button>
           </form>
-                    <form method="post" action="{{ url_for('zurueckziehen_anfrage') }}">
+          <form method="post" action="{{ url_for('zurueckziehen_anfrage') }}">
           <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
           <button type="submit" class="btn-zurueck">Zurückziehen</button>
           </form>
+          </div>
         </div>
       {% else %}
         <p>Keine abgelehnten Anfragen vorhanden.</p>

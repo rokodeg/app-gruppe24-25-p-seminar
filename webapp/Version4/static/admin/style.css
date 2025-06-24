@@ -36,20 +36,44 @@ h1, h2 {
   font-size: 16px;
 }
 
-/* Sektionen */
 .section {
-  margin-bottom: 30px;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #eef7ff;
+  border: 1px solid #cce0f4;
+  border-radius: 10px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #FF7F50; /* orange Linie */
+  padding-bottom: 6px;
 }
 
 .section-title {
-  font-size: 22px;
   color: #004F7C;
-  margin-bottom: 15px;
+  margin: 0;
+  font-size: 1.5rem;
+  border: none; /* Linie ist jetzt im Container */
 }
+
+.filter-header select {
+  padding: 6px 10px;
+  font-size: 1rem;
+  border: 1px solid #004F7C;
+  border-radius: 5px;
+  background-color: #f0f8ff;
+  color: #004F7C;
+  cursor: pointer;
+}
+
 
 /* Formulare */
 .form-container {
@@ -120,7 +144,7 @@ h1, h2 {
 .request-card button {
   margin-top: 10px;
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #ec6421;
   color: white;
   border: none;
   border-radius: 5px;
@@ -129,7 +153,8 @@ h1, h2 {
 }
 
 .request-card button:hover {
-  background-color: #45a049;
+  background-color: #d8561a;
+  transform: translateY(-1px);
 }
 
 /* Logout Button Styling */
@@ -317,7 +342,7 @@ form[data-confirm] {
 /* Grundstil für toggle sections der Listen */
 .toggle-section {
   margin: 1rem auto;
-  max-width: 800px;
+  max-width: 100%;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -371,48 +396,32 @@ form[data-confirm] {
 }
 
 /* ---------- Anfragebereich ---------- */
+.toggle-section {
+  background-color: transparent; /* Vorher ggf. grau */
+  border: none; /* Entferne evtl. Ränder */
+  box-shadow: none;
+  padding: 0;
+   margin-bottom: 15px; 
+}
+
+/* Jetzt bekommt nur der innere Inhalt die Optik */
 .toggle-section > div {
-  padding: 1rem;
-  border-top: 1px solid #ccc;
+  background-color: #eef7ff;
+  border: 1px solid #cce0f4;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.3s ease;
-}
+}w
 
-.anfrage-box {
-  background: linear-gradient(145deg, #ffffff, #f1f1f1);
-  border: 1px solid #ddd;
-  border-left: 6px solid #004F7C;
-  padding: 18px 20px;
-  margin-bottom: 14px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.07);
-  transition: all 0.3s ease;
-}
-
-.anfrage-box:hover {
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
-}
-
-.anfrage-box h4 {
-  margin: 0 0 8px;
-  color: #004F7C;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.anfrage-box p {
-  margin: 4px 0;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-/* ---------- Buttons ---------- */
+/* Button-Styling */
 .anfrage-box button,
 .toggle-section form button {
   background-color: #ec6421;
   color: #fff;
   border: none;
   padding: 10px 16px;
-  margin-top: 10px;
   border-radius: 6px;
   font-size: 0.95rem;
   font-weight: 500;
@@ -426,6 +435,64 @@ form[data-confirm] {
   background-color: #d8561a;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.anfrage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  flex-direction: column; /* Standard: untereinander */
+}
+
+/* Buttons im Container */
+.anfrage-actions button {
+  flex: 1 1 auto;
+  min-width: 150px;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border: none;
+  transition: all 0.2s ease;
+}
+.anfrage-actions form {
+  flex: 1 1 auto;
+  margin: 0;
+  display: flex;
+}
+
+.anfrage-actions form button {
+  flex: 1;
+}
+
+.btn-zurueck{
+  background-color: #004F7C !important;
+  color: white !important;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-zurueck:hover{
+  background-color: #006088 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Ab 600px: Buttons nebeneinander */
+@media (min-width: 600px) {
+  .anfrage-actions {
+    flex-direction: row;
+  }
 }
 
 /* ---------- Dropdown ---------- */
@@ -517,9 +584,14 @@ form[data-confirm] {
   width: 100%;
 }
 
+
 .agb-box {
   display: flex;
   justify-content: center;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
 }
 
 .agb-box a {
@@ -751,3 +823,5 @@ form[data-confirm] {
   color: #333;
   cursor: pointer;
 }
+
+
