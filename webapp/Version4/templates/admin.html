@@ -539,7 +539,7 @@
   
     {% if abgelehnte_von_user %}
       {% for anfrage in abgelehnte_von_user %}
-        <div class="request-card" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
+        <div class="request-card" data-created="{{ anfrage.created_at }}" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
           <p><strong>Name:</strong> {{ anfrage.name }}</p>
           <p><strong>Geschlecht:</strong>  {{ anfrage.geschlecht if anfrage.geschlecht else "Keine Angabe"}}</p>
           <p><strong>Fach:</strong> {{ anfrage.fach }}</p>
@@ -728,10 +728,10 @@
     <div id="assignedSection" style="display: none; margin-top: 0%;">
         <div class="filter-header">
           <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
-            <input type="hidden" name="status" value="offen">
+            <input type="hidden" name="status" value="zugewiesen">
             <button class="toggle-btn-del" type="submit">Alle löschen</button>
           </form>
-          <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
+          <select id="sort-assigned" onchange="sortSection('assignedSection', this.value)">
             <option value="desc">Neueste zuerst</option>
             <option value="asc">Älteste zuerst</option>
           </select>
@@ -775,10 +775,10 @@
   <div id="activeSection" style="display: none; margin-top: 0%;">
         <div class="filter-header">
           <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
-            <input type="hidden" name="status" value="offen">
+            <input type="hidden" name="status" value="aktiv">
             <button class="toggle-btn-del" type="submit">Alle löschen</button>
           </form>
-          <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
+          <select id="sort-active" onchange="sortSection('activeSection', this.value)">
             <option value="desc">Neueste zuerst</option>
             <option value="asc">Älteste zuerst</option>
           </select>
@@ -818,10 +818,10 @@
   <div id="completedSection" style="display: none; margin-top: 0%;">
       <div class="filter-header">
         <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
-          <input type="hidden" name="status" value="offen">
+          <input type="hidden" name="status" value="erledigt">
           <button class="toggle-btn-del" type="submit">Alle löschen</button>
         </form>
-        <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
+        <select id="sort-completed" onchange="sortSection('completedSection', this.value)">
           <option value="desc">Neueste zuerst</option>
           <option value="asc">Älteste zuerst</option>
         </select>
@@ -860,10 +860,10 @@
     <div id="rejectedSection" style="display: none; margin-top: 0%;">
       <div class="filter-header">
         <form method="post" action="{{ url_for('delete_all_by_status') }}" data-confirm style="margin: 0;">
-          <input type="hidden" name="status" value="offen">
+          <input type="hidden" name="status" value="abgelehnt">
           <button class="toggle-btn-del" type="submit">Alle löschen</button>
         </form>
-        <select id="sort-confirmed" onchange="sortSection('confirmedSection', this.value)">
+        <select id="sort-abgelehnt" onchange="sortSection('rejectedSection', this.value)">
           <option value="desc">Neueste zuerst</option>
           <option value="asc">Älteste zuerst</option>
         </select>

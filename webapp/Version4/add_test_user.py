@@ -6,7 +6,7 @@ conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
 
 # Testbenutzerdaten
-username = 'admin'
+username = 'tim'
 password = 'tim'
 hashed_password = generate_password_hash(password)
 

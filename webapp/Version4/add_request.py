@@ -1,32 +1,37 @@
 import sqlite3
+from datetime import datetime, timedelta
 
-# Verbindung zur bestehenden Datenbank herstellen
-conn = sqlite3.connect('database.db')
-cursor = conn.cursor()
+def get_db_connection():
+    conn = sqlite3.connect('database.db')  # Pfad anpassen!
+    return conn
 
-# Beispiel-Daten für eine Anfrage (füge hier die assigned_user_id hinzu)
-anfrage = {
-    'id': 1,  # muss existieren!
-    'name': 'Für  test',
-    'fach': 'Mathematik',
-    'stunden': 2,
-    'klassenstufe': 9,
-    'geschlecht': 'männlich',
-    'dringlichkeit': 'hoch',
-    'kontakt': 'max@example.com',
-    'wohnort': 'Berlin',
-    'status': 'neu',
-    'assigned_user_id': None  # Hier kannst du den ID-Wert für den zugewiesenen Benutzer setzen, wenn nötig
-}
+def insert_test_data():
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
-# Anfrage einfügen (jetzt auch assigned_user_id berücksichtigen)
-cursor.execute('''
-INSERT INTO offers (id, name, fach, stunden, klassenstufe, geschlecht, dringlichkeit, kontakt, wohnort, status, assigned_user_id)
-VALUES (:id, :name, :fach, :stunden, :klassenstufe, :geschlecht, :dringlichkeit, :kontakt, :wohnort, :status, :assigned_user_id)
-''', anfrage)
+    # Beispiel-Daten für 10 Anfragen
+    for i in range(1, 11):
+        name = f"Testkunde {i}"
+        fach = f"Fach {i%5 + 1}"  # z.B. Fach 1 bis Fach 5
+        stunden = (i % 4) + 1
+        klassenstufe = 5 + (i % 6)  # 5 bis 10
+        geschlecht = "m" if i % 2 == 0 else "w"
+        anmerkungen = f"Anmerkung für Anfrage {i}"
+        kontakt = f"kontakt{i}@example.com"
+        wohnort = f"Ort {i}"
+        status = "neu"
+        assigned_user_id = None  # noch keiner zugewiesen
+        created_at = (datetime.now() - timedelta(days=i)).strftime("%Y-%m-%d %H:%M:%S")
+        hidden_for_user_ids = None  # falls Feld vorhanden
 
-# Änderungen speichern und Verbindung schließen
-conn.commit()
-conn.close()
+        cursor.execute("""
+            INSERT INTO offers (name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at, hidden_for_user_ids)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at, hidden_for_user_ids))
 
-print("Anfrage erfolgreich eingefügt.")
+    conn.commit()
+    conn.close()
+    print("10 Testanfragen wurden eingefügt.")
+
+if __name__ == "__main__":
+    insert_test_data()

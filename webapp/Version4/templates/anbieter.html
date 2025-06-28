@@ -21,153 +21,6 @@
     font-family: Arial, sans-serif;
   }
 
-  /* Header mit Titel + Button */
-  .filter-header {
-    display: flex;
-    border-bottom: 2px solid #004F7C;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 1rem;
-  }
-  .filter-header h2 {
-    color: #004F7C;
-    padding-bottom: 8px;
-    margin: 0;
-    font-size: 1.5rem;
-  }
-  .btn-toggle-filter {
-    background-color: #004F7C;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-
-  /* Gesamt-Kasten für Filter */
-  #filterBereich {
-    background-color: #eef7ff;
-    border: 1px solid #cce0f4;
-    border-radius: 10px;
-    padding: 20px 25px;
-    margin-top: 15px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
-  }
-
-  /* Filterzeile */
-  .filter-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 40px;
-  }
-
-  /* Linker Bereich */
-  .filter-left {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    flex: 1;
-    min-width: 300px;
-    align-items: flex-start;
-  }
-
-  /* Rechter Bereich */
-  .filter-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 200px;
-    align-items: flex-end;
-  }
-  .filter-right .filter-section.sortierung {
-    align-self: flex-end;
-    margin-bottom: auto;
-  }
-
-  /* Sortierung */
-  #sortierung {
-    padding: 8px 12px;
-    border: 1px solid #cce0f4;
-    border-radius: 8px;
-    background-color: white;
-    color: #004F7C;
-    font-size: 15px;
-    font-family: inherit;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  #sortierung:hover {
-    border-color: #99c9f3;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  #sortierung:focus {
-    outline: none;
-    border-color: #004F7C;
-    box-shadow: 0 0 0 3px rgba(0,79,124,0.2);
-  }
-
-  /* Klassenstufe */
-  .filter-right .filter-section.klassenstufe {
-    align-self: flex-end;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  .filter-right .filter-section.klassenstufe label {
-    font-weight: bold;
-    margin-bottom: 6px;
-    align-self: flex-start;
-  }
-  .klassenstufe-inputs {
-    display: flex;
-    gap: 10px;
-  }
-  .klassenstufe-inputs input {
-    padding: 8px;
-    width: 90px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-
-  /* Tags */
-  #filterFaecherTags,
-  #filterGeschlechtTags {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .fach-tag {
-    background-color: #cce0f4;
-    border-radius: 6px;
-    padding: 4px 8px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .remove-fach {
-    cursor: pointer;
-    font-weight: bold;
-    color: #004F7C;
-  }
-
-  /* Plus-Button */
-  .filter-left button {
-    margin-top: 8px;
-    background-color: #004F7C;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
 
   /* Tabellen für Anfragen */
   .anbieter-requests-section {
@@ -177,12 +30,6 @@
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  .anbieter-requests-section h2 {
-    color: #004F7C;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #004F7C;
-    padding-bottom: 5px;
   }
   .requests-table {
     width: 100%;
@@ -432,9 +279,12 @@
 
 
 <!-- Anbieter-Status & Fächer-Auswahl -->
-<div class="anbieter-status-section" style="background-color: #eef7ff; border: 1px solid #cce0f4; border-radius: 10px; padding: 25px; margin: 20px 0; box-shadow: 0 3px 8px rgba(0,0,0,0.1);">
-  <h2 style="color: #004F7C; border-bottom: 2px solid #004F7C; padding-bottom: 8px;">Deine Informationen</h2>
-
+<div class="section" > 
+ <div class="section-header">
+  <div class="filter-header">
+  <h2 class="section-title" >Deine Informationen</h2>
+  </div>
+</div> 
   <!-- Status und Jahrgang in einer Zeile -->
   <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
     <!-- Status-Auswahl -->
@@ -492,18 +342,15 @@
 </form>
 
 
-
-
-
-
-
   </div>
   
 
-<div id="neueAnfragenKasten">
+<div id="neueAnfragenKasten" class="section">
+  <div class="section-header">
   <div class="filter-header">
-    <h2>Offene Anfragen</h2>
+    <h2 class="section-title">Offene Anfragen</h2>
     <button class="btn-toggle-filter">Filter anzeigen</button>
+  </div>
   </div>
       {% if zugewiesene_anfrage %}
     <div class="request-card">
@@ -643,9 +490,20 @@
       {% endif %}
     </div>
 </div>
-
+<div class="section"> 
+  <div class="section-header">
+    <div class="filter-header">
+    <h2 class="section-title">Anfragenübersicht</h2>
+  </div>
+</div>
+<!-- Aktive Anfragen -->
 <div class="anbieter-requests-section">
-  <h2>Aktive Anfragen</h2>
+  <div class="section-header">
+    <div class="filter-header">
+      <h2 class="section-title">Aktive Anfragen</h2>
+    </div>
+  </div>
+
   {% if angenommene_anfragen %}
     <div style="overflow-x: auto; max-width: 100%;">
       <div class="scroll-hint">👉 Wische nach rechts, um mehr Spalten zu sehen</div>
@@ -684,15 +542,21 @@
       </table>
     </div>
   {% else %}
-    <p>Keine aktiven Anfragen vorhanden.</p>
+    <p class="no-requests">Keine aktiven Anfragen vorhanden.</p>
   {% endif %}
 </div>
 
-<div class="anbieter-requests-section erledigte-anfragen-section">
-  <h2>Erledigte Anfragen</h2>
+<!-- Erledigte Anfragen -->
+<div class="anbieter-requests-section">
+  <div class="section-header">
+    <div class="filter-header">
+      <h2 class="section-title">Erledigte Anfragen</h2>
+    </div>
+  </div>
+
   {% if erledigte_anfragen %}
-  <div class="scroll-hint">👉 Wische nach rechts, um mehr Spalten zu sehen</div>
     <div style="overflow-x: auto; max-width: 100%;">
+      <div class="scroll-hint">👉 Wische nach rechts, um mehr Spalten zu sehen</div>
       <table class="requests-table" style="min-width: 700px;">
         <thead>
           <tr>
@@ -717,9 +581,9 @@
               <td>{{ anfrage.kontakt }}</td>
               <td><span class="status-completed">Erledigt</span></td>
               <td>
-                <form action="{{ url_for('delete_anfrage') }}" method="POST">
-                  <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
-                  <button type="submit" class="btn-action btn-delete">Löschen</button>
+                <form action="{{ url_for('hide_anfrage', anfrage_id=anfrage.id) }}" method="POST">
+                   <input type="hidden" name="anfrage_id" value="{{ anfrage.id }}">
+                    <button type="submit" class="btn-action btn-delete">Verbergen</button> 
                 </form>
               </td>
             </tr>
@@ -728,11 +592,11 @@
       </table>
     </div>
   {% else %}
-    <p>Keine erledigten Anfragen vorhanden.</p>
+    <p class="no-requests">Keine erledigten Anfragen vorhanden.</p>
   {% endif %}
 </div>
 
-
+</div>
 <hr class="custom-hr">
 
 <div class="agb-box">
@@ -753,6 +617,7 @@
        }, 3000);
      }
    });
+
  </script>
 <script src="{{ url_for('static', filename='anbieter/script.js') }}" ></script>
 

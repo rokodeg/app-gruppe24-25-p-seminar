@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS offers (
     status TEXT DEFAULT 'neu',
     assigned_user_id INTEGER,
     user_comment TEXT,
-    created_at TEXT
+    created_at TEXT,
+    hidden_for_user_ids TEXT
 )
 ''')
 
@@ -125,8 +126,8 @@ def anbieter():
     cursor.execute("""
         SELECT id, name, fach, stunden, klassenstufe, geschlecht, anmerkungen, kontakt, wohnort, status, assigned_user_id, created_at
         FROM offers
-        WHERE status = 'erledigt' AND assigned_user_id = ?
-    """, (session['user_id'],))
+        WHERE status = 'erledigt' AND assigned_user_id = ?  AND (hidden_for_user_ids IS NULL OR hidden_for_user_ids NOT LIKE ?)
+    """, (session['user_id'], f",{session['user_id']},"))
     erledigte_anfragen_raw = cursor.fetchall()
 
     conn.close()
@@ -188,6 +189,7 @@ def anbieter():
             'status': row[9],
             'assigned_user_id': row[10],
             'created_at': row[11]
+            
         }
         erledigte_anfragen.append(anfrage)
 
@@ -295,12 +297,17 @@ def delete_anfrage():
         return redirect(url_for('login'))
 
     anfrage_id = request.form.get('anfrage_id')
+    print(f"Anfrage ID zum Löschen: {anfrage_id}")
+
     if anfrage_id:
         conn = get_db_connection()
-        conn.execute('DELETE FROM offers WHERE id = ?', (anfrage_id,))
+        cursor = conn.execute('DELETE FROM offers WHERE id = ?', (anfrage_id,))
+        print(f"Gelöschte Zeilen: {cursor.rowcount}")  # Anzahl der gelöschten Zeilen
         conn.commit()
         conn.close()
         flash('Anfrage erfolgreich gelöscht.', 'success')
+    else:
+        flash('Keine Anfrage-ID übergeben!', 'error')
 
     return redirect(url_for('admin_dashboard'))
 
@@ -639,6 +646,40 @@ def zurueckziehen_anfrage():
 
     flash("Anfrage wurde erfolgreich zurückgezogen.", "success")
     return redirect(url_for("admin_dashboard"))
+
+@app.route('/hide_anfrage/<int:anfrage_id>', methods=['POST'])
+def hide_anfrage(anfrage_id):
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # hole den aktuellen Wert von hidden_for_user_ids (z.B. eine CSV-Liste von User-IDs)
+    cursor.execute('SELECT hidden_for_user_ids FROM offers WHERE id = ?', (anfrage_id,))
+    row = cursor.fetchone()
+    if row is None:
+        conn.close()
+        return "Anfrage nicht gefunden", 404
+
+    hidden_for_user_ids = row[0] or ""
+
+    # Prüfe, ob user_id schon drin ist
+    user_id_str = f",{user_id},"
+    if user_id_str not in hidden_for_user_ids:
+        # Füge user_id hinzu
+        hidden_for_user_ids += user_id_str
+
+        cursor.execute(
+            'UPDATE offers SET hidden_for_user_ids = ? WHERE id = ?',
+            (hidden_for_user_ids, anfrage_id)
+        )
+        conn.commit()
+
+    conn.close()
+    return redirect(url_for('anbieter'))
+
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ h4 {
   margin: 20px auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
+  max-width: 900px;
   position: relative;
 }
 
@@ -427,12 +427,6 @@ cursor: pointer;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.anbieter-requests-section h2 {
-  color: #004F7C; /* Blau, passend zu deinem Titel */
-  margin-bottom: 15px;
-  border-bottom: 2px solid #004F7C;
-  padding-bottom: 5px;
-}
 
 .requests-table {
   width: 100%;
@@ -534,3 +528,186 @@ cursor: pointer;
   background-color: #eef7ff; /* wie deine Boxfarbe */
 }
 
+.section {
+  background-color: #eef7ff;
+  border: 1px solid #cce0f4;
+  border-radius: 10px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #FF7F50; /* orange Linie */
+  padding-bottom: 6px;
+}
+
+.section-title {
+  color: #004F7C;
+  margin: 0;
+  font-size: 1.5rem;
+  border: none; /* Linie ist jetzt im Container */
+}
+
+
+ .btn-toggle-filter {
+    padding: 6px 10px;
+    font-size: 1rem;
+    border: 1px solid #004F7C;
+    border-radius: 5px;
+    background-color: #f0f8ff;
+    color: #004F7C;
+    cursor: pointer;
+  }
+   
+  .btn-toggle-filter:hover {
+    border-color: #99c9f3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+  }
+
+  /* Gesamt-Kasten für Filter */
+  #filterBereich {
+    background-color: #eef7ff;
+    border: 1px solid #cce0f4;
+    border-radius: 10px;
+    padding: 20px 25px;
+    margin-top: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  /* Filterzeile */
+  .filter-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
+  /* Linker Bereich */
+  .filter-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-width: 300px;
+    align-items: flex-start;
+  }
+
+  /* Rechter Bereich */
+  .filter-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    align-items: flex-end;
+  }
+  .filter-right .filter-section.sortierung {
+    align-self: flex-end;
+    margin-bottom: auto;
+  }
+
+  /* Sortierung */
+  #sortierung {
+    padding: 8px 12px;
+    border: 1px solid #004F7C;
+    border-radius: 5px;
+    background-color: #f0f8ff;
+    color: #004F7C;
+    font-size: 15px;
+    font-family: inherit;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  #sortierung:hover {
+    border-color: #99c9f3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  #sortierung:focus {
+    outline: none;
+    border-color: #004F7C;
+    box-shadow: 0 0 0 3px rgba(0,79,124,0.2);
+  }
+
+  /* Klassenstufe */
+  .filter-right .filter-section.klassenstufe {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .filter-right .filter-section.klassenstufe label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    align-self: flex-start;
+  }
+  .klassenstufe-inputs {
+    display: flex;
+    gap: 10px;
+  }
+  .klassenstufe-inputs input {
+    padding: 8px;
+    width: 90px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  /* Tags */
+  #filterFaecherTags,
+  #filterGeschlechtTags {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .fach-tag {
+    background-color: #cce0f4;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .remove-fach {
+    cursor: pointer;
+    font-weight: bold;
+    color: #004F7C;
+  }
+
+  /* Plus-Button */
+  .filter-left button {
+    margin-top: 8px;
+    background-color: #004F7C;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+
+
+.scroll-hint {
+  display: none;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+/* Zeige den Hinweis nur auf kleinen Bildschirmen */
+@media (max-width: 768px) {
+  .scroll-hint {
+    display: block;
+  }
+}
