@@ -1124,31 +1124,23 @@ document.addEventListener('click', function(e) {
 
 </script>
 <script>
-  function sortAnfragenByDate(sectionId, order = 'desc') {
-    const section = document.getElementById(sectionId);
-    const boxes = Array.from(section.querySelectorAll('.anfrage-box'));
 
-    boxes.sort((a, b) => {
-      const dateA = new Date(a.querySelector('p strong:contains("Erstellt am")').parentNode.textContent.trim().split(": ")[1]);
-      const dateB = new Date(b.querySelector('p strong:contains("Erstellt am")').parentNode.textContent.trim().split(": ")[1]);
-      return order === 'asc' ? dateA - dateB : dateB - dateA;
-    });
-
-    boxes.forEach(box => section.appendChild(box));
-  }
 </script>
 <script>
 function sortSection(sectionId, order) {
   const container = document.getElementById(sectionId);
-  const boxes = Array.from(container.querySelectorAll('.anfrage-box'));
+  const cards = Array.from(container.querySelectorAll('.request-card'));
 
-  boxes.sort((a, b) => {
-    const dateA = new Date(a.getAttribute('data-created'));
-    const dateB = new Date(b.getAttribute('data-created'));
+  cards.sort((a, b) => {
+    const dateA = new Date(a.getAttribute('data-created') || 0);
+    const dateB = new Date(b.getAttribute('data-created') || 0);
+
+    if (isNaN(dateA) || isNaN(dateB)) return 0;
+
     return order === 'asc' ? dateA - dateB : dateB - dateA;
   });
 
-  boxes.forEach(box => container.appendChild(box));
+  cards.forEach(card => container.appendChild(card));
 }
 </script>
 
