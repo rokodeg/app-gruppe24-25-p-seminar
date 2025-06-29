@@ -817,4 +817,13 @@ form[data-confirm] {
   cursor: pointer;
 }
 
+.btn-link {
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
 
+.btn-link:hover,
+.btn-link:focus {
+  background-color: #007B9A;       /* your existing hover color */
+  transform: translateY(-1px);     /* lift up slightly */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
+}
