@@ -696,6 +696,50 @@ cursor: pointer;
     cursor: pointer;
   }
 
+/* Mobile Layout */
+@media (max-width: 600px) {
+  /* Hauptcontainer jetzt als Spalte */
+  .filter-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Sortierung oben rechts */
+  .filter-right {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;  /* rechts oben */
+    order: 0;                   /* ganz oben */
+    margin-bottom: 10px;
+  }
+
+  /* Sortierung-Abschnitt etwas schmaler */
+  .filter-right .filter-section.sortierung {
+    align-self: flex-start;
+    margin-bottom: 0;
+  }
+
+  /* Linke Filterbereiche: Fächer, Geschlecht, Klassenstufe untereinander, linksbündig */
+  .filter-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    order: 1; /* nach Sortierung */
+    align-items: flex-start;
+  }
+
+  /* Alle Filter-Sections im linken Bereich 100% Breite */
+  .filter-left .filter-section {
+    width: 100%;
+  }
+
+  /* Klassenstufe soll am Ende stehen */
+  .filter-left .filter-section.klassenstufe {
+    order: 2; /* ganz unten */
+  }
+}
 
 
 .scroll-hint {
@@ -710,4 +754,125 @@ cursor: pointer;
   .scroll-hint {
     display: block;
   }
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.tags-container {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.button-row {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;           /* normaler Abstand */
+  flex-wrap: nowrap;   /* Buttons bleiben nebeneinander */
+  position: relative;  /* für Dropdown */
+}
+
+@media (max-width: 600px) {
+  .button-row {
+    flex-wrap: wrap;  /* Buttons untereinander auf Handy */
+    gap: 10px;
+  }
+}
+
+.plus-button,
+.btn-action {
+  font-size: 14px;
+  line-height: 1;
+  padding: 6px 12px;
+  height: 32px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  color: white;
+  background-color: #004F7C;
+  transition: background-color 0.3s ease;
+  position: relative;  /* wichtig für Dropdown Bezug */
+  z-index: 10;
+  /* KEINE min-width, Plus-Button bleibt klein */
+}
+
+.plus-button:hover,
+.btn-action:hover {
+  background-color: #003f5a;
+}
+
+.dropdown-wrapper {
+  position: absolute;
+  top: 100%;          /* direkt unter Plus-Button */
+  left: 0;            /* links an Plus-Button ausgerichtet */
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-height: 220px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 100;
+
+  min-width: 160px;     /* mindestens etwas breiter als Plus-Button */
+  width: max-content;   /* Breite an längsten Inhalt anpassen */
+  max-width: 400px;     /* Maximalbreite */
+  box-sizing: border-box;
+  white-space: normal;  /* Umbruch für lange Einträge erlauben */
+}
+
+.custom-dropdown {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  color: #333;
+  max-height: 220px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: normal;
+}
+
+.custom-dropdown li {
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  white-space: normal;
+}
+
+.custom-dropdown li:hover,
+.custom-dropdown li:focus {
+  background-color: #FF6F00; /* Schulorange */
+  color: white;
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .dropdown-wrapper {
+    /* BLEIBT absolute! */
+    position: absolute;
+    width: 100%;         /* oder max-content, je nach Wunsch */
+    max-width: none;
+    top: calc(100% + 4px);
+    left: 0;
+    margin-top: 0 !important;
+  }
+
+  .custom-dropdown li {
+    white-space: normal;
+  }
+}
+
+.dropdown-relative {
+  position: relative;
 }

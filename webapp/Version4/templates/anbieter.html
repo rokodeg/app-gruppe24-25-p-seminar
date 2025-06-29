@@ -309,40 +309,42 @@
     </form>
   </div>
 
-<!-- Unterrichtbare Fächer mit Tag-Auswahl -->
 <form action="{{ url_for('update_faecher') }}" method="POST" onsubmit="syncFaecher(event)">
-  <label style="font-weight: bold;">Unterrichtbare Fächer:</label><br>
+  <label class="form-label">Unterrichtbare Fächer:</label><br>
 
   <!-- Ausgewählte Fächer als Tags -->
-  <div id="gewaehlteFaecher" style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
+  <div id="gewaehlteFaecher" class="tags-container">
     {% for fach in ausgewaehlte_faecher %}
-      <div class="fach-tag" data-fach="{{ fach }}">{{ fach }} <span class="remove-fach" onclick="this.parentElement.remove()">×</span></div>
+      <div class="fach-tag" data-value="{{ fach }}">{{ fach }} <span class="remove-fach">×</span></div>
     {% endfor %}
   </div>
 
-  <!-- Plus-Button und Dropdown darunter (Dropdown wird über Position gesteuert) -->
-  <div style="position: relative; display: inline-block; margin-top: 12px;">
-    <button type="button" id="fachPlusBtn" style="background-color: #004F7C; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">+</button>
-    <select id="fachDropdown"
-            size="6"
-            style="display: none; position: absolute; top: 110%; left: 0; z-index: 10;
-                   min-width: 220px; background: white; border: 1px solid #ccc;
-                   border-radius: 8px; padding: 10px; font-size: 15px;">
-      <option value="">Fach wählen</option>
+  <!-- Plus-Button und Speichern-Button nebeneinander -->
+<div class="button-row">
+  <button id="unterrichtFachPlusBtn" type="button" class="plus-button">+</button>
+    <div class="dropdown-wrapper" id="unterrichtFachDropdownWrapper" style="display:none;">
+    <ul id="unterrichtFachDropdownList" class="custom-dropdown">
       {% for fach in ['Deutsch','Englisch','Latein','Französisch','Spanisch','Mathematik','Physik','Chemie','Biologie/NuT','Informatik','Geschichte','Geographie','Wirtschaft und Recht','Politik und Gesellschaft','Musik'] %}
-        <option value="{{ fach }}">{{ fach }}</option>
+        <li data-value="{{ fach }}">{{ fach }}</li>
       {% endfor %}
-    </select>
+    </ul>
   </div>
+  <button type="submit" class="btn-action">Fächer speichern</button>
 
-  <!-- Verstecktes Feld -->
+
+  <!-- Hidden input -->
   <input type="hidden" name="faecher" id="hiddenFaecher">
-
-  <button type="submit" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;">Fächer speichern</button>
 </form>
 
 
-  </div>
+
+
+
+
+
+
+</div>
+</div>
   
 
 <div id="neueAnfragenKasten" class="section">
@@ -396,66 +398,75 @@
 
   <div id="filterBereich" style="display: none;">
     <div class="filter-main">
-  <!-- Linke Seite: Fächer und Geschlecht -->
-  <div class="filter-left">
-    <!-- Fächer -->
-   <!-- Fach-Filter -->
-<div class="filter-section">
-  <label style="font-weight: bold;">Fächer:</label>
-  <div id="filterFaecherTags"></div>
-  <div class="button-wrapper">
-    <button id="filterFachPlusBtn" type="button">+</button>
-    <div class="dropdown-wrapper" id="filterFachDropdownWrapper">
-      <select id="filterFachDropdown" size="5">
-        <option value="">Fach wählen</option>
-        <option>Deutsch</option>
-        <option>Mathematik</option>
-        <option>Englisch</option>
-        <option>Physik</option>
-        <option>Informatik</option>
-      </select>
-    </div>
-  </div>
-</div>
-
-<!-- Geschlecht-Filter -->
-<div class="filter-section">
-  <label style="font-weight: bold;">Geschlecht:</label>
-  <div id="filterGeschlechtTags"></div>
-  <div class="button-wrapper">
-    <button id="filterGeschlechtPlusBtn" type="button">+</button>
-    <div class="dropdown-wrapper" id="filterGeschlechtDropdownWrapper">
-      <select id="filterGeschlechtDropdown" size="3">
-        <option value="" >Geschlecht wählen</option>
-        <option>weiblich</option>
-        <option>männlich</option>
-        <option>divers</option>
-      </select>
-    </div>
-  </div>
-</div>
-  </div>
-  <!-- Rechte Seite: Sortierung & Klassen -->
- <!-- Rechter Bereich: Sortierung & Klassenstufe -->
-  <div class="filter-right">
-    <!-- Sortierung -->
-    <div class="filter-section">
-      <select id="sortierung">
-        <option value="neueste">Neueste zuerst</option>
-        <option value="älteste">Älteste zuerst</option>
-      </select>
-    </div>
-
-    <!-- Klassenstufe -->
-    <div class="filter-section klassenstufe">
-      <label for="minKlasse">Klassenstufe:</label>
-      <div class="klassenstufe-inputs">
-        <input type="number" id="minKlasse" placeholder="von" min="5" max="13" />
-        <input type="number" id="maxKlasse" placeholder="bis" min="5" max="13"/>
+        <!-- Linke Seite: Fächer und Geschlecht -->
+      <div class="filter-left">
+        <!-- Fächer -->
+      <!-- Fach-Filter -->
+      <div class="filter-section">
+        <label style="font-weight: bold;">Fächer:</label>
+        <div id="filterFaecherTags"></div>
+        <div class="button-wrapper dropdown-relative"> <!-- ← HIER -->
+          <button id="filterFachPlusBtn" type="button">+</button>
+          <div class="dropdown-wrapper" id="filterFachDropdownWrapper" style="display: none;">
+            <ul class="custom-dropdown" id="filterFachDropdownList">
+              <li data-value="Deutsch">Deutsch</li>
+              <li data-value="Englisch">Englisch</li>
+              <li data-value="Latein">Latein</li>
+              <li data-value="Französisch">Französisch</li>
+              <li data-value="Spanisch">Spanisch</li>
+              <li data-value="Mathematik">Mathematik</li>
+              <li data-value="Physik">Physik</li>
+              <li data-value="Chemie">Chemie</li>
+              <li data-value="Biologie/NuT">Biologie/NuT</li>
+              <li data-value="Informatik">Informatik</li>
+              <li data-value="Geschichte">Geschichte</li>
+              <li data-value="Geographie">Geographie</li>
+              <li data-value="Wirtschaft und Recht">Wirtschaft und Recht</li>
+              <li data-value="Politik und Gesellschaft">Politik und Gesellschaft</li>
+              <li data-value="Musik">Musik</li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+
+
+        <!-- Geschlecht-Filter -->
+        <div class="filter-section">
+          <label style="font-weight: bold;">Geschlecht:</label>
+          <div id="filterGeschlechtTags"></div>
+          <div class="button-wrapper dropdown-relative"> <!-- <- hier neue Klasse -->
+            <button id="filterGeschlechtPlusBtn" type="button">+</button>
+            <div class="dropdown-wrapper" id="filterGeschlechtDropdownWrapper" style="display: none;">
+              <ul class="custom-dropdown" id="filterGeschlechtDropdownList">
+                <li data-value="weiblich">weiblich</li>
+                <li data-value="männlich">männlich</li>
+                <li data-value="divers">divers</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Rechte Seite: Sortierung & Klassen -->
+        <div class="filter-right">
+          <!-- Sortierung -->
+          <div class="filter-section">
+            <select id="sortierung">
+              <option value="neueste">Neueste zuerst</option>
+              <option value="älteste">Älteste zuerst</option>
+            </select>
+          </div>
+
+          <!-- Klassenstufe -->
+          <div class="filter-section klassenstufe">
+            <label for="minKlasse">Klassenstufe:</label>
+            <div class="klassenstufe-inputs">
+              <input type="number" id="minKlasse" placeholder="von" min="5" max="13" />
+              <input type="number" id="maxKlasse" placeholder="bis" min="5" max="13"/>
+            </div>
+          </div>
+        </div>
+      </div>
 
   </div>
 
