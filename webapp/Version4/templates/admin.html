@@ -323,9 +323,18 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     z-index: 1000;
   }
- .flash-success { /* grün für Erfolg */ background: rgba(46,125,50,0.85); }
- .flash-warning { /* orange für Warnung */ background: rgba(255,152,0,0.85); }
- .flash-danger  { /* rot für Fehler  */ background: rgba(211,47,47,0.85); }
+ .flash-success { 
+    /* grün für Erfolg */ 
+    background: rgba(46,125,50,0.85) !important;
+  }
+ .flash-warning { 
+    /* orange für Warnung */ 
+    background: rgba(255,152,0,0.85) !important; 
+  }
+ .flash-danger  { 
+    /* rot für Fehler  */ 
+    background: rgba(211,47,47,0.85) !important; 
+  }
 </style>
 <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logoFinish.svg') }}">
 </head>

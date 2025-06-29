@@ -761,3 +761,8 @@ cursor: pointer;
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+label.modified {
+  color: #FF7F50 !important;
+  font-style: italic !important;
+}

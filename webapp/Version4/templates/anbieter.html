@@ -223,17 +223,28 @@
     top: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 79, 124, 0.85);
+    /*background: rgba(0, 79, 124, 0.85);*/
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     z-index: 1000;
   }
-.flash-info { background: #2e7d32; }  /* alternative Farbe für Info */
- .flash-success { /* grün für Erfolg */ background: rgba(46,125,50,0.85); }
- .flash-warning { /* orange für Warnung */ background: rgba(255,152,0,0.85); }
- .flash-danger  { /* rot für Fehler  */ background: rgba(211,47,47,0.85); }
+/* in static/anbieter/style.css ganz nach unten anhängen */
+
+#flash-message.flash-info {
+  background: rgba(0, 79, 124, 0.85) !important;  /* dunkelgrün 2e7d32*/
+}
+#flash-message.flash-success {
+  background: rgba(46,125,50,0.85) !important;  /* hellgrün */
+}
+#flash-message.flash-warning {
+  background: rgba(255,152,0,0.85) !important;  /* orange */
+}
+#flash-message.flash-danger {
+  background: rgba(211,47,47,0.85) !important;  /* rot */
+}
+
 </style>
 <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logoFinish.svg') }}">
 </head>
@@ -282,7 +293,11 @@
 <div class="section" > 
  <div class="section-header">
   <div class="filter-header">
-  <h2 class="section-title" >Deine Informationen</h2>
+  <h2 class="section-title" >Deine Informationen
+    <span style="font-size: 0.85rem; color: #777; font-weight: normal;">
+      (Status, Jahrgang und Fächer einzeln speichern)
+    </span>
+  </h2>
   </div>
 </div> 
   <!-- Status und Jahrgang in einer Zeile -->
@@ -296,7 +311,7 @@
         <option value="offen" {% if status == 'offen' %}selected{% endif %}>✅ Offen für Anfragen</option>
         <option value="beschäftigt" {% if status == 'beschäftigt' %}selected{% endif %}>⛔ Beschäftigt</option>
       </select>
-      <button type="submit" id="saveStatusBtn" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;" disabled>Speichern</button>
+      <button type="submit" id="saveStatusBtn" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;">Speichern</button>
     </form>
 
     <!-- Jahrgangsstufe Auswahl -->
@@ -315,7 +330,7 @@
       <button type="submit"
             id="saveJahrgangBtn"
             class="btn-action"
-            style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;" disabled>
+            style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;">
        Speichern
      </button>
     </form>
@@ -323,7 +338,6 @@
 
 <!-- Unterrichtbare Fächer mit Tag-Auswahl -->
 <form action="{{ url_for('update_faecher') }}" method="POST" onsubmit="syncFaecher(event)">
-  <label style="font-weight: bold;">Unterrichtbare Fächer:</label><br>
 
   <!-- Ausgewählte Fächer als Tags -->
   <div id="gewaehlteFaecher" style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
@@ -619,6 +633,77 @@
 
   </div> <!-- Ende .main-container -->
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Hilfsfunktion: Label orange & kursiv, wenn modified
+  function toggleModified(isModified, labelEl) {
+    if (isModified) labelEl.classList.add('modified');
+    else            labelEl.classList.remove('modified');
+  }
+
+  // STATUS
+  const statusSelect = document.getElementById('status');
+  const statusLabel  = document.querySelector("label[for='status']");
+  let   origStatus   = statusSelect.value;
+  statusSelect.addEventListener('change', () => {
+    toggleModified(statusSelect.value !== origStatus, statusLabel);
+  });
+  document.querySelector("form[action='{{ url_for('update_status') }}']")
+    .addEventListener('submit', () => {
+      origStatus = statusSelect.value;
+      toggleModified(false, statusLabel);
+    });
+
+  // JAHRGANG
+  const jahrSelect = document.getElementById('jahrgang');
+  const jahrLabel  = document.querySelector("label[for='jahrgang']");
+  let   origJahr   = jahrSelect.value;
+  jahrSelect.addEventListener('change', () => {
+    toggleModified(jahrSelect.value !== origJahr, jahrLabel);
+  });
+  document.querySelector("form[action='{{ url_for('update_jahrgang') }}']")
+    .addEventListener('submit', () => {
+      origJahr = jahrSelect.value;
+      toggleModified(false, jahrLabel);
+    });
+
+  // FÄCHER
+  const fachForm      = document.querySelector("form[action='{{ url_for('update_faecher') }}']");
+  const hiddenFaecher = document.getElementById('hiddenFaecher');
+  // Label ermitteln (oder bei Fehlen neu anlegen)
+  let fachLabel = document.querySelector("label[for='hiddenFaecher']");
+  if (!fachLabel) {
+    fachLabel = document.createElement('label');
+    fachLabel.setAttribute('for','hiddenFaecher');
+    fachLabel.id = 'faecherLabel';
+    fachLabel.textContent = 'Unterrichtbare Fächer:';
+    fachLabel.style.fontWeight = 'bold';
+    fachForm.insertBefore(fachLabel, document.getElementById('gewaehlteFaecher'));
+  }
+  let origFaecher = hiddenFaecher.value;
+
+  // Beobachtung der Tag-Container-Änderungen
+  const tagContainer = document.getElementById('gewaehlteFaecher');
+  new MutationObserver(() => {
+    syncFaecher();
+    const currSorted = hiddenInput.value.split(',').map(f => f.trim()).sort().join(',');
+    const origSorted = origFaecher.split(',').map(f => f.trim()).sort().join(',');
+    toggleModified(currSorted !== origSorted, fachLabel);
+  }).observe(tagContainer, { childList: true, subtree: true });
+
+
+  fachForm.addEventListener('submit', () => {
+    origFaecher = hiddenFaecher.value;
+    toggleModified(false, fachLabel);
+  });
+
+  // Initialer Check
+  toggleModified(statusSelect.value !== origStatus, statusLabel);
+  toggleModified(jahrSelect.value   !== origJahr,   jahrLabel);
+  toggleModified(hiddenFaecher.value !== origFaecher, fachLabel);
+});
+</script>
+
+<script>
   function onStatusChange(){
     const select = document.getElementById('status');
     const btn    = document.getElementById('saveStatusBtn');
@@ -663,6 +748,105 @@
    });
 
  </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Label finden oder neu erzeugen
+  const fachForm     = document.querySelector("form[action='{{ url_for('update_faecher') }}']");
+  const tagContainer = document.getElementById('gewaehlteFaecher');
+  const hiddenInput  = document.getElementById('hiddenFaecher');
+
+  let fachLabel = document.querySelector("label[for='hiddenFaecher']");
+  if (!fachLabel) {
+    fachLabel = document.createElement('label');
+    fachLabel.setAttribute('for','hiddenFaecher');
+    fachLabel.textContent = 'Unterrichtbare Fächer:';
+    fachLabel.style.fontWeight = 'bold';
+    fachForm.insertBefore(fachLabel, tagContainer);
+  }
+
+  // Funktion zum Sync der Hidden‑Input aus den Tags
+  function syncFaecher() {
+    const faecher = Array.from(tagContainer.querySelectorAll('.fach-tag'))
+                         .map(el => el.dataset.fach.trim())
+                         .filter(f => f)
+                         .join(',');
+    hiddenInput.value = faecher;
+  }
+
+  // Helper zum Setzen/Entfernen der modified‑Klasse
+  function toggleModified(isMod, labelEl) {
+    if (isMod) labelEl.classList.add('modified');
+    else       labelEl.classList.remove('modified');
+  }
+
+  // Ursprungswert (vom Server) merken
+  syncFaecher();
+  let origFaecher = hiddenInput.value;
+
+  // Beobachter feuert bei Tag‑Hinzufügen/-Entfernen
+  new MutationObserver(() => {
+    syncFaecher();
+    const currSorted = hiddenInput.value.split(',').map(f => f.trim()).sort().join(',');
+    const origSorted = origFaecher.split(',').map(f => f.trim()).sort().join(',');
+    toggleModified(currSorted !== origSorted, fachLabel);
+  }).observe(tagContainer, { childList: true, subtree: true });
+
+  // Bei speichern: neuen Ursprungswert übernehmen und Label zurücksetzen
+  fachForm.addEventListener('submit', () => {
+    syncFaecher();
+    origFaecher = hiddenInput.value;
+    toggleModified(false, fachLabel);
+  });
+
+  // Initial‑Check (z. B. Load mit bereits ausgewählten Fächern)
+  toggleModified(hiddenInput.value !== origFaecher, fachLabel);
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // --------------- Flash-Helfer ---------------
+  function showFlash(message, category = 'warning') {
+    // alte Flash-Nachricht entfernen
+    const old = document.getElementById('flash-message');
+    if (old) old.remove();
+
+    // neues div im Haupt-Container einfügen
+    const flash = document.createElement('div');
+    flash.id = 'flash-message';
+    flash.className = 'flash-' + category;
+    flash.textContent = message;
+    document.body.appendChild(flash);
+
+    // nach 3s ausblenden
+    setTimeout(() => {
+      flash.style.transition = 'opacity 0.5s';
+      flash.style.opacity = '0';
+      setTimeout(() => flash.remove(), 500);
+    }, 3000);
+  }
+
+  // --------------- Status-Formular ---------------
+  const statusForm = document.querySelector("form[action='{{ url_for('update_status') }}']");
+  const statusSel  = document.getElementById('status');
+  statusForm.addEventListener('submit', e => {
+    if (!statusSel.value) {
+      e.preventDefault();
+      showFlash('⚠️ Bitte wählen Sie zuerst einen Status aus.', 'danger');
+    }
+  });
+
+  // --------------- Jahrgangs-Formular ---------------
+  const jahrForm = document.querySelector("form[action='{{ url_for('update_jahrgang') }}']");
+  const jahrSel  = document.getElementById('jahrgang');
+  jahrForm.addEventListener('submit', e => {
+    if (!jahrSel.value) {
+      e.preventDefault();
+      showFlash('⚠️ Bitte wählen Sie zuerst eine Jahrgangsstufe aus.', 'danger');
+    }
+  });
+});
+</script>
+
 <script src="{{ url_for('static', filename='anbieter/script.js') }}" ></script>
 
 </body>

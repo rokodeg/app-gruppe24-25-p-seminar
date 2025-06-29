@@ -343,7 +343,7 @@ def update_anfrage_status():
         if neuer_status == 'offen':
           flash('Anfrage wurde angenommen.', 'success')
         else:
-           flash('Anfrage wurde abgelehnt.', 'warning')
+           flash('Anfrage wurde abgelehnt.', 'danger')
 
     return redirect(url_for('admin_dashboard'))
 
@@ -357,11 +357,31 @@ def zuweisung_speichern():
 
     if anfrage_id and assigned_user_id:
         conn = get_db_connection()
-        conn.execute('UPDATE offers SET assigned_user_id = ?, status = ? WHERE id = ?', (assigned_user_id, 'zugewiesen', anfrage_id))
+
+        # Username des zugewiesenen Nutzers holen
+        user = conn.execute(
+            'SELECT username FROM users WHERE id = ?',
+            (assigned_user_id,)
+        ).fetchone()
+
+        if user:
+            target_username = user['username']
+        else:
+            target_username = '<unbekannt>'
+
+        # Flash-Nachricht mit Nutzernamen
+        flash(f'Anfrage wurde an {target_username} zugewiesen.', 'warning')
+
+        # Status in der Datenbank setzen
+        conn.execute(
+            'UPDATE offers SET assigned_user_id = ?, status = ? WHERE id = ?',
+            (assigned_user_id, 'zugewiesen', anfrage_id)
+        )
         conn.commit()
         conn.close()
 
     return redirect(url_for('admin_dashboard'))
+
 
 @app.route('/admin/add_user', methods=['POST'])
 def add_user():
@@ -531,7 +551,7 @@ def passwort_zuruecksetzen(user_id):
     conn.commit()
     conn.close()
 
-    flash("Passwort erfolgreich zurückgesetzt.", "info")
+    flash("Passwort erfolgreich zurückgesetzt.", "success")
     return redirect(url_for('benutzerverwaltung'))
 
 
