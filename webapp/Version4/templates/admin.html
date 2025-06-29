@@ -327,8 +327,7 @@
  .flash-warning { /* orange für Warnung */ background: rgba(255,152,0,0.85); }
  .flash-danger  { /* rot für Fehler  */ background: rgba(211,47,47,0.85); }
 </style>
-
-
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logoFinish.svg') }}">
 </head>
 <body>
   {%- with messages = get_flashed_messages(with_categories=true) %}
