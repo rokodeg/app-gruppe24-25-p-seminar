@@ -290,22 +290,34 @@
     <!-- Status-Auswahl -->
     <form action="{{ url_for('update_status') }}" method="POST" style="flex: 1 1 250px;">
       <label for="status" style="font-weight: bold;">Status:</label><br>
-      <select name="status" id="status" style="padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; width: 100%;">
+      <select name="status" id="status"
+              style="padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; width: 100%;"
+              onchange="onStatusChange()">        <option value="" selected disabled>⚠️ Noch kein Status</option>
         <option value="offen" {% if status == 'offen' %}selected{% endif %}>✅ Offen für Anfragen</option>
         <option value="beschäftigt" {% if status == 'beschäftigt' %}selected{% endif %}>⛔ Beschäftigt</option>
       </select>
-      <button type="submit" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;">Speichern</button>
+      <button type="submit" id="saveStatusBtn" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;" disabled>Speichern</button>
     </form>
 
     <!-- Jahrgangsstufe Auswahl -->
     <form action="{{ url_for('update_jahrgang') }}" method="POST" style="flex: 1 1 250px;">
       <label for="jahrgang" style="font-weight: bold;">Jahrgangsstufe:</label><br>
-      <select name="jahrgang" id="jahrgang" style="padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; width: 100%;">
-        {% for stufe in range(5, 13) %}
-          <option value="{{ stufe }}" {% if stufe == user_jahrgang|int %}selected{% endif %}>{{ stufe }}. Klasse</option>
+      <select name="jahrgang" id="jahrgang"
+            style="padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; width: 100%;"
+            onchange="onJahrgangChange()">
+      <option value="" selected disabled>⚠️ Noch keine Jahrgangstufe</option>
+        {% for stufe in range(5, 14) %}
+          <option value="{{ stufe }}" {% if stufe == user_jahrgang|int %}selected{% endif %}>
+           {{ stufe }}. Klasse
+         </option>
         {% endfor %}
       </select>
-      <button type="submit" class="btn-action" style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;">Speichern</button>
+      <button type="submit"
+            id="saveJahrgangBtn"
+            class="btn-action"
+            style="margin-top: 10px; background-color: #004F7C; color: white; padding: 8px 14px; border: none; border-radius: 6px;" disabled>
+       Speichern
+     </button>
     </form>
   </div>
 
@@ -606,6 +618,38 @@
 </div>
 
   </div> <!-- Ende .main-container -->
+<script>
+  function onStatusChange(){
+    const select = document.getElementById('status');
+    const btn    = document.getElementById('saveStatusBtn');
+    if(select.value){
+      // Default-Option entfernen
+      const opt = select.querySelector('option[value=""]');
+      if(opt) opt.remove();
+      btn.disabled = false;  // Save aktivieren
+    }
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    // Wenn bereits ein Status gesetzt ist, Button freischalten
+    onStatusChange();
+  });
+</script>
+<script>
+  function onJahrgangChange(){
+    const sel   = document.getElementById('jahrgang');
+    const btn   = document.getElementById('saveJahrgangBtn');
+    if(sel.value){
+      // Entfernt die Default‑Option
+      const opt = sel.querySelector('option[value=""]');
+      if(opt) opt.remove();
+      btn.disabled = false;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    // Falls schon ein Jahrgang gesetzt ist
+    onJahrgangChange();
+  });
+</script>
  <script>
    document.addEventListener("DOMContentLoaded", () => {
      const flash = document.getElementById("flash-message");
