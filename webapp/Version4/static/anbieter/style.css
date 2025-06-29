@@ -96,6 +96,8 @@ h4 {
 
 .button-container button:hover {
   background-color: #007B9A;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .toggle-all-button {
@@ -104,6 +106,9 @@ h4 {
 
 .toggle-all-button:hover {
   background-color: #1976D2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+
 }
 
 .filter-content {
@@ -148,6 +153,8 @@ h4 {
 
 .accept-button:hover {
   background-color: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .no-requests {
@@ -166,6 +173,8 @@ h4 {
 
 .toggle-all-button:hover {
   background-color: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .assigned-request-message {
@@ -212,6 +221,9 @@ box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
 
 .decline-btn:hover {
   background-color: #c9302c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  
 }
 
 .button-row {
@@ -480,6 +492,8 @@ cursor: pointer;
 
 .btn-action:hover {
   opacity: 0.85;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 
@@ -710,4 +724,40 @@ cursor: pointer;
   .scroll-hint {
     display: block;
   }
+}
+
+.btn-link {
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-link:hover,
+.btn-link:focus {
+  background-color: #007B9A;       /* your existing hover color */
+  transform: translateY(-1px);     /* lift up slightly */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
+}
+
+.button-container button,
+.toggle-all-button,
+.accept-button,
+.decline-btn,
+.btn-action,
+.toggle-all-button {
+    transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Übergänge für alle Plus‑Buttons */
+#filterFachPlusBtn,
+#filterGeschlechtPlusBtn,
+#fachPlusBtn {
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover‑Effekt für alle Plus‑Buttons */
+#filterFachPlusBtn:hover,
+#filterGeschlechtPlusBtn:hover,
+#fachPlusBtn:hover {
+  background-color: #007B9A;        /* oder deine gewünschte Hover‑Farbe */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
